@@ -1,0 +1,1 @@
+Ovdje će ići izvorni kod, git nedopušta da pusham prazan folder, a neću mijenjati .gitignore zbog toga, tako da je ovo privremeno!
