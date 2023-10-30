@@ -1,21 +1,29 @@
 \chapter{Specifikacija programske potpore}
 		
 	\section{Funkcionalni zahtjevi}
-			
-			\textbf{\textit{dio 1. revizije}}\\
-			
-			\textit{Navesti \textbf{dionike} koji imaju \textbf{interes u ovom sustavu} ili  \textbf{su nositelji odgovornosti}. To su prije svega korisnici, ali i administratori sustava, naručitelji, razvojni tim.}\\
-				
-			\textit{Navesti \textbf{aktore} koji izravno \textbf{koriste} ili \textbf{komuniciraju sa sustavom}. Oni mogu imati inicijatorsku ulogu, tj. započinju određene procese u sustavu ili samo sudioničku ulogu, tj. obavljaju određeni posao. Za svakog aktora navesti funkcionalne zahtjeve koji se na njega odnose.}\\
-			
+
+
 			
 			\noindent \textbf{Dionici:}
 			
 			\begin{packed_enum}
 				
-				\item Dionik 1
-				\item Dionik 2				
-				\item ...
+				\item Primarni dionici:
+				
+				\begin{packed_enum}
+					\item Naručitelj
+					\item Razvojni tim
+					\item Rukovoditelji razvoja
+					\item Strateški klijenti	
+				\end{packed_enum}
+				
+				\item Sekundarni dionici:	
+				
+				\begin{packed_enum}
+					\item Sudionici konferencije
+					\item Zaposlenici konferencije
+					\item Autori	
+				\end{packed_enum}		
 				
 			\end{packed_enum}
 			
@@ -23,30 +31,38 @@
 			
 			
 			\begin{packed_enum}
-				\item  \underbar{Aktor 1 (inicijator) može:}
+				\item Neregistrirani posjetitelji konferencije
 				
-				\begin{packed_enum}
-					
-					\item funkcionalnost 1
-					\item funkcionalnost 2
-					\begin{packed_enum}
-						
-						\item  podfunkcionalnost 1 
-						\item  podfunkcionalnost 2
+			\begin{quote}
+				Neregistrirani posjetitelji konferencije imaju mogućnost pregledavanja stručnih postera svih prijavljenih sudionika pomoću lozinke dobivene na konferenciji i dodatna registracija u sustav po želji.
+			\end{quote}
 				
-					\end{packed_enum}
-					\item  funkcionalnost 3
-					
-				\end{packed_enum}
-			
-				\item  \underbar{Aktor 2 (sudionik) može:}
+				\item Registrirani posjetitelji konferencije
 				
-				\begin{packed_enum}
-					
-					\item funkcionalnost 1
-					\item funkcionalnost 2
-					
-				\end{packed_enum}
+		\begin{quote}
+			Registrirani posjetitelji konferencije imaju dodatnu mogućnost glasanja za najbolji stručni poster uključujući pristup rezultatima glasovanja kako bi vidjeli koji poster osvaja najviše glasova kao i uživo praćenje trenutnih događanja u glavnoj konferencijskoj dvorani. Također imaju priliku vidjeti promotivne materijale pokrovitelja konferencije te podatke o trenutnim vremenskim uvjetima i vremenskoj prognozi za navedenu lokaciju. Po završetku, registrirani posjetitelji konferencije će moći pregledavati i preuzimati objavljene fotografije konferencije.
+		\end{quote}
+		
+				\item Sistemski administrator
+				\begin{quote}
+					Sistemski administrator obavlja prijavu autora, radova i postera te ima mogućnost biranja fotografija sa konferencije kao i definiranja svih potrebnih uvjeta za rad sustava.
+				\end{quote}
+				
+				\item Autori
+				\begin{quote}
+					Autori su glavni sudionici konferencije koji će nastupati. Oni prije početka konferencije elektroničkom poštom dostavljaju sve potrebne materijale (postere) sistemskom administratoru. Također, nakon završetak konferencije elektroničkom poštom dobivaju informaciju o njihovom rangu kao i pozivnicu za dodjelu nagrada.
+				\end{quote}
+				
+				\item Pokrovitelji
+				\begin{quote}
+					Pokrovitelji konferenciju financiraju samu konferenciju i dostavljaju promotivne materijale sistemskom administratoru koji će se prikazivati registriranim posjetiteljima
+				\end{quote}
+				
+				
+				\item \textit{Aplikacija i baza podataka}
+				\begin{quote}
+					\textit{Pasivni faktori same funkcionalnosti aplikacije kao i spremanja podataka}
+				\end{quote}
 			\end{packed_enum}
 			
 			\eject 
