@@ -1,0 +1,227 @@
+\chapter{Arhitektura i dizajn sustava}
+
+		{ Arhitektura sustava je hijerarhijska, dakle svaki pojedini sloj
+			komunicira isključivo sa slojevima koji su neposredno ispred i iza njega. Slojevi sustava koji mi implementiramo jesu:}
+	\begin{itemize}
+		\item 	\textit{Korisničko sučelje}
+		\item 	\textit{Kontroler}
+		\item 	\textit{Servis}
+		\item 	\textit{Repozitorij}
+		\item 	\textit{Baza podataka}		
+	\end{itemize}
+	
+		{Korisničko sučelje (eng. User interface, UI) predstavlja interaktivno područje između korisnika i računala. Njegov glavni cilj je omogućiti korisnicima učinkovito korištenje i upravljanje računalom te osigurati da računalo pruži korisniku potrebne informacije.
+			
+			Za izradu korisničkog sučelja u ovom slučaju korišten je React, JavaScript biblioteka koja omogućava brzo i jednostavno stvaranje interaktivnih korisničkih sučelja. Kroz korisničko sučelje, korisnik šalje zahtjeve kontroleru, a kontroler potrebne podatke prosljeđuje pomoću JSON (JavaScript Object Notation) datoteka.
+			
+			JSON datoteke služe za pohranu i prijenos podataka u obliku ključ-vrijednost. Nakon što korisničko sučelje predaje JSON datoteku, ono očekuje odgovor od kontrolera koji će također biti u JSON formatu. Kontroler u ovom slučaju predstavlja REST API (representational state transfer) te obrađuje zahtjeve vanjskih potrošača.
+			
+			Servis je odgovoran za obradu podataka koje prima od korisničkog sučelja putem kontrolera i baze podataka putem repozitorija. Osim toga, servis obuhvaća poslovne odluke, autorizaciju te provjeru valjanosti identiteta korisnika.
+			
+			Repozitorij ima ulogu komunikacije s bazom podataka te uključuje funkcije za pronalaženje određenih objekata ili skupina objekata iz baze podataka. Ove funkcije obično vraćaju popis objekata koji zadovoljavaju određeni uvjet.
+			
+			Baza podataka se koristi za pohranu i upravljanje podacima te predstavlja ključni dio sustava koji omogućuje trajno čuvanje informacija.
+			
+			Kontroler, servis i repozitorij su implementirani pomoću Java Spring Boota, te su pisani u jeziku JavaScript.}
+
+				
+		\section{Baza podataka}
+			
+		Za potrebe sustava koji implementiramo koristit ćemo se relacijskom bazom podataka koja kao svoju glavnu namjenu ima olakšano modeliranje stvarnog svijeta oko nas. Gradivna jedinica baze je relacija (tablica) koja je definirana svojim imenom te skupom atributa. Baza podataka ove aplikacije sastoji se od sljedećih entiteta:
+		\begin{itemize}
+		\item 	\textit{Konferencija}
+		\item 	\textit{Korisnik}
+		\item 	\textit{Poster}
+		\item 	\textit{FotoMaterijal}
+		\item 	\textit{PromoMaterijal}		
+	\end{itemize}
+		
+			\subsection{Opis tablica}
+			
+
+				{Konferencija - centralni entitet koji definira događaj kojemu pristupaju sudionici, bilo autori ili ne. Atributi koje posjeduje su konfID, lozinka (za pristup posterima koji su u natjecanju), datPocetak te datKraj.}
+				
+				
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{Konferencija}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}konfID & INT	&  	Jedinstveni identifikator konferencije  	\\ \hline
+					lozinka	& INT & Pristupna lozinka za posjetitelje  	\\ \hline 
+					datPocetak & DATE & Datum početka konferencije \\ \hline 
+					datKraj & DATE	& Datum kraja konferencije 		\\ \hline 
+				\end{longtblr}
+				
+				
+				{FotoMaterijal - entitet FotoMaterijal koristi nam kako bismo mogli pohraniti fotografije nastale tokom konferencije te ih kasnije prikazati korisnicima. Sadrži entitete: fotoID, nazivFoto, fotoPath te strani ključ konfID pomoću kojega možemo upariti kojoj konferenciji pripada koja fotografija.}
+				
+	
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					}
+					\hline \SetCell[c=3]{c}{\textbf{FotoMaterijal}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}fotoID & INT	&  Jedinstveni identifikator fotografije	\\ \hline
+					nazivFoto	& VARCHAR &   Naziv fotografije\\ \hline 
+					fotoPath & VARCHAR &   Putanja do izvora fotografije\\ \hline 
+					\SetCell{LightBlue} konfID	& INT &   	Jedinstveni identifikator konferencije\\ \hline 
+				\end{longtblr}
+				
+				{Izložba - entitet kojim povezujemo konferenciju te postere koji se izlažu na njoj i sudjeluju u natjecanju, odnosno radovi za koje se može glasati. Sadrži strani ključ konferencije konfID te strani ključ poster posterID}
+				
+				
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{Izložba}}	 \\ \hline[3pt]
+					\SetCell{LightBlue} konfID & INT	&  Jedinstveni identifikator konferencije	\\ \hline
+					\SetCell{LightBlue} posterID & INT	&  Jedinstveni identifikator postera	\\ \hline
+				\end{longtblr}
+				
+				{Korisnik - entitet kojim se pokriva i registrirani korisnik, ne registrirani korisnik te autor. Sadrži atribute email te lozinka kojima se kasnije može pristupiti posebnom sadržaju specifičnom za registrirane korisnike.}
+				
+				
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{Korisnik}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}email & VARCHAR	&  Elektronička pošta korisnika	\\ \hline
+					lozinka	& VARCHAR &  Lozinka za prijavu korisnika	\\ \hline 
+				\end{longtblr}
+				
+				{Poster - ovim entitetom kontrolirat će se radovi koje na konferenciju dostavljaju autori te se na njoj izlaži i za njih se može glasati. Njegovi atributi su: posterID, nazivPoster, posterPath i email koji je strani ključ na entitet Korisnika pomoću kojega znamo tko je autor svakog djela.}
+				
+				
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{Poster}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}posterID & INT	&  	Jedinstveni identifikator postera\\ \hline
+					nazivPoster	& VARCHAR &   Naziv postera	\\ \hline 
+					posterPath & VARCHAR &   Putanja do izvora postera\\ \hline 
+					\SetCell{LightBlue} email	& VARCHAR &   Elektronička pošta korisnika	\\ \hline 
+				\end{longtblr}
+				
+				{Sudjelovanje - ovaj entitet važan je radi jednostavnije evidencije koji korisnik je sudjelovao na kojoj konferenciji. Sadrži atribute: konfID i email koji su oboje strani ključevi entiteta Konferencija te Korisnik.}
+				
+				
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{Sudjelovanje}}	 \\ \hline[3pt]
+					\SetCell{LightBlue}konfID & INT	&  Jedinstveni identifikator konferencije \\ \hline 
+					\SetCell{LightBlue} email	& VARCHAR &   Elektonička pošta korisnika	\\ \hline 
+				\end{longtblr}
+				
+				{Promocija - unutar okvira konferencije, entitet Promocija uparuje materijal koji sponzori daju konferenciji te kojoj konferenciji je taj materijal dodijeljen. Atributi koje ima su strani ključevi promoID te konfID.}
+				
+				
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{Promocija}}	 \\ \hline[3pt]
+					\SetCell{LightBlue}promoID & INT	&  Jedinstveni identifikator postera \\ \hline 
+					\SetCell{LightBlue} konfID	& INT & Jedinstveni identifikator konferencije	\\  
+				\end{longtblr}
+				
+				{PromoMaterijal - entitet PromoMaterijal pokriva konkretan ponuđeni materijal kojemu registrirani korisnik može pristupiti. Atributi koje ima su promoID, nazivPromo te promoPath.}
+				
+				
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{PromoMaterijal}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}posterID & INT	&  Jedinstveni identifikator postera\\ \hline
+					nazivPromo	& VARCHAR &   Naziv promotivnog materijala	\\ \hline 
+					promoPath & VARCHAR &  Putanja do izvora sadržaja promotivnog materijala \\ \hline  
+				\end{longtblr}
+				
+				
+			
+			\subsection{Dijagram baze podataka}
+					\begin{figure}[H]
+					\includegraphics[width=\textwidth]{slike/bazaPodataka.PNG} %veličina u odnosu na širinu linije
+					\caption{Dijagram baze podataka}
+					\label{fig:promjene4} %label mora biti drugaciji za svaku sliku
+				\end{figure}
+			
+			\eject
+			
+			
+		\section{Dijagram razreda}
+		
+			\textit{Potrebno je priložiti dijagram razreda s pripadajućim opisom. Zbog preglednosti je moguće dijagram razlomiti na više njih, ali moraju biti grupirani prema sličnim razinama apstrakcije i srodnim funkcionalnostima.}\\
+			
+			\textbf{\textit{dio 1. revizije}}\\
+			
+			\textit{Prilikom prve predaje projekta, potrebno je priložiti potpuno razrađen dijagram razreda vezan uz \textbf{generičku funkcionalnost} sustava. Ostale funkcionalnosti trebaju biti idejno razrađene u dijagramu sa sljedećim komponentama: nazivi razreda, nazivi metoda i vrste pristupa metodama (npr. javni, zaštićeni), nazivi atributa razreda, veze i odnosi između razreda.}\\
+			
+			\textbf{\textit{dio 2. revizije}}\\			
+			
+			\textit{Prilikom druge predaje projekta dijagram razreda i opisi moraju odgovarati stvarnom stanju implementacije}
+			
+			
+			
+			\eject
+		
+		\section{Dijagram stanja}
+			
+			
+			\textbf{\textit{dio 2. revizije}}\\
+			
+			\textit{Potrebno je priložiti dijagram stanja i opisati ga. Dovoljan je jedan dijagram stanja koji prikazuje \textbf{značajan dio funkcionalnosti} sustava. Na primjer, stanja korisničkog sučelja i tijek korištenja neke ključne funkcionalnosti jesu značajan dio sustava, a registracija i prijava nisu. }
+			
+			
+			\eject 
+		
+		\section{Dijagram aktivnosti}
+			
+			\textbf{\textit{dio 2. revizije}}\\
+			
+			 \textit{Potrebno je priložiti dijagram aktivnosti s pripadajućim opisom. Dijagram aktivnosti treba prikazivati značajan dio sustava.}
+			
+			\eject
+		\section{Dijagram komponenti}
+		
+			\textbf{\textit{dio 2. revizije}}\\
+		
+			 \textit{Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.}
