@@ -2,8 +2,9 @@ package hr.fer.progi.backend.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.time.LocalDate;
+import java.util.List;
+
 
 @Data
 @Entity
@@ -22,4 +23,6 @@ public class Konferencija {
 
     private LocalDate endTime;
 
+    @OneToMany(mappedBy = "konferencija")
+    private List<Korisnik> korisnici;
 }
