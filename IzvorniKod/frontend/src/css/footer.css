@@ -1,0 +1,9 @@
+.footerTrack {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: var(--footer-bcg);
+    color: white;
+    box-sizing: border-box;
+}

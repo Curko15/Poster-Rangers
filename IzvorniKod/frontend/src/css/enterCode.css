@@ -1,0 +1,66 @@
+.codeCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: rgba(96, 13, 238, 0.65);
+}
+
+.codeCard h1 {
+    font-size: 2.5rem;
+    font-weight: 1000;
+    align-content: center;
+    margin-left: unset;
+    color: white;
+}
+
+.inputForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.inputForm input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.codeInput:focus {
+    outline: none !important;
+    border:1px solid rgba(96, 13, 238, 0.65);
+    box-shadow: 0 0 10px rgba(87, 1, 232, 0.59);
+}
+
+.spanCard {
+    padding: 0 10px 10px 10px;
+}
+
+.submitButton{
+    width: 100%;
+    margin-top: 10px;
+    padding: 8px 20px;
+    font-size: 18px;
+    background-color: var(--btn-bcg);
+    border: 1px solid var(--btn-border);
+    box-shadow: 0 5px 0 var(--btn-shadow);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submitButton:hover{
+    background-color: var(--btn-bcg-hover);
+    border: 1px solid var(--btn-border-hover);
+    box-shadow: 0 5px 0 var(--btn-shadow-hover);
+}
