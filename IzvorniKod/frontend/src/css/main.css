@@ -1,0 +1,26 @@
+:root {
+    /* Header */
+    --header-bcg: #333;
+
+    /* Button */
+    --btn-bcg: #313030;
+    --btn-border: #212020;
+    --btn-shadow: #181717;
+    --btn-bcg-hover: #FF4500FF;
+    --btn-border-hover: #EC2A05FF;
+    --btn-shadow-hover: rgb(206, 41, 5);
+
+    /* Footer */
+    --footer-bcg: rgba(255, 69, 0, 0.87);
+}
+
+*{
+    font-family: 'Roboto', sans-serif;
+}
+
+h1{
+    font-size: 2.5rem;
+    font-weight: 500;
+    margin-left: 35%;
+    align-content: center;
+}
