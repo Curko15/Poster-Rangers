@@ -4,7 +4,7 @@
     align-items: center;
     padding: 1rem;
     background-color: var(--header-bcg);
-    box-shadow:  0 8px 20px rgb(236, 42, 5);
+    box-shadow:  0 8px 20px #8ecae6;
     color: white;
     box-sizing: border-box;
 }
