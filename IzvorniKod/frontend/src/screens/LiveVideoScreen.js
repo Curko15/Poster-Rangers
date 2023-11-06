@@ -10,6 +10,7 @@ const PosterScreen = () => {
     <div>
       <Header />
       <h1>Live Video prijenos</h1>
+      <h3>Glavna konferencijska dvorana</h3>
       <LiveVideo />
       <Footer />
     </div>
