@@ -1,16 +1,17 @@
 import React from "react";
 import Header from ".././components/Header.js";
-import ImageSlider from "../components/ImageSlider.js";
 import Footer from "../components/Footer";
 
 import "../css/main.css";
+import VotePosterDisplay from "../components/VotePosterDisplay";
 
 const VoteScreen = () => {
   return (
     <div>
       <Header />
-      <h1>Vote for your favourite poster!</h1>
-      <ImageSlider />
+      <h1>Glasaj za omiljeni poster!</h1>
+      <h2>Odaberi jedan od ponuđenih postera i glasaj za njega!</h2>
+      <VotePosterDisplay />
       <Footer />
     </div>
   );
