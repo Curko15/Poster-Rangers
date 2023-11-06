@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../logo.png";
 import "../css/header.css";
+import Options from "./Options";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -10,9 +10,6 @@ const Header = () => {
   };
   const handleKonfClick = () => {
     navigate("/");
-  };
-  const handlePosterClick = () => {
-    navigate("/poster");
   };
   const handleFotoClick = () => {
     navigate("/foto");
@@ -23,7 +20,6 @@ const Header = () => {
 
   return (
     <header className="headerTrack">
-      <img className="logo" src={logo} alt="Logo" />
       <nav>
         <div className="navList">
           <button id="konfButton" onClick={handleKonfClick}>
@@ -32,9 +28,7 @@ const Header = () => {
           <button id="videoButton" onClick={handleVideoClick}>
             Video Prijenos
           </button>
-          <button id="posterButton" onClick={handlePosterClick}>
-            Posteri
-          </button>
+          <Options />
           <button id="fotoButton" onClick={handleFotoClick}>
             Fotografije
           </button>
