@@ -5,13 +5,15 @@ import PosterScreen from "./screens/PosterScreen";
 import PhotoScreen from "./screens/PhotoScreen";
 import LiveVideoScreen from "./screens/LiveVideoScreen";
 import PromoScreen from "./screens/PromoScreen";
+import VoteScreen from "./screens/VoteScreen";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<EnterCodeScreen />} />
-        <Route path="/poster" element={<PosterScreen />} />
+        <Route path="/posteri" element={<PosterScreen />} />
+        <Route path="/glasanje" element={<VoteScreen />} />
         <Route path="/foto" element={<PhotoScreen />} />
         <Route path="/live" element={<LiveVideoScreen />} />
         <Route path="/promo" element={<PromoScreen />} />
