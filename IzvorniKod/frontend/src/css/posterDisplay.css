@@ -5,7 +5,7 @@
     justify-content: center;
 }
 
-.poster, .details{
+.poster, .details {
     width: 23%;
     display: flex;
     flex-direction: column;
@@ -21,4 +21,25 @@
 .poster img {
     width: 100%;
     border-radius: 5px;
+}
+
+/*Vote Poster display*/
+.posterVote {
+    width: 27%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+.posterVote img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.vote {
+    width: 100%;
+    display: flex;
+    justify-content: left;
 }
