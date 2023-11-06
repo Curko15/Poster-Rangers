@@ -5,6 +5,8 @@ import opp.domain.Konferencija;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import opp.service.KonferencijaService;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/konferencija")
@@ -19,7 +21,7 @@ public class KonferencijaController {
     }
 
     @GetMapping("")
-    public String marko(){
-        return "jel radi";
+    public List<Konferencija> listKonferencija() {
+        return konfService.listAll();
     }
 }

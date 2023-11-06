@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "konferencija")
+@Table(name = "Konferencija")
 public class Konferencija{
 
     @Id
@@ -25,4 +25,8 @@ public class Konferencija{
 
     @OneToMany(mappedBy = "konferencija")
     private List<Korisnik> korisnici;
+
+    @OneToMany(mappedBy = "konferencija")
+    private List<FotoMaterijal> fotke;
+
 }
