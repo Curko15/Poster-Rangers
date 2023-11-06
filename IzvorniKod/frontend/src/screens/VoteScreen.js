@@ -1,19 +1,19 @@
 import React from "react";
 import Header from ".././components/Header.js";
+import ImageSlider from "../components/ImageSlider.js";
 import Footer from "../components/Footer";
 
 import "../css/main.css";
-import PosterDisplay from "../components/PosterDisplay";
 
-const PosterScreen = () => {
+const VoteScreen = () => {
   return (
     <div>
       <Header />
-      <h1>See all posters in competition!</h1>
-      <PosterDisplay />
+      <h1>Vote for your favourite poster!</h1>
+      <ImageSlider />
       <Footer />
     </div>
   );
 };
 
-export default PosterScreen;
+export default VoteScreen;
