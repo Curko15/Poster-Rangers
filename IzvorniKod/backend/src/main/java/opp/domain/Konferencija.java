@@ -1,4 +1,4 @@
-package hr.fer.progi.backend.domain;
+package opp.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "konferencija")
-public class Konferencija {
+public class Konferencija{
 
     @Id
     @GeneratedValue

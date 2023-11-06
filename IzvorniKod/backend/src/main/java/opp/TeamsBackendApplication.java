@@ -1,13 +1,14 @@
-package hr.fer.progi.backend;
+package opp;
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BackendApplication {
+public class TeamsBackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BackendApplication.class, args);
+		SpringApplication.run(TeamsBackendApplication.class, args);
 	}
 
 }

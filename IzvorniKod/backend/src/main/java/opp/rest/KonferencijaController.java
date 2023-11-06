@@ -1,9 +1,10 @@
-package hr.fer.progi.backend.rest;
+package opp.rest;
 
-import hr.fer.progi.backend.domain.Konferencija;
-import hr.fer.progi.backend.service.KonferencijaService;
+
+import opp.domain.Konferencija;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import opp.service.KonferencijaService;
 
 @RestController
 @RequestMapping("/konferencija")

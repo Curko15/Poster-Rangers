@@ -1,4 +1,4 @@
-package hr.fer.progi.backend.service;
+package opp.service;
 
 public interface KorisnikService {
 }

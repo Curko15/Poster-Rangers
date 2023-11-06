@@ -1,6 +1,6 @@
-package hr.fer.progi.backend.dao;
+package opp.dao;
 
-import hr.fer.progi.backend.domain.Konferencija;
+import opp.domain.Konferencija;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface KonferencijaRepo extends JpaRepository<Konferencija, Long> {

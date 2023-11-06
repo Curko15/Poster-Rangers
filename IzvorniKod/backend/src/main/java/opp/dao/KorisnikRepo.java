@@ -1,6 +1,6 @@
-package hr.fer.progi.backend.dao;
+package opp.dao;
 
-import hr.fer.progi.backend.domain.Korisnik;
+import opp.domain.Korisnik;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface KorisnikRepo extends JpaRepository<Korisnik, String> {

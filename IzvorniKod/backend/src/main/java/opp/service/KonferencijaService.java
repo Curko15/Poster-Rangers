@@ -1,8 +1,9 @@
-package hr.fer.progi.backend.service;
+package opp.service;
 
-import hr.fer.progi.backend.domain.Konferencija;
+import opp.domain.Konferencija;
 
 public interface KonferencijaService {
 
     public void addKonferencija(Konferencija konf);
 }
+
