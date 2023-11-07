@@ -19,9 +19,8 @@ public class User {
     private String username;
     private String password;
 
-    public void setPassword(String password) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        this.password = passwordEncoder.encode(password);
 
-    }
+
+
+
 }

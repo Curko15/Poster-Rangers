@@ -13,12 +13,17 @@ public class UserServiceJPA {
 
 
 
-
     public UserServiceJPA(UserRepo userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
 
     }
+
+    public boolean checkiraj(String kralj, User netko){
+        return passwordEncoder.matches(kralj, netko.getPassword());
+    }
+
+
 
     public User save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
