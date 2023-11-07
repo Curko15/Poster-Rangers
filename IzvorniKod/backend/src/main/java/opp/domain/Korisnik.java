@@ -2,8 +2,10 @@ package opp.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.Data;
 
 @Entity
+@Data
 public class Korisnik {
 
     @Id
@@ -21,25 +23,6 @@ public class Korisnik {
 
 
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String gethashLozinke() {
-        return hashLozinke;
-    }
-
-    public Konferencija getKonferencija() {
-        return konferencija;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setKonferencija(Konferencija konferencija) {
-        this.konferencija = konferencija;
-    }
 
     @Override
     public String toString() {

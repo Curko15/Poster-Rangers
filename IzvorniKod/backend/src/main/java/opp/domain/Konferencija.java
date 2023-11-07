@@ -29,4 +29,8 @@ public class Konferencija{
     @OneToMany(mappedBy = "konferencija")
     private List<FotoMaterijal> fotke;
 
+
+
+
+
 }
