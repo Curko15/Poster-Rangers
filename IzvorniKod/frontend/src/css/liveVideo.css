@@ -1,0 +1,14 @@
+/* This centers the video container within its parent */
+.live-video-container {
+  display: flex;
+  justify-content: center; /* Aligns horizontally */
+  align-items: flex-start;     /* Aligns vertically */
+  min-height: 100vh;       /* Minimum height to center vertically in the viewport */
+}
+
+/* If you want the video to be responsive and maintain aspect ratio */
+.live-video-container iframe {
+max-width: 100%;
+  max-height: 90vh; 
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: Adds a subtle shadow for styling */
+}

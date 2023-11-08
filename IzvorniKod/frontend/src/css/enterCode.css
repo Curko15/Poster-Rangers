@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: rgba(96, 13, 238, 0.65);
+    background-color: #8ECAE6;
 }
 
 .codeCard h1 {
@@ -38,8 +38,8 @@
 
 .codeInput:focus {
     outline: none !important;
-    border:1px solid rgba(96, 13, 238, 0.65);
-    box-shadow: 0 0 10px rgba(87, 1, 232, 0.59);
+    border:1px solid #FB8500;
+    box-shadow: 0 0 10px #FB8500;
 }
 
 .spanCard {
