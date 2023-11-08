@@ -11,7 +11,7 @@ import '../css/imageSlider.css';
 // import required modules
 import { EffectCoverflow, Pagination } from 'swiper/modules';
 
-export default function App() {
+const ImageSlider = () => {
     return (
         <>
             <Swiper
@@ -61,3 +61,5 @@ export default function App() {
         </>
     );
 }
+
+export default ImageSlider;
