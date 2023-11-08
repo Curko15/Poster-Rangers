@@ -4,8 +4,8 @@ import YouTube from 'react-youtube';
 class LiveVideo extends React.Component {
     render() {
         const options = {
-            width: '1280',
-            height: '720',
+            height: '500',
+            width: '100%',
             playerVars: {
                 autoplay: 1,
                 controls: 1,
@@ -13,14 +13,16 @@ class LiveVideo extends React.Component {
         };
 
         return (
-          <div className="live-video-container">
-            <YouTube
-              videoId="4kLviL8XwAI"
-              opts={options}
-              onReady={this._onReady}
-              id="video"
-            />
-          </div>
+            <div className="outer-container">
+                <div className="centered-video">
+                    <YouTube
+                        videoId="4kLviL8XwAI"
+                        opts={options}
+                        onReady={this._onReady}
+                        id="video"
+                    />
+                </div>
+            </div>
         );
     }
 

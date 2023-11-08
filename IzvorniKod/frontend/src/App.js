@@ -6,12 +6,14 @@ import LiveVideoScreen from "./screens/LiveVideoScreen";
 import PromoScreen from "./screens/PromoScreen";
 import VoteScreen from "./screens/VoteScreen";
 import HomeScreen from "./screens/HomeScreen";
+import LogInScreen from "./screens/LogInScreen";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<HomeScreen />} />
+        <Route path="/login" element={<LogInScreen />} />
         <Route path="/posteri" element={<PosterScreen />} />
         <Route path="/glasanje" element={<VoteScreen />} />
         <Route path="/foto" element={<PhotoScreen />} />

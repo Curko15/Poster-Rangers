@@ -2,9 +2,11 @@ import React from "react";
 import Header from ".././components/Header.js";
 import Footer from "../components/Footer";
 import ImageSlider from "../components/ImageSlider";
+import LiveVideo from "../components/LiveVideo";
 
 import "../css/main.css";
 import { useNavigate } from "react-router-dom";
+
 
 const HomeScreen = () => {
   const navigate = useNavigate();
@@ -18,6 +20,10 @@ const HomeScreen = () => {
       <div className="viewAll">
         <button onClick={() => navigate("/posteri")}>Pogledaj sve</button>
       </div>
+        <LiveVideo />
+        <div className="viewAll">
+            <button onClick={() => navigate("/live")}>Gledaj live prijenos</button>
+        </div>
       <Footer />
     </div>
   );
