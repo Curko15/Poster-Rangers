@@ -25,13 +25,6 @@ public class KonferencijaServiceJpa implements KonferencijaService {
         this.passwordEncoder = passwordEncoder;
     }
 
-
-
-
-
-
-
-
     @Override
     public Konferencija findByKonfid(Long Konfid) {
         return konfRepository.findByKonfid(Konfid);

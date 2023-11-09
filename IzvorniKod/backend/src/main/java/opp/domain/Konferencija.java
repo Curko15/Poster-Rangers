@@ -36,6 +36,9 @@ public class Konferencija{
     @OneToMany(mappedBy = "konferencija")
     private List<FotoMaterijal> promo;
 
+    @OneToMany(mappedBy = "konferencija")
+    private List<FotoMaterijal> posteri;
+
 
 
 

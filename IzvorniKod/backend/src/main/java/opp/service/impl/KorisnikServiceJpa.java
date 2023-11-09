@@ -6,6 +6,8 @@ import opp.service.KorisnikService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class KorisnikServiceJpa implements KorisnikService {
 
@@ -31,5 +33,10 @@ public class KorisnikServiceJpa implements KorisnikService {
     @Override
     public Korisnik findByEmail(String email) {
         return korisnikRepo.findByEmail(email);
+    }
+
+    @Override
+    public List<Korisnik> listAll() {
+        return korisnikRepo.findAll();
     }
 }
