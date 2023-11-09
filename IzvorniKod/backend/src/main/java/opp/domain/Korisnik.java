@@ -17,6 +17,7 @@ public class Korisnik {
     @Id
     @Column(unique = true)
     @NotNull
+    @Email
     private String email;
 
     @Size(min=8)

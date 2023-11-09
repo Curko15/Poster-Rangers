@@ -5,8 +5,13 @@ import java.util.*;
 
 public interface KonferencijaService {
 
+    Konferencija findByKonfid(Long Konfid);
+    Konferencija findByPassword (String pass);
+
+    void addKonferencija(Konferencija konf);
+
     List<Konferencija> listAll();
 
-    public void addKonferencija(Konferencija konf);
+    boolean checkirajKonf(String password, Konferencija existingOne);
 }
 

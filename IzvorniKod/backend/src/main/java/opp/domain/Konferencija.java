@@ -1,6 +1,7 @@
 package opp.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import java.time.LocalDate;
@@ -14,7 +15,7 @@ public class Konferencija{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Konfid;
+    private Long konfid;
     @NotNull
     private String password;
     @NotNull
