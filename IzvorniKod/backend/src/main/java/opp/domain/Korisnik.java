@@ -4,11 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Korisnik {
 
     @Id
@@ -24,8 +27,7 @@ public class Korisnik {
     @NotNull
     private String prezime;
 
-    @ManyToOne
-    private Konferencija konferencija;
+
 
     @Override
     public String toString() {
@@ -34,7 +36,6 @@ public class Korisnik {
                 ", hashLozinke='" + hashLozinke + '\'' +
                 ", ime='" + ime + '\'' +
                 ", prezime='" + prezime + '\'' +
-                ", konferencija=" + konferencija +
                 '}';
     }
 }
