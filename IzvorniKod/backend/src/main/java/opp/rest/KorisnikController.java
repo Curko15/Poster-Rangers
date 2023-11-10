@@ -3,10 +3,12 @@ package opp.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import opp.domain.Korisnik;
+import opp.domain.LoginDto;
 import opp.domain.User;
 import opp.service.KorisnikService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,6 +45,13 @@ public class KorisnikController {
         }
     }
 
+    @PostMapping("/login2")
+    public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
+       String response = korisnikService.login(loginDto);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('KORISNIK')")
     @GetMapping("/listAll")
     public ResponseEntity<List<Korisnik>> listAllUsers(){
         List<Korisnik> lista = korisnikService.listAll();

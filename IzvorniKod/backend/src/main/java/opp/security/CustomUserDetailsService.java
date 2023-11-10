@@ -32,7 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
             return new User(
                     email,
-                    korisnik.getHashLozinke(), //ili null??
+                    korisnik.getHashLozinke(),
                     authorities
             );
     }
