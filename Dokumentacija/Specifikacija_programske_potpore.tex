@@ -14,7 +14,9 @@
 					\item Naručitelj
 					\item Razvojni tim
 					\item Rukovoditelji razvoja
-					\item Strateški klijenti	
+					\item Strateški klijenti
+					\item Super administrator
+					\item Administrator
 				\end{packed_enum}
 				
 				\item Sekundarni dionici:	
@@ -27,7 +29,7 @@
 				
 			\end{packed_enum}
 			
-			\noindent \textbf{Aktori i njihovi funkcionalni zahtjevi:}
+			\noindent \textbf{Akteri i njihovi funkcionalni zahtjevi:}
 			
 			
 			\begin{packed_enum}
@@ -43,9 +45,14 @@
 			Registrirani posjetitelji konferencije imaju dodatnu mogućnost glasanja za najbolji stručni poster uključujući pristup rezultatima glasovanja kako bi vidjeli koji poster osvaja najviše glasova kao i uživo praćenje trenutnih događanja u glavnoj konferencijskoj dvorani. Također imaju priliku vidjeti promotivne materijale pokrovitelja konferencije te podatke o trenutnim vremenskim uvjetima i vremenskoj prognozi za navedenu lokaciju. Po završetku, registrirani posjetitelji konferencije će moći pregledavati i preuzimati objavljene fotografije konferencije.
 		\end{quote}
 		
-				\item Sistemski administrator
+				\item Super administrator
 				\begin{quote}
-					Sistemski administrator obavlja prijavu autora, radova i postera te ima mogućnost biranja fotografija sa konferencije kao i definiranja svih potrebnih uvjeta za rad sustava.
+					Super Administrator ima mogućnost davanja administrator uloga već postojećim računima.
+				\end{quote}
+				
+				\item Administrator
+				\begin{quote}
+					Administrator ima mogućnost kreiranja nove konferencije. Prilikom kreiranja konferencije, administrator može odabrati njezin naziv, opis konferencije, mjesto održavanja, njezin početak kao i njezin kraj. Inicijalnu lozinku konferencije sustav automatski generira.
 				\end{quote}
 				
 				\item Autori
@@ -551,6 +558,153 @@
 					\end{packed_enum}
 					
 				\end{packed_item}	
+				
+				
+				\noindent \underbar{\textbf{UC19 - Dodavanje administrator uloge postojećim registriranim korisnicima}}
+				\begin{packed_item}
+					
+					\item \textbf{Glavni sudionik: } Super administrator
+					\item  \textbf{Cilj:} Dodavanje administrator uloge postojećim registriranim korisnicima
+					\item  \textbf{Sudionici:} Registrirani korisnici, baza podataka
+					\item  \textbf{Preduvjet:} Korisnik se mora registrirati
+					\item  \textbf{Opis osnovnog tijeka:}
+					
+					\item[] \begin{packed_enum}
+						
+						\item Nakon prijavljivanja u sustav, super administratoru se otvara lista svih već postojećih administratora
+						\item Po želji, super administrator može kreirani novog administratora 
+					\end{packed_enum}
+					
+					\item  \textbf{Opis mogućih odstupanja:}
+					
+					\item[] \begin{packed_item}
+						
+						\item[1.a] Super Administrator ne vidi niti jednog administratora
+						\item[] \begin{packed_enum}
+							
+							\item U bazi podataka nema niti jednog administratora
+							\item Super administrator mora kreirati barem jednog administratora da bi mu se pojavila lista 
+							
+						\end{packed_enum}
+						
+					\end{packed_item}
+				\end{packed_item}
+				
+				\noindent \underbar{\textbf{UC20 - Kreiranje konferencije}}
+				\begin{packed_item}
+					
+					\item \textbf{Glavni sudionik: } Administrator
+					\item  \textbf{Cilj:} Kreiranje konferencije
+					\item  \textbf{Sudionici:} Aplikacija i baza podataka
+					\item  \textbf{Preduvjet:} Korisnik mora imati ulogu administratora
+					\item  \textbf{Opis osnovnog tijeka:}
+					
+					\item[] \begin{packed_enum}
+						
+						\item Nakon prijave u sustav, administrator ima mogućnost kreiranja nove konferencije
+						\item Administratoru otvara sučelje za kreiranje nove konferencije sa praznim poljima za naziv konferencije, opis konferencije, mjesto održavanja, datum početka kao i datum završetka konferencije koje administrator može popuniti po želji
+						\item Nakon popunjavanja, sustav će automatski generirati inicijalnu lozinku konferencije te će se čitava konferencija spremiti u bazu podataka
+					\end{packed_enum}
+	
+					
+					
+				\end{packed_item}
+				
+				\noindent \underbar{\textbf{UC21 - Dodavanje postera za konferenciju}}
+				\begin{packed_item}
+					
+					\item \textbf{Glavni sudionik: } Administrator
+					\item  \textbf{Cilj:} Dodavanje postera za konferenciju
+					\item  \textbf{Sudionici:} Aplikacija i baza podataka
+					\item  \textbf{Preduvjet:} Korisnik mora imati ulogu administratora
+					\item  \textbf{Opis osnovnog tijeka:}
+					
+					\item[] \begin{packed_enum}
+						
+						\item Nakon prijave u sustav, administrator ima mogućnost dodavanja postera u bazu podataka
+						\item Administrator otvara sučelje za dodavanje novih postera gdje upisuje potrebne informacije vezane za poster te prilaže poster
+						\item Nakon pritiska na gumb za spremanje, baza podatka sprema informacije o posteru
+					\end{packed_enum}
+					
+					\item  \textbf{Opis mogućih odstupanja:}
+					
+					\item[] \begin{packed_item}
+						
+						\item[2.a] Unos krivih podataka
+						\item[] \begin{packed_enum}
+							
+							\item Administrator je unio neke krive podatke
+							\item Sustav ga upozorava na krive podatke te mu javlja kako da ispravi pogrešku
+							
+						\end{packed_enum}
+						
+						
+					\end{packed_item}
+				\end{packed_item}
+				
+				\noindent \underbar{\textbf{UC22 - Dodavanje fotografija za konferenciju}}
+				\begin{packed_item}
+					
+					\item \textbf{Glavni sudionik: } Administrator
+					\item  \textbf{Cilj:} Dodavanje fotografija za konferenciju
+					\item  \textbf{Sudionici:} Aplikacija i baza podataka
+					\item  \textbf{Preduvjet:} Korisnik mora imati ulogu administratora
+					\item  \textbf{Opis osnovnog tijeka:}
+					
+					\item[] \begin{packed_enum}
+						
+						\item Nakon prijave u sustav, administrator ima mogućnost dodavanja fotografija u bazu podataka
+						\item Administrator otvara sučelje za dodavanje novih fotografija gdje upisuje potrebne informacije vezane za fotografije te prilaže fotografiju
+						\item Nakon pritiska na gumb za spremanje, baza podatka sprema informacije o fotografiji
+					\end{packed_enum}
+					
+					\item  \textbf{Opis mogućih odstupanja:}
+					
+					\item[] \begin{packed_item}
+						
+						\item[2.a] Unos krivih podataka
+						\item[] \begin{packed_enum}
+							
+							\item Administrator je unio neke krive podatke
+							\item Sustav ga upozorava na krive podatke te mu javlja kako da ispravi pogrešku
+							
+						\end{packed_enum}
+						
+						
+					\end{packed_item}
+				\end{packed_item}
+				
+				\noindent \underbar{\textbf{UC23 - Dodavanje promotivnih materijala za konferenciju}}
+				\begin{packed_item}
+					
+					\item \textbf{Glavni sudionik: } Administrator
+					\item  \textbf{Cilj:} Dodavanje promotivnih materijala za konferenciju
+					\item  \textbf{Sudionici:} Aplikacija i baza podataka
+					\item  \textbf{Preduvjet:} Korisnik mora imati ulogu administratora
+					\item  \textbf{Opis osnovnog tijeka:}
+					
+					\item[] \begin{packed_enum}
+						
+						\item Nakon prijave u sustav, administrator ima mogućnost dodavanja promotivnih materijala u bazu podataka
+						\item Administrator otvara sučelje za dodavanje novih promotivnih materijala gdje upisuje potrebne informacije vezane za promotivne materijale te prilaže promotivni materijal
+						\item Nakon pritiska na gumb za spremanje, baza podatka sprema informacije o promotivnom materijalu
+					\end{packed_enum}
+					
+					\item  \textbf{Opis mogućih odstupanja:}
+					
+					\item[] \begin{packed_item}
+						
+						\item[2.a] Unos krivih podataka
+						\item[] \begin{packed_enum}
+							
+							\item Administrator je unio neke krive podatke
+							\item Sustav ga upozorava na krive podatke te mu javlja kako da ispravi pogrešku
+							
+						\end{packed_enum}
+						
+						
+					\end{packed_item}
+				\end{packed_item}
 				
 				
 				\noindent \underbar{\textbf{UC$<$broj obrasca$>$ -$<$ime obrasca$>$}}

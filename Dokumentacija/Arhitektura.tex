@@ -39,7 +39,7 @@
 			\subsection{Opis tablica}
 			
 
-				{Konferencija - centralni entitet koji definira događaj kojemu pristupaju sudionici, bilo autori ili ne. Atributi koje posjeduje su konfID, lozinka (za pristup posterima koji su u natjecanju), datPocetak te datKraj.}
+				{Konferencija - centralni entitet koji definira događaj kojemu pristupaju sudionici, bilo autori ili ne. Atributi koje posjeduje su konfID, kod (za pristup posterima koji su u natjecanju), datPocetak, datKraj, nazivKonf, mjestoKonf, opisKonf}
 				
 				
 				\begin{longtblr}[
@@ -52,9 +52,12 @@
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{Konferencija}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}konfID & INT	&  	Jedinstveni identifikator konferencije  	\\ \hline
-					lozinka	& INT & Pristupna lozinka za posjetitelje  	\\ \hline 
+					kod	& INT & Pristupna lozinka za posjetitelje  	\\ \hline 
 					datPocetak & DATE & Datum početka konferencije \\ \hline 
 					datKraj & DATE	& Datum kraja konferencije 		\\ \hline 
+					nazivKonf & VARCHAR	& Naziv konferencije 		\\ \hline
+					mjestoKonf & VARCHAR & Mjesto održavanja konferencije 		\\ \hline
+					opisKonf & VARCHAR	& Opis konferencije 		\\ \hline
 				\end{longtblr}
 				
 				
@@ -76,23 +79,8 @@
 					\SetCell{LightBlue} konfID	& INT &   	Jedinstveni identifikator konferencije\\ \hline 
 				\end{longtblr}
 				
-				{Izložba - entitet kojim povezujemo konferenciju te postere koji se izlažu na njoj i sudjeluju u natjecanju, odnosno radovi za koje se može glasati. Sadrži strani ključ konferencije konfID te strani ključ poster posterID}
 				
-				
-				\begin{longtblr}[
-					label=none,
-					entry=none
-					]{
-						width = \textwidth,
-						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
-						rowhead = 1,
-					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \SetCell[c=3]{c}{\textbf{Izložba}}	 \\ \hline[3pt]
-					\SetCell{LightBlue} konfID & INT	&  Jedinstveni identifikator konferencije	\\ \hline
-					\SetCell{LightBlue} posterID & INT	&  Jedinstveni identifikator postera	\\ \hline
-				\end{longtblr}
-				
-				{Korisnik - entitet kojim se pokriva i registrirani korisnik, ne registrirani korisnik te autor. Sadrži atribute email te lozinka kojima se kasnije može pristupiti posebnom sadržaju specifičnom za registrirane korisnike.}
+				{Korisnik - entitet kojim se pokriva i registrirani korisnik, ne registrirani korisnik te autor. Sadrži atribute email te lozinka kojima se kasnije može pristupiti posebnom sadržaju specifičnom za registrirane korisnike. Također sadrži ime i prezime}
 				
 				
 				\begin{longtblr}[
@@ -106,9 +94,11 @@
 					\hline \SetCell[c=3]{c}{\textbf{Korisnik}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}email & VARCHAR	&  Elektronička pošta korisnika	\\ \hline
 					lozinka	& VARCHAR &  Lozinka za prijavu korisnika	\\ \hline 
+					ime	& VARCHAR &  Ime korisnika	\\ \hline 
+					prezime	& VARCHAR &  Prezime korisnika	\\ \hline 
 				\end{longtblr}
 				
-				{Poster - ovim entitetom kontrolirat će se radovi koje na konferenciju dostavljaju autori te se na njoj izlaži i za njih se može glasati. Njegovi atributi su: posterID, nazivPoster, posterPath i email koji je strani ključ na entitet Korisnika pomoću kojega znamo tko je autor svakog djela.}
+				{Poster - ovim entitetom kontrolirat će se radovi koje na konferenciju dostavljaju autori te se na njoj izlažu i za njih se može glasati. Njegovi atributi su: posterID, nazivPoster, posterPath, email, imeAutor, prezimeAutor, brojGlasova i konfID koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji poster.}
 				
 				
 				\begin{longtblr}[
@@ -123,43 +113,15 @@
 					\SetCell{LightGreen}posterID & INT	&  	Jedinstveni identifikator postera\\ \hline
 					nazivPoster	& VARCHAR &   Naziv postera	\\ \hline 
 					posterPath & VARCHAR &   Putanja do izvora postera\\ \hline 
-					\SetCell{LightBlue} email	& VARCHAR &   Elektronička pošta korisnika	\\ \hline 
+					email	& VARCHAR &   Elektronička pošta korisnika\\ \hline
+					imeAutor & VARCHAR &   Ime autora postera\\ \hline 
+					prezimeAutor & VARCHAR &   Prezime autora postera\\ \hline 
+					brojGlasova & INT &   Ostvareni broj glasova postera\\ \hline 
+					\SetCell{LightBlue} konfID	& INT &  Jedinstveni identifikator konferencije	\\ \hline 
 				\end{longtblr}
 				
-				{Sudjelovanje - ovaj entitet važan je radi jednostavnije evidencije koji korisnik je sudjelovao na kojoj konferenciji. Sadrži atribute: konfID i email koji su oboje strani ključevi entiteta Konferencija te Korisnik.}
-				
-				
-				\begin{longtblr}[
-					label=none,
-					entry=none
-					]{
-						width = \textwidth,
-						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
-						rowhead = 1,
-					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \SetCell[c=3]{c}{\textbf{Sudjelovanje}}	 \\ \hline[3pt]
-					\SetCell{LightBlue}konfID & INT	&  Jedinstveni identifikator konferencije \\ \hline 
-					\SetCell{LightBlue} email	& VARCHAR &   Elektonička pošta korisnika	\\ \hline 
-				\end{longtblr}
-				
-				{Promocija - unutar okvira konferencije, entitet Promocija uparuje materijal koji sponzori daju konferenciji te kojoj konferenciji je taj materijal dodijeljen. Atributi koje ima su strani ključevi promoID te konfID.}
-				
-				
-				\begin{longtblr}[
-					label=none,
-					entry=none
-					]{
-						width = \textwidth,
-						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
-						rowhead = 1,
-					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \SetCell[c=3]{c}{\textbf{Promocija}}	 \\ \hline[3pt]
-					\SetCell{LightBlue}promoID & INT	&  Jedinstveni identifikator postera \\ \hline 
-					\SetCell{LightBlue} konfID	& INT & Jedinstveni identifikator konferencije	\\  
-				\end{longtblr}
-				
-				{PromoMaterijal - entitet PromoMaterijal pokriva konkretan ponuđeni materijal kojemu registrirani korisnik može pristupiti. Atributi koje ima su promoID, nazivPromo te promoPath.}
-				
+				{PromoMaterijal - entitet PromoMaterijal pokriva konkretan ponuđeni materijal kojemu registrirani korisnik može pristupiti. Atributi koje ima su promoID, nazivPromo, promoPath i konfID koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji promotivni materijal.}
+				 
 				
 				\begin{longtblr}[
 					label=none,
@@ -172,7 +134,25 @@
 					\hline \SetCell[c=3]{c}{\textbf{PromoMaterijal}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}posterID & INT	&  Jedinstveni identifikator postera\\ \hline
 					nazivPromo	& VARCHAR &   Naziv promotivnog materijala	\\ \hline 
-					promoPath & VARCHAR &  Putanja do izvora sadržaja promotivnog materijala \\ \hline  
+					promoPath & VARCHAR &  Putanja do izvora sadržaja promotivnog materijala \\ \hline
+					\SetCell{LightBlue} konfID	& INT &   Jedinstveni identifikator konferencije	\\ \hline   
+				\end{longtblr}
+				
+				{Glasanje - Entitet Glasanje služi za prebrojavanje broja glasova postera te također služi za prevenciju glasovanja jednog registriranog korisnika za više postera. Atributi koji sadrži entitet Glasanje su: posterID koji je jedinstveni identifikator postera te je također i primarni ključ, konfID koji je jedinstveni identifikator konferencije te je također i strani ključ email koji je elektronička pošta korisnika ali je isto tako i strani ključ}
+				
+				
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{Glasanje}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}posterID & INT	&  Jedinstveni identifikator postera\\ \hline
+					\SetCell{LightBlue} konfID	& INT &   Jedinstveni identifikator konferencije	\\ \hline 
+					\SetCell{LightBlue} email	& VARCHAR &   Elektronička pošta korisnika	\\ \hline   
 				\end{longtblr}
 				
 				
