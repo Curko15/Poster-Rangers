@@ -4,6 +4,8 @@ package opp;
 import opp.domain.Konferencija;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 
@@ -16,12 +18,12 @@ public class TeamsBackendApplication {
 
 	}
 
-	/*
+
 	@Bean
-	public BCryptPasswordEncoder pswdEncoder(){
+	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	*/
+
 
 	static void inicilizaijraj(){
 		Konferencija bata = new Konferencija();
