@@ -747,30 +747,44 @@
 					\begin{figure}[H]
 						\includegraphics[width=\textwidth]{slike/prijavaUseCase.PNG} %veličina u odnosu na širinu linije
 						\caption{Dijagram obrazaca uporabe, prijava u sustav}
-						\label{fig:promjene2} %label mora biti drugaciji za svaku sliku
+						\label{fig:prijava-dijagram} %label mora biti drugaciji za svaku sliku
 					\end{figure}
 					
 					\begin{figure}[H]
 						\includegraphics[width=\textwidth]{slike/korisniciUseCase.PNG} %veličina u odnosu na širinu linije
 						\caption{Dijagram obrazaca uporabe, funkcionalnosti korisnika}
-						\label{fig:promjene2} %label mora biti drugaciji za svaku sliku
+						\label{fig:korisnik-dijagram} %label mora biti drugaciji za svaku sliku
 					\end{figure}
 					
 					\begin{figure}[H]
 						\includegraphics[width=\textwidth]{slike/adminUseCase.PNG} %veličina u odnosu na širinu linije
 						\caption{Dijagram obrazaca uporabe, funkcionalnosti administratora}
-						\label{fig:promjene2} %label mora biti drugaciji za svaku sliku
+						\label{fig:admin-dijagram} %label mora biti drugaciji za svaku sliku
 					\end{figure}
 					
 				\eject		
 				
 			\subsection{Sekvencijski dijagrami}
+						
+				\textbf{Obrazac uporabe UC1: Prijava u sustav odgovarajućom lozinkom}\\
+				Korisnik na početnom zaslonu upisuje lozinku konferencije, te ju šalje poslužitelju. Poslužitelj šalje upit bazi podataka i provjerava je li lozinka ispravna, ako je neispravna ovaj postupak se ponavlja do upisa točne lozinke. Ako je unesena lozinka ispravna korisniku se potvrđuje da je unio ispravnu lozinku, te se od baze podataka zatražuju podaci o konferenciji i oni se šalju korisniku.
 				
-				\textbf{\textit{dio 1. revizije}}\\
-				
-				\textit{Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Ukoliko postoji nedoumica oko odabira, razjasniti s asistentom. Uz svaki dijagram napisati detaljni opis dijagrama.}
+				\begin{figure}[H]
+					\includegraphics[width=\textwidth]{slike/uc1Sekvencijski.PNG} %veličina u odnosu na širinu linije
+					\caption{Sekvencijski dijagram obrasca UC1: Prijava u sustav odgovarajućom lozinkom}
+					\label{fig:uc1-sekvencijski} %label mora biti drugaciji za svaku sliku
+				\end{figure}
 				\eject
-	
+					\textbf{Obrazac uporabe UC4: Registracija u sustav prijavljenih korisnika}\\
+				Korisnik klikom na gumb registracija pokreće postupak registracije. Sustav mu šalje nazad formu za registraciju u kojoj upisuje email i lozinku i šalje ih sustavu. Zatim sustav provjerava format email-a, ako nije valjan obavještava korisnika o tome, inače nastavlja dalje i provjerava ispunjava li lozinka format, te u slučaju da ne ispunjava također obavještava korisnika. Na kraju se upitom nad bazom provjerava da li postoji registrirani korisnik s tom email adresom. U slučaju da postoji obavijestiti ćemo korisnika o tome, ako ne lozinka će se kriptirati i spremiti zajedno s email-om u bazu podataka i korisnika ćemo obavijestiti da je registracija bila uspješna.
+				
+				\begin{figure}[H]
+					\includegraphics[width=\textwidth]{slike/uc4Sekvencijski.PNG} %veličina u odnosu na širinu linije
+					\caption{Sekvencijski dijagram obrasca UC4: Registracija u sustav prijavljenih korisnika}
+					\label{fig:uc4-sekvencijski} %label mora biti drugaciji za svaku sliku
+				\end{figure}
+				\eject
+				
 		\section{Ostali zahtjevi}
 		 
 			  \begin{packed_item}
