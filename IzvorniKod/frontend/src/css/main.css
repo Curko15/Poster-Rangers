@@ -1,0 +1,58 @@
+:root {
+    /* Header */
+    --header-bcg: #333;
+
+    /* Button */
+    --btn-bcg: #313030;
+    --btn-border: #212020;
+    --btn-shadow: #181717;
+    --btn-bcg-hover: #FF4500FF;
+    --btn-border-hover: #EC2A05FF;
+    --btn-shadow-hover: rgb(206, 41, 5);
+
+    /* Footer */
+    --footer-bcg: rgba(255, 69, 0, 0.87);
+}
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 500;
+    margin-left: 35%;
+    align-content: center;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-left: 35%;
+    align-content: center;
+}
+
+button {
+    margin: 0 1rem;
+    cursor: pointer;
+    background-color: var(--btn-bcg);
+    border-radius: 5px;
+    border: var(--btn-border) 1px solid;
+    box-shadow: 0 4px 4px var(--btn-shadow);
+    color: white;
+    font-size: 1.2rem;
+    padding: 10px;
+}
+
+button:hover {
+    border: var(--btn-bcg-hover) 1px solid;
+    background-color: var(--btn-bcg-hover);
+    box-shadow: 0 4px 4px var(--btn-shadow-hover);
+}
+
+.viewAll {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+    padding: 10px;
+}
