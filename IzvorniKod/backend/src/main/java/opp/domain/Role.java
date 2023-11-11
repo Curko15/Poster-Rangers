@@ -2,15 +2,9 @@ package opp.domain;
 
 import jakarta.persistence.*;
 import jdk.jfr.Enabled;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Entity
 @Table(name = "roles")
 public class Role {
