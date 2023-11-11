@@ -1,7 +1,7 @@
 {
   "name": "my_project",
   "version": "0.1.0",
-  "proxy": "http://localhost:8081",
+  "proxy": "http://localhost:8080",
   "private": true,
   "dependencies": {
     "@ionic/react": "^7.5.4",

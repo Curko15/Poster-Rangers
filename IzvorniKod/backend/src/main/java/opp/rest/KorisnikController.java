@@ -26,8 +26,11 @@ public class KorisnikController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Korisnik korisnik) {
-        //System.out.println(user);
-        System.out.println(korisnik);
+        //System.out.println(korisnik);
+        if (korisnikService.findByEmail(korisnik.getEmail()) != null) {
+            return new ResponseEntity<>("Korisnik je već registriran", HttpStatus.CONFLICT);
+        }
+        
         korisnikService.save(korisnik);
         return new ResponseEntity<>("Korisnik registered successfully", HttpStatus.CREATED);
     }
