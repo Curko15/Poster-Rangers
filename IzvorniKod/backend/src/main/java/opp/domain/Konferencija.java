@@ -25,8 +25,6 @@ public class Konferencija{
     @NotNull
     private LocalDate endTime;
     @NotNull
-    private String nazivKonf;
-    @NotNull
     private String mjestoKonf;
 
 
@@ -34,17 +32,9 @@ public class Konferencija{
     private List<FotoMaterijal> fotke;
 
     @OneToMany(mappedBy = "konferencija")
-    private List<FotoMaterijal> promo;
+    private List<PromoMaterijal> promo;
 
     @OneToMany(mappedBy = "konferencija")
-    private List<FotoMaterijal> posteri;
-
-
-
-
-
-
-
-
+    private List<Poster> posteri;
 
 }

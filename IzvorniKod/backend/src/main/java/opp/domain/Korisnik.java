@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -27,6 +28,13 @@ public class Korisnik {
     private String ime;
     @NotNull
     private String prezime;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "korisnik_roles",
+    joinColumns = @JoinColumn(name = "email", referencedColumnName = "email"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
+    private Set<Role> roles;
 
 
 
