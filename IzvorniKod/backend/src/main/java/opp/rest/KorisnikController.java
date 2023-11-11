@@ -26,10 +26,8 @@ public class KorisnikController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Korisnik korisnik) {
-        //System.out.println(korisnik);
-        if (korisnikService.findByEmail(korisnik.getEmail()) != null) {
-            return new ResponseEntity<>("Korisnik je već registriran", HttpStatus.CONFLICT);
-        }
+        //System.out.println(user);
+        System.out.println(korisnik);
         korisnikService.save(korisnik);
         return new ResponseEntity<>("Korisnik registered successfully", HttpStatus.CREATED);
     }
@@ -37,13 +35,15 @@ public class KorisnikController {
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody Korisnik korisnik) throws JsonProcessingException {
 
+
         Korisnik postojeciKorisnik = korisnikService.findByEmail(korisnik.getEmail());
-        if (postojeciKorisnik != null) {
-            if(korisnikService.checkLozinka(korisnik.getHashLozinke(), postojeciKorisnik)){
-                return new ResponseEntity<>("Login successful", HttpStatus.OK);
-            }
+        boolean match = korisnikService.checkLozinka(korisnik.getHashLozinke(), postojeciKorisnik);
+
+        if (postojeciKorisnik != null && match) {
+            return new ResponseEntity<>("Login successful", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("/login2")
