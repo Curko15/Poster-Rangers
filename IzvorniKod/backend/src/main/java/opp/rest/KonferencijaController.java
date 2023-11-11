@@ -27,7 +27,7 @@ public class KonferencijaController {
 
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addKonf")
     public ResponseEntity<String> addKonf(@RequestBody Konferencija konf){
         konfService.addKonferencija(konf);
