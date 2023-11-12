@@ -7,6 +7,8 @@ import PromoScreen from "./screens/PromoScreen";
 import VoteScreen from "./screens/VoteScreen";
 import HomeScreen from "./screens/HomeScreen";
 import LogInScreen from "./screens/LogInScreen";
+import AdminScreen from "./screens/AdminScreen";
+import SuperAdminScreen from "./screens/SuperAdminScreen";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/login" element={<LogInScreen />} />
+        <Route path="/admin" element={<AdminScreen />} />
+        <Route path="/superadmin" element={<SuperAdminScreen />} />
         <Route path="/posteri" element={<PosterScreen />} />
         <Route path="/glasanje" element={<VoteScreen />} />
         <Route path="/foto" element={<PhotoScreen />} />
