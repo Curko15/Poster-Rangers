@@ -4,4 +4,5 @@
 23.10.2023 Sastanak i diskusija o flowu aplikacije te definiranje glavnih screenova
 28.10.2023. Izrada konceptualnog modela baze podataka
 4.11.2023. Pregled dotad napravljene dokumentacije i podjela daljnjih poslova
-
+8.11.2023. Rasprava oko promjene baze i obrazaca, dodavanje funkcija superadmina i admina
+11.11.2023. Spajanje backenda i frontenda
