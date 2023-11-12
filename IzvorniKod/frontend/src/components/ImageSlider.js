@@ -1,42 +1,65 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState } from 'react';
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+import '../css/imageSlider.css';
 
-import "swiper/css";
-import "../css/swiper.css";
+// import required modules
+import { EffectCoverflow, Pagination } from 'swiper/modules';
 
 const ImageSlider = () => {
-  const [images, setImages] = useState([]);
-
-  useEffect(() => {
-    setImages([
-      "https://fastly.picsum.photos/id/612/200/300.jpg?hmac=vJ35AV5-TQa5ET5az0aESTnI3zaFCjRYD9OnYaiYIYc",
-      "https://fastly.picsum.photos/id/513/200/300.jpg?hmac=KcBD-M89_o9rkxWW6PS2yEfAMCfd3TH9McppOsf3GZ0",
-      "https://fastly.picsum.photos/id/513/200/300.jpg?hmac=KcBD-M89_o9rkxWW6PS2yEfAMCfd3TH9McppOsf3GZ0",
-      "https://fastly.picsum.photos/id/1084/200/300.jpg?hmac=JQMQbKvpN6_d6r-fiuOEYe1Dz6f2gfGIkTvsx0nLJUQ",
-      "https://fastly.picsum.photos/id/612/200/300.jpg?hmac=vJ35AV5-TQa5ET5az0aESTnI3zaFCjRYD9OnYaiYIYc",
-      "https://fastly.picsum.photos/id/612/200/300.jpg?hmac=vJ35AV5-TQa5ET5az0aESTnI3zaFCjRYD9OnYaiYIYc",
-      "https://fastly.picsum.photos/id/1084/200/300.jpg?hmac=JQMQbKvpN6_d6r-fiuOEYe1Dz6f2gfGIkTvsx0nLJUQ",
-      "https://fastly.picsum.photos/id/513/200/300.jpg?hmac=KcBD-M89_o9rkxWW6PS2yEfAMCfd3TH9McppOsf3GZ0",
-      "https://fastly.picsum.photos/id/1084/200/300.jpg?hmac=JQMQbKvpN6_d6r-fiuOEYe1Dz6f2gfGIkTvsx0nLJUQ",
-    ]);
-  }, []);
-
-  return (
-    <Swiper
-      loop={true}
-      slidesPerView={3}
-      spaceBetween={1}
-      className="imageSwiper"
-    >
-      {images.map((image, index) => (
-        <SwiperSlide key={index}>
-          <img src={image} alt={`slide ${index}`} />
-          <div className="overlay">Vote</div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
-  );
-};
+    return (
+        <>
+            <Swiper
+                effect={'coverflow'}
+                grabCursor={true}
+                centeredSlides={true}
+                slidesPerView={'auto'}
+                coverflowEffect={{
+                    rotate: 50,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: true,
+                }}
+                pagination={true}
+                modules={[EffectCoverflow, Pagination]}
+                className="mySwiper"
+            >
+                <SwiperSlide>
+                    <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
+                </SwiperSlide>
+            </Swiper>
+        </>
+    );
+}
 
 export default ImageSlider;
