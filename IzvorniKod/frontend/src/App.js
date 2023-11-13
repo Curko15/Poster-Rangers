@@ -9,15 +9,23 @@ import HomeScreen from "./screens/HomeScreen";
 import LogInScreen from "./screens/LogInScreen";
 import AdminScreen from "./screens/AdminScreen";
 import SuperAdminScreen from "./screens/SuperAdminScreen";
+import EnterCodeScreen from "./screens/EnterCodeScreen";
+import AuthenticationScreen from "./screens/AuthenticationScreen";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<HomeScreen />} />
-        <Route path="/login" element={<LogInScreen />} />
-        <Route path="/admin" element={<AdminScreen />} />
-        <Route path="/superadmin" element={<SuperAdminScreen />} />
+        <Route path="/entercode" element={<EnterCodeScreen />} />
+        <Route
+            path="/login"
+            element={<AuthenticationScreen viewType="login" />}
+        />
+        <Route
+            path="/register"
+            element={<AuthenticationScreen viewType="register" />}
+        />
         <Route path="/posteri" element={<PosterScreen />} />
         <Route path="/glasanje" element={<VoteScreen />} />
         <Route path="/foto" element={<PhotoScreen />} />

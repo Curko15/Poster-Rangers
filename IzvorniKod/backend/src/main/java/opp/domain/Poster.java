@@ -1,9 +1,14 @@
 package opp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "Poster")
+@Getter
+@Setter
 public class Poster {
 
     @Id
@@ -21,5 +26,6 @@ public class Poster {
     private String prezimeAutor;
 
     @ManyToOne
+    @JsonIgnore
     private Konferencija konferencija;
 }

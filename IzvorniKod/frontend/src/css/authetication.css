@@ -6,6 +6,11 @@ body {
     color: #fff; /* Text color */
 }
 
+h2 {
+    margin: unset;
+    margin-bottom: 2rem;
+}
+
 .center-container {
     display: flex;
     justify-content: center;
