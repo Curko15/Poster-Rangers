@@ -476,56 +476,29 @@
 				\noindent \underbar{\textbf{UC15 - Dodavanje autora i njihovih stručnih postera u bazu podataka}}
 				\begin{packed_item}
 					
-					\item \textbf{Glavni sudionik: }Sistemski administrator
+					\item \textbf{Glavni sudionik: } Administrator
 					\item  \textbf{Cilj:} Dodavanje autora i njihovih stručnih postera u bazu podataka
-					\item  \textbf{Sudionici:} Baza podataka i autori
-					\item  \textbf{Preduvjet:} Sistemskom administratoru su dostavljeni svi potrebni materijali za dodavanje autora kao i njihovih stručnih postera
+					\item  \textbf{Sudionici:} Baza podataka i aplikacija
+					\item  \textbf{Preduvjet:} Administratoru su dostavljeni svi potrebni materijali za dodavanje autora kao i njihovih stručnih postera
 					\item  \textbf{Opis osnovnog tijeka:}
 					
 					\item[] \begin{packed_enum}
 						
-						\item Autor šalje elektroničku poštu sistemskom administratoru o njegovim podacima i stručnom posteru
-						\item Sistemski administrator provjera valjanost podataka
-						\item Ukoliko su svi podaci ispravni i valjani, sistemski administrator ažurira bazu podataka sa informacija o autoru kao i njegovim stručnim radovima
+						\item Autor šalje elektroničku poštu administratoru o njegovim podacima i stručnom posteru
+						\item Administrator provjera valjanost podataka
+						\item Ukoliko su svi podaci ispravni i valjani, administrator otvara sučelje za dodavanje autora i njegovih postera gdje upisuje sve potrebne informacije vezane za autora i poster te prilaže sam poster
+						\item Nakon pritiska na gumb za spremanje, baza podataka sprema informacije o posteru kao i njegovom autoru
+						
 					
 					\end{packed_enum}
 					
-					\item  \textbf{Opis mogućih odstupanja:}
-					
-					\item[] \begin{packed_item}
-						
-						\item[2.a] Autor je poslao neispravne podatke o sebi ili svome stručnom posteru sistemskom administratoru
-						\item[] \begin{packed_enum}
-							
-							\item Autor šalje elektroničku poštu sistemskom administratoru o njegovim podacima i stručnom posteru
-							\item Sistemski administrator uviđa pogrešku u dobivenoj pošti te povratnim odgovorom obavještava autora 
-							
-						\end{packed_enum}
-						
-					\end{packed_item}
+		
 				\end{packed_item}
 				
 				
-					\noindent \underbar{\textbf{UC16 - Odabir i dodavanje fotografija konferencije u bazu podataka}}
-				\begin{packed_item}
-					
-					\item \textbf{Glavni sudionik: }Sistemski administrator
-					\item  \textbf{Cilj:} Odabir i dodavanje fotografija konferencije u bazu podataka
-					\item  \textbf{Sudionici:} Baza podataka
-					\item  \textbf{Preduvjet:} Sistemskom administratoru su dostavljeni svi potrebni materijali za odabir i dodavanje fotografija
-					\item  \textbf{Opis osnovnog tijeka:}
-					
-					\item[] \begin{packed_enum}
-						
-						\item Sistemski administrator odabire najbolje fotografije konferencije
-						\item Nakon odabira najboljih fotografija, sistemski administrator dodaje fotografije u bazu podataka
-				
-					\end{packed_enum}
-					
-				\end{packed_item}
 				
 				
-				\noindent \underbar{\textbf{UC17 - Definiranje svih potrebnih parametara za rad sustava}}
+				\noindent \underbar{\textbf{UC16 - Definiranje svih potrebnih parametara za rad sustava}}
 				\begin{packed_item}
 					
 					\item \textbf{Glavni sudionik: }Sistemski administrator
@@ -542,7 +515,7 @@
 					
 				\end{packed_item}
 				
-				\noindent \underbar{\textbf{UC18 - Obavještavanje autora o njihovom uspjehu i mjestu održavanja dodjele nagrada}}
+				\noindent \underbar{\textbf{UC17 - Obavještavanje autora o njihovom uspjehu i mjestu održavanja dodjele nagrada}}
 				\begin{packed_item}
 					
 					\item \textbf{Glavni sudionik: }Aplikacija 
@@ -560,7 +533,7 @@
 				\end{packed_item}	
 				
 				
-				\noindent \underbar{\textbf{UC19 - Dodavanje administrator uloge postojećim registriranim korisnicima}}
+				\noindent \underbar{\textbf{UC18 - Dodavanje administrator uloge postojećim registriranim korisnicima}}
 				\begin{packed_item}
 					
 					\item \textbf{Glavni sudionik: } Super administrator
@@ -590,7 +563,7 @@
 					\end{packed_item}
 				\end{packed_item}
 				
-				\noindent \underbar{\textbf{UC20 - Kreiranje konferencije}}
+				\noindent \underbar{\textbf{UC19 - Kreiranje konferencije}}
 				\begin{packed_item}
 					
 					\item \textbf{Glavni sudionik: } Administrator
@@ -610,39 +583,9 @@
 					
 				\end{packed_item}
 				
-				\noindent \underbar{\textbf{UC21 - Dodavanje postera za konferenciju}}
-				\begin{packed_item}
-					
-					\item \textbf{Glavni sudionik: } Administrator
-					\item  \textbf{Cilj:} Dodavanje postera za konferenciju
-					\item  \textbf{Sudionici:} Aplikacija i baza podataka
-					\item  \textbf{Preduvjet:} Korisnik mora imati ulogu administratora
-					\item  \textbf{Opis osnovnog tijeka:}
-					
-					\item[] \begin{packed_enum}
-						
-						\item Nakon prijave u sustav, administrator ima mogućnost dodavanja postera u bazu podataka
-						\item Administrator otvara sučelje za dodavanje novih postera gdje upisuje potrebne informacije vezane za poster te prilaže poster
-						\item Nakon pritiska na gumb za spremanje, baza podatka sprema informacije o posteru
-					\end{packed_enum}
-					
-					\item  \textbf{Opis mogućih odstupanja:}
-					
-					\item[] \begin{packed_item}
-						
-						\item[2.a] Unos krivih podataka
-						\item[] \begin{packed_enum}
-							
-							\item Administrator je unio neke krive podatke
-							\item Sustav ga upozorava na krive podatke te mu javlja kako da ispravi pogrešku
-							
-						\end{packed_enum}
-						
-						
-					\end{packed_item}
-				\end{packed_item}
+			
 				
-				\noindent \underbar{\textbf{UC22 - Dodavanje fotografija za konferenciju}}
+				\noindent \underbar{\textbf{UC20 - Dodavanje fotografija za konferenciju}}
 				\begin{packed_item}
 					
 					\item \textbf{Glavni sudionik: } Administrator
@@ -674,7 +617,7 @@
 					\end{packed_item}
 				\end{packed_item}
 				
-				\noindent \underbar{\textbf{UC23 - Dodavanje promotivnih materijala za konferenciju}}
+				\noindent \underbar{\textbf{UC21 - Dodavanje promotivnih materijala za konferenciju}}
 				\begin{packed_item}
 					
 					\item \textbf{Glavni sudionik: } Administrator
