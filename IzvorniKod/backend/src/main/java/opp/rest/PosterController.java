@@ -27,6 +27,7 @@ import java.util.List;
 @RequestMapping("/poster")
 @NoArgsConstructor
 @AllArgsConstructor
+@CrossOrigin("*")
 public class PosterController {
     @Autowired
     PosterService posterService;

@@ -27,7 +27,6 @@ public class Konferencija{
     @NotNull
     private String mjestoKonf;
 
-
     @OneToMany(mappedBy = "konferencija")
     private List<FotoMaterijal> fotke;
 

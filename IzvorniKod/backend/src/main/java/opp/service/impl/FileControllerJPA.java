@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 
 @Service
 public class FileControllerJPA {
-    private static final String putanja = "C:\\Users\\lukal\\Documents\\FER\\3. Godina\\Programsko inzenjerstvo\\Moj Github\\Poster-Rangers\\IzvorniKod\\backend\\src\\main\\resources\\static";
+    private static final String putanja = "C:\\Users\\38591\\Desktop\\Poster-Rangers\\IzvorniKod\\backend\\src\\main\\resources\\static";
 
 
     public String uploadanje(MultipartFile datoteka, Long ID) throws IOException {
