@@ -2,9 +2,10 @@ import React, { useState, useRef } from 'react';
 
 const AddConferenceComponent = () => {
     const [conferenceName, setConferenceName] = useState('');
-    const [conferenceDate, setConferenceDate] = useState('');
+    const [conferenceDateStart, setConferenceDateStart] = useState('');
+    const [conferenceDateEnd, setConferenceDateEnd] = useState('');
     const [conferenceLocation, setConferenceLocation] = useState('');
-    const [conferenceDesc, setConferenceDesc] = useState('');
+    const [conferencePassword, setConferencePassword] = useState('');
 
     const formContainerRef = useRef(null);
 
@@ -15,9 +16,10 @@ const AddConferenceComponent = () => {
 
         const conference = {
             ime: conferenceName,
-            date: conferenceDate,
+            startTime: conferenceDateStart,
+            endTime: conferenceDateEnd,
             mjestoKonf: conferenceLocation,
-            description: conferenceDesc,
+            password: conferencePassword
         }
 
         try {
@@ -49,7 +51,7 @@ const AddConferenceComponent = () => {
                         Conference Name:
                         <input
                             type="text"
-                            name="name"
+                            name="ime"
                             value={conferenceName}
                             className="input-field"
                             required
@@ -58,14 +60,26 @@ const AddConferenceComponent = () => {
                     </label>
 
                     <label>
-                        Date:
+                        Date Start:
                         <input
                             type="date"
-                            name="date"
-                            value={conferenceDate}
+                            name="startTime"
+                            value={conferenceDateStart}
                             className="input-field"
                             required
-                            onChange={(e) => setConferenceDate(e.target.value)}
+                            onChange={(e) => setConferenceDateStart(e.target.value)}
+                        />
+                    </label>
+
+                    <label>
+                        Date End:
+                        <input
+                            type="date"
+                            name="endTime"
+                            value={conferenceDateEnd}
+                            className="input-field"
+                            required
+                            onChange={(e) => setConferenceDateEnd(e.target.value)}
                         />
                     </label>
 
@@ -82,14 +96,17 @@ const AddConferenceComponent = () => {
                     </label>
 
                     <label>
-                        Description:
-                        <textarea
-                            name="description"
-                            value={conferenceDesc}
+                        Password:
+                        <input
+                            type="password"
+                            name="password"
+                            value={conferencePassword}
                             className="input-field"
-                            onChange={(e) => setConferenceDesc(e.target.value)}
+                            required
+                            onChange={(e) => setConferencePassword(e.target.value)}
                         />
                     </label>
+
 
                     <button type="submit">Submit Conference</button>
                 </form>
