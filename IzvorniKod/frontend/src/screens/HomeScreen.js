@@ -19,6 +19,7 @@ const HomeScreen = () => {
       <ImageSlider />
       <div className="viewAll">
         <button onClick={() => navigate("/posteri")}>Pogledaj sve</button>
+          <button onClick={() => navigate("/dodajPoster")}>Dodaj poster</button>
       </div>
         <LiveVideo />
         <div className="viewAll">

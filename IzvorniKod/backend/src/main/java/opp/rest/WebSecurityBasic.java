@@ -54,8 +54,7 @@ public class WebSecurityBasic {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
-
-
+    
 
     @Bean
     @Profile("form-security")

@@ -6,3 +6,4 @@
 /Dokumentacija/*.pdf
 /Dokumentacija/*.synctex.gz
 /Dokumentacija/*.toc
+/package-lock.json

@@ -8,13 +8,15 @@ import VoteScreen from "./screens/VoteScreen";
 import HomeScreen from "./screens/HomeScreen";
 import EnterCodeScreen from "./screens/EnterCodeScreen";
 import AuthenticationScreen from "./screens/AuthenticationScreen";
+import AddConferenceComponent from "./components/AddConferenceComponent";
+import AddPosterComponent from "./components/AddPosterComponent";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomeScreen />} />
-        <Route path="/entercode" element={<EnterCodeScreen />} />
+        <Route path="/" element={<EnterCodeScreen />} />
+        <Route path="/home" element={<HomeScreen />} />
         <Route
             path="/login"
             element={<AuthenticationScreen viewType="login" />}
@@ -28,6 +30,8 @@ function App() {
         <Route path="/foto" element={<PhotoScreen />} />
         <Route path="/live" element={<LiveVideoScreen />} />
         <Route path="/promo" element={<PromoScreen />} />
+        <Route path="/dodajKonf" element={<AddConferenceComponent/>}/>
+        <Route path="/dodajPoster" element={<AddPosterComponent/>}/>
       </Routes>
     </Router>
   );
