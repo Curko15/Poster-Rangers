@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Poster-Rangers.iml" filepath="$PROJECT_DIR$/.idea/Poster-Rangers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IzvorniKod/backend/teams-backend.iml" filepath="$PROJECT_DIR$/IzvorniKod/backend/teams-backend.iml" />
     </modules>
   </component>
 </project>

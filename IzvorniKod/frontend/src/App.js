@@ -6,9 +6,6 @@ import LiveVideoScreen from "./screens/LiveVideoScreen";
 import PromoScreen from "./screens/PromoScreen";
 import VoteScreen from "./screens/VoteScreen";
 import HomeScreen from "./screens/HomeScreen";
-import LogInScreen from "./screens/LogInScreen";
-import AdminScreen from "./screens/AdminScreen";
-import SuperAdminScreen from "./screens/SuperAdminScreen";
 import EnterCodeScreen from "./screens/EnterCodeScreen";
 import AuthenticationScreen from "./screens/AuthenticationScreen";
 
@@ -16,8 +13,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomeScreen />} />
-        <Route path="/entercode" element={<EnterCodeScreen />} />
+        <Route path="/" element={<EnterCodeScreen />} />
+        <Route path="/home" element={<HomeScreen />} />
         <Route
             path="/login"
             element={<AuthenticationScreen viewType="login" />}
