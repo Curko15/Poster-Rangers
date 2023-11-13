@@ -1,16 +1,43 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import  "../screens/HomeScreen";
 import "../css/enterCode.css";
 
 const EnterCodeScreen = () => {
     const [userCode, setUserCode] = useState("");
-
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
     const handleCodeChange = (event) => {
         setUserCode(event.target.value);
+        setError(null);
+    };
+    const handleSubmit = async () => {
+        try {
+            const response = await fetch("http://localhost:8081/konferencija/loginKonf", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ password: userCode }),
+            });
+
+            if (response.ok) {
+
+                console.log("Login successful");
+                // Redirect to a different screen here
+                navigate("/home")
+
+            } else {
+                console.error("Login failed");
+                setError("Invalid credentials");
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
+            setError("Error during login");
+        }
     };
 
-    const handleSubmit = () => {
-        console.log("Entered code:", userCode);
-    };
+
 
     return (
         <div className="codeCard">
@@ -32,6 +59,7 @@ const EnterCodeScreen = () => {
                     Go
                 </button>
             </div>
+            {error && <p className="errorText">{error}</p>}
             <p className="codeInfo">Check src/App.js file for routing info.</p>
         </div>
     );

@@ -31,12 +31,18 @@ const Header = ({ viewType }) => {
         //This for register
     };
 
+    const handleAddConferenceClick = () => {
+        navigate("/dodajKonf");
+        //This for register
+    };
+
   const renderButtons = () => {
     if (viewType === "login") {
       return (
           <>
             <button id="loginButton" onClick={handleLoginClick}>Login</button>
             <button id="registerButton" onClick={handleRegisterClick}>Register</button>
+              <button id="addConferenceId" onClick={handleAddConferenceClick}>Add Conference</button>
           </>
       );
     } else if (viewType === "register") {
