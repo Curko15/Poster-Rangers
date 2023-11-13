@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/header.css";
+import {getLoggedInUser, isUserLoggedIn, saveLoggedInUser, userLogOut} from "../services/AuthService";
 
 const Header = ({ viewType }) => {
   const navigate = useNavigate();
@@ -36,13 +37,19 @@ const Header = ({ viewType }) => {
         //This for register
     };
 
+    const handleLogOutClick = () => {
+        userLogOut();
+        navigate("/");
+    };
+
   const renderButtons = () => {
     if (viewType === "login") {
       return (
           <>
             <button id="loginButton" onClick={handleLoginClick}>Login</button>
             <button id="registerButton" onClick={handleRegisterClick}>Register</button>
-              <button id="addConferenceId" onClick={handleAddConferenceClick}>Add Conference</button>
+            <button id="logOutButton" onClick={handleLogOutClick}>Log Out</button>
+            <button id="addConferenceId" onClick={handleAddConferenceClick}>Add Conference</button>
           </>
       );
     } else if (viewType === "register") {

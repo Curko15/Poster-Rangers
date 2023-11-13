@@ -1,6 +1,5 @@
 package opp.rest;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import opp.domain.Korisnik;
 import opp.domain.LoginDto;

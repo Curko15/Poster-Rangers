@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import '../css/addposter.css';
+import {getConferenceId} from "../services/AuthService";
 const AddPoserComponent = () => {
 
     const [emailAuthor, setEmailAuthor] = useState('');
@@ -16,7 +17,9 @@ const AddPoserComponent = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const url = 'http://localhost:8081/poster/1'
+        let conferenceId = getConferenceId();
+
+        const url = 'http://localhost:8081/poster/' + conferenceId
 
         const formData = new FormData();
         formData.append('nazivPoster', posterName);

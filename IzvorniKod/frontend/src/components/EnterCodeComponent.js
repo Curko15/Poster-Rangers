@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import  "../screens/HomeScreen";
 import "../css/enterCode.css";
+import {setConferenceId} from "../services/AuthService";
 
 const EnterCodeScreen = () => {
     const [userCode, setUserCode] = useState("");
@@ -21,6 +22,8 @@ const EnterCodeScreen = () => {
                 body: JSON.stringify({ password: userCode }),
             });
 
+            setConferenceId(userCode);
+
             if (response.ok) {
 
                 console.log("Login successful");
@@ -36,8 +39,6 @@ const EnterCodeScreen = () => {
             setError("Error during login");
         }
     };
-
-
 
     return (
         <div className="codeCard">

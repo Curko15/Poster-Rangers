@@ -25,6 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/poster")
+@CrossOrigin("*")
 @NoArgsConstructor
 @AllArgsConstructor
 public class PosterController {

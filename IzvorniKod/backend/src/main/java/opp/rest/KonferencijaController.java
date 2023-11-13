@@ -19,6 +19,7 @@ import java.util.List;
 
 @Data
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/konferencija")
 public class KonferencijaController {
 

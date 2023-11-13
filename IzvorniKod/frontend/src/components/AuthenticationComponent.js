@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../css/authetication.css';
+import {saveLoggedInUser, storeToken} from "../services/AuthService";
 
 const AuthenticationComponent = ({ viewType }) => {
     const [email, setEmail] = useState('');
@@ -11,10 +12,17 @@ const AuthenticationComponent = ({ viewType }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const token = window.btoa(email + ':' + password);
+        storeToken(token)
+
         const url = `http://localhost:8081/korisnici/${viewType === 'login' ? 'login' : 'register'}`;
         const requestData = viewType === 'login'
             ? { email: email, hashLozinke: password }
             : { email: email, hashLozinke: password, ime: name, prezime: lastName };
+
+        if (viewType === 'login') {
+            saveLoggedInUser(requestData)
+        }
 
         try {
             const response = await fetch(url, {
@@ -37,7 +45,6 @@ const AuthenticationComponent = ({ viewType }) => {
 
     useEffect(() => {
         const handleResize = (entries) => {
-            // Handle resize events here
             console.log('Resize event:', entries);
         };
 
