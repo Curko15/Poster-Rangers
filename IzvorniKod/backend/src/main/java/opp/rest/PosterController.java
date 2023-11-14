@@ -55,7 +55,7 @@ public class PosterController {
         posteric.setKonferencija(konferencija);
 
         String path = fileService.uploadanje(poster.getFile(), id);
-
+        System.out.println("Konferencija: " + path);
         posteric.setPosterPath(path);
 
         // Save the Poster

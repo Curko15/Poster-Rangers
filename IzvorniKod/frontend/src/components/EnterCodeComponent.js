@@ -14,7 +14,7 @@ const EnterCodeScreen = () => {
     };
     const handleSubmit = async () => {
         try {
-            const response = await fetch("http://localhost:8081/konferencija/loginKonf", {
+            const response = await fetch("/konferencija/loginKonf", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

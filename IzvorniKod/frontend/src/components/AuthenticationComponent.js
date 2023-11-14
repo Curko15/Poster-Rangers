@@ -15,7 +15,7 @@ const AuthenticationComponent = ({ viewType }) => {
         const token = window.btoa(email + ':' + password);
         storeToken(token)
 
-        const url = `http://localhost:8081/korisnici/${viewType === 'login' ? 'login' : 'register'}`;
+        const url = `/korisnici/${viewType === 'login' ? 'login' : 'register'}`;
         const requestData = viewType === 'login'
             ? { email: email, hashLozinke: password }
             : { email: email, hashLozinke: password, ime: name, prezime: lastName };
