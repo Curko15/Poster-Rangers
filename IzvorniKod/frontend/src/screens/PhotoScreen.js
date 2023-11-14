@@ -7,7 +7,7 @@ import "../css/main.css";
 const PosterScreen = () => {
   return (
     <div>
-      <Header />
+      <Header viewType="photo" />
       <h1>Pregled fotografija</h1>
       <Footer />
     </div>

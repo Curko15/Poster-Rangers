@@ -8,7 +8,7 @@ import VotePosterDisplay from "../components/VotePosterDisplay";
 const VoteScreen = () => {
   return (
     <div>
-      <Header />
+      <Header viewType="vote" />
       <h1>Glasaj za omiljeni poster!</h1>
       <h2>Odaberi jedan od ponuđenih postera i glasaj za njega!</h2>
       <VotePosterDisplay />

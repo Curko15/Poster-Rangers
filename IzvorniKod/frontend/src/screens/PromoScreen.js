@@ -7,7 +7,7 @@ import "../css/main.css";
 const PromoScreen = () => {
   return (
     <div>
-      <Header />
+      <Header viewType="promo" />
       <h1>Promo material</h1>
       <Footer />
     </div>

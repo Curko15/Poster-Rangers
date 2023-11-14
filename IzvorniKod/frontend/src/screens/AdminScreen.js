@@ -7,7 +7,7 @@ import AddConferenceComponent from "../components/AddConferenceComponent.js";
 const AdminScreen = () => {
   return (
     <div>
-      <Header />
+      <Header viewType="Admin" />
       <h1>Dobrodošao administratore!</h1>
       <AddConferenceComponent />
       <Footer />
