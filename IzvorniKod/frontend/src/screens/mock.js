@@ -41,15 +41,16 @@ const ConferenceList = ({ onConferenceClick }) => {
 
   const handleSubmit = async () => {
     if (selectedConference) {
-      const formData = {
-        nazivPoster: posterName,
-        imeAutor: authorName,
-        prezimeAutor: authorLastName,
-        emailAutor: emailAuthor,
-        file: fileName,
-      };
+      const formData = new FormData();
+      formData.append("nazivPoster", posterName);
+      formData.append("imeAutor", authorName);
+      formData.append("prezimeAutor", authorLastName);
+      formData.append("emailAutor", emailAuthor);
+      formData.append("file", fileName);
+
       console.log("Form Data:", formData);
       console.log("Selected Conference:", selectedConference.konfid);
+
       const posterResponse = await fetch(
         `http://localhost:8081/poster/${selectedConference.konfid}`,
         {
