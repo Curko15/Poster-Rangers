@@ -11,6 +11,7 @@ import opp.service.KorisnikService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.Set;
 public class KorisnikController {
 
     private KorisnikService korisnikService;
+    private PasswordEncoder passwordEncoder;
 
     public KorisnikController(KorisnikService korisnikService) {
         this.korisnikService = korisnikService;
@@ -60,16 +62,15 @@ public class KorisnikController {
         return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
     }
 
-    @GetMapping("/getRole")
-    public ResponseEntity<Set<Role>> getRole(@RequestBody String email) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonNode = mapper.readTree(email);
-
-        String email1 = jsonNode.get("email").asText();
-
-        Korisnik korisnik = korisnikService.findByEmail(email1);
-        System.out.println(korisnik);
-        return ResponseEntity.ok(korisnik.getRoles());
+    @PostMapping("/getRole")
+    public ResponseEntity<?> getRole(@RequestBody LoginDto korisnik) throws JsonProcessingException {
+        Korisnik postojeciKorisnik = korisnikService.findByEmail(korisnik.getEmail());
+        if (postojeciKorisnik != null) {
+            if(korisnikService.checkLozinka(korisnik.getPassword(), postojeciKorisnik)){
+                return new ResponseEntity<>(postojeciKorisnik.getRoles(), HttpStatus.OK);
+            }
+        }
+       return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("/login2")

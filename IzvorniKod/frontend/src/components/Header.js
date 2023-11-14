@@ -1,15 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/header.css";
 import {
   getLoggedInUser,
   isUserLoggedIn,
-  saveLoggedInUser,
   userLogOut,
 } from "../services/AuthService";
 
 const Header = ({ viewType }) => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let user = getLoggedInUser();
+    const fetchData = async () => {
+      if (isUserLoggedIn()) {
+        try {
+          const response = await fetch(
+            "http://localhost:8081/korisnici/getRole",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: user.userEmail,
+                password: user.userPass,
+              }),
+            },
+          );
+
+          const userRole = await response.json(); //TODO: here is the role
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleVideoClick = () => {
     navigate("/live");
@@ -43,14 +71,27 @@ const Header = ({ viewType }) => {
     navigate("/glasanje");
   };
 
+  const handleBackClick = () => {
+    navigate("/");
+  };
+  const handleExitClick = () => {
+    navigate("/");
+  };
+
   const renderButtons = () => {
     return (
       <>
-        {viewType === "entercode" && !isUserLoggedIn() && (
-          <button id="loginButton" onClick={handleLoginClick}>
-            Login
+        {(viewType === "login" || viewType === "register") && (
+          <button id="backButton" onClick={handleBackClick}>
+            Return
           </button>
         )}
+        {(viewType === "entercode" || viewType === "homescreen") &&
+          !isUserLoggedIn() && (
+            <button id="loginButton" onClick={handleLoginClick}>
+              Login
+            </button>
+          )}
         {viewType === "entercode" && !isUserLoggedIn() && (
           <button id="registerButton" onClick={handleRegisterClick}>
             Register
@@ -61,12 +102,23 @@ const Header = ({ viewType }) => {
             Log Out
           </button>
         )}
+        {(viewType === "homescreen" ||
+          viewType === "liveVideo" ||
+          viewType === "photo" ||
+          viewType === "poster" ||
+          viewType === "promo" ||
+          viewType === "vote") && (
+          <button id="exitButton" onClick={handleExitClick}>
+            Exit
+          </button>
+        )}
 
         {(viewType === "homescreen" ||
           viewType === "liveVideo" ||
           viewType === "photo" ||
           viewType === "poster" ||
-          viewType === "promo") && (
+          viewType === "promo" ||
+          viewType === "vote") && (
           <button id="konfButton" onClick={handleKonfClick}>
             Konferencija
           </button>

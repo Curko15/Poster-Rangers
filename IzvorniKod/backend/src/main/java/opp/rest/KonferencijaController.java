@@ -51,6 +51,20 @@ public class KonferencijaController {
         }
     }
 
+    @PostMapping("/getKonfId")
+    public ResponseEntity<?> getKonfId(@RequestBody String pass) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.readTree(pass);
+        String password = jsonNode.get("password").asText();
+        Konferencija existingOne = konfService.findByPassword(password);
+        if (existingOne != null) {
+            return new ResponseEntity<>(existingOne.getKonfid(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+
     @GetMapping("/getAllKonf")
     public ResponseEntity<List<Konferencija>> getAllKonf(){
         return ResponseEntity.ok(konfService.listAll());
