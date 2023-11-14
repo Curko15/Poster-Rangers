@@ -21,10 +21,6 @@ const AuthenticationComponent = ({ viewType }) => {
         ? { email: email, hashLozinke: password }
         : { email: email, hashLozinke: password, ime: name, prezime: lastName };
 
-    if (viewType === "login") {
-      saveLoggedInUser(requestData);
-    }
-
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -35,18 +31,19 @@ const AuthenticationComponent = ({ viewType }) => {
       });
 
       if (response.ok) {
+        saveLoggedInUser(email, password);
         console.log(
-          `${viewType === "login" ? "Login" : "Registration"} successful`
+          `${viewType === "login" ? "Login" : "Registration"} successful`,
         );
       } else {
         console.log(
-          `${viewType === "login" ? "Login" : "Registration"} failed`
+          `${viewType === "login" ? "Login" : "Registration"} failed`,
         );
       }
     } catch (error) {
       console.error(
         `Error during ${viewType === "login" ? "login" : "registration"}:`,
-        error
+        error,
       );
     }
   };

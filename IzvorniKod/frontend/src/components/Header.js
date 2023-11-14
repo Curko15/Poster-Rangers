@@ -1,15 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/header.css";
 import {
   getLoggedInUser,
   isUserLoggedIn,
-  saveLoggedInUser,
   userLogOut,
 } from "../services/AuthService";
 
 const Header = ({ viewType }) => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let user = getLoggedInUser();
+    const fetchData = async () => {
+      if (isUserLoggedIn()) {
+        try {
+          const response = await fetch(
+            "http://localhost:8081/korisnici/getRole",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: user.userEmail,
+                password: user.userPass,
+              }),
+            },
+          );
+
+          const userRole = await response.json(); //TODO: here is the role
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleVideoClick = () => {
     navigate("/live");

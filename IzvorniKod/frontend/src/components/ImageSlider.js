@@ -44,12 +44,11 @@ const ImageSlider = () => {
         modules={[EffectCoverflow, Pagination]}
         className="mySwiper"
       >
-        <SwiperSlide>
-          <img
-            src="/img/1_Screenshot from 2023-11-09 16-21-59.png"
-            alt="img-alt"
-          />
-        </SwiperSlide>
+        {posters.map((poster, index) => (
+          <SwiperSlide key={index}>
+            <img src={poster.posterPath} alt={`poster-${index}`} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );

@@ -62,7 +62,7 @@ public class KorisnikController {
         return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
     }
 
-    @GetMapping("/getRole")
+    @PostMapping("/getRole")
     public ResponseEntity<?> getRole(@RequestBody LoginDto korisnik) throws JsonProcessingException {
         Korisnik postojeciKorisnik = korisnikService.findByEmail(korisnik.getEmail());
         if (postojeciKorisnik != null) {
