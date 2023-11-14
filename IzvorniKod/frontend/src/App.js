@@ -8,6 +8,8 @@ import VoteScreen from "./screens/VoteScreen";
 import HomeScreen from "./screens/HomeScreen";
 import EnterCodeScreen from "./screens/EnterCodeScreen";
 import AuthenticationScreen from "./screens/AuthenticationScreen";
+import SuperAdminScreen from "./screens/SuperAdminScreen";
+import AdminScreen from "./screens/AdminScreen";
 import AddConferenceComponent from "./components/AddConferenceComponent";
 import AddPosterComponent from "./components/AddPosterComponent";
 
@@ -32,6 +34,8 @@ function App() {
         <Route path="/promo" element={<PromoScreen />} />
         <Route path="/dodajKonf" element={<AddConferenceComponent />} />
         <Route path="/dodajPoster" element={<AddPosterComponent />} />
+        <Route path="/superAdmin" element={<SuperAdminScreen />} />
+        <Route path="/admin" element={<AdminScreen />} />
       </Routes>
     </Router>
   );
