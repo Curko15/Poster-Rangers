@@ -8,7 +8,7 @@ import LiveVideo from "../components/LiveVideo";
 const PosterScreen = () => {
   return (
     <div>
-      <Header />
+      <Header viewType="liveVideo" />
       <h1>Live Video prijenos</h1>
       <h2>Glavna konferencijska dvorana</h2>
       <LiveVideo />

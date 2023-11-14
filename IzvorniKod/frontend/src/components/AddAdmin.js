@@ -7,7 +7,6 @@ function AdminForm() {
     name: '',
     surname: '',
     mail: '',
-    conf:'',
   });
 
   const [admins, setAdmins] = useState(
@@ -39,7 +38,7 @@ function AdminForm() {
     return;
   }
 
-   if (!formData.name || !formData.surname || !formData.mail || !formData.conf || !isValidEmail) {
+   if (!formData.name || !formData.surname || !formData.mail || !isValidEmail) {
     alert('Molimo unesite sve informacije prije nego što dodate admina.');
     return;
     }
@@ -49,7 +48,6 @@ function AdminForm() {
       name: formData.name,
       surname: formData.surname,
       mail: formData.mail,
-      conf: formData.conf,
     };
 
     setAdmins([...admins, newAdmin]);
@@ -57,7 +55,6 @@ function AdminForm() {
       name: '',
       surname: '',
       mail: '',
-      conf: '',
     });
 
     localStorage.setItem('admins', JSON.stringify([...admins, newAdmin]));
@@ -93,16 +90,6 @@ function AdminForm() {
             type="text"
             name="mail"
             value={formData.mail}
-            onChange={handleChange}
-            className="input"
-          />
-        </div>
-        <div className="form-group">
-          <label className="label">Ime konferencije:</label>
-          <input
-            type="text"
-            name="conf"
-            value={formData.conf}
             onChange={handleChange}
             className="input"
           />

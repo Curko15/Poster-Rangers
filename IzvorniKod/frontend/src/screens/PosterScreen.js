@@ -8,7 +8,7 @@ import "../css/main.css";
 const PosterScreen = () => {
   return (
     <div>
-      <Header />
+      <Header viewType="poster" />
       <h1>Odaberi svoj omiljeni poster</h1>
       <PosterDisplay />
       <Footer />
