@@ -48,6 +48,16 @@ public class KorisnikServiceJpa implements KorisnikService {
     }
 
     @Override
+    public Korisnik saveSuperAdmin(Korisnik korisnik) {
+        korisnik.setHashLozinke(passwordEncoder.encode(korisnik.getHashLozinke()));
+        Set<Role> roles = new HashSet<>();
+        Role userRole = roleRepo.findByName("ROLE_SUPERADMIN");
+        roles.add(userRole);
+        korisnik.setRoles(roles);
+        return korisnikRepo.save(korisnik);
+    }
+
+    @Override
     public boolean checkLozinka(String lozinka, Korisnik korisnik) {
         return passwordEncoder.matches(lozinka, korisnik.getHashLozinke());
     }

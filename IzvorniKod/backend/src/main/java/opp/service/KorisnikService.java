@@ -11,6 +11,8 @@ public interface KorisnikService {
 
     Korisnik saveAdmin(Korisnik korisnik);
 
+    Korisnik saveSuperAdmin(Korisnik korisnik);
+
     boolean checkLozinka(String lozinka, Korisnik korisnik);
 
     Korisnik findByEmail(String email);
