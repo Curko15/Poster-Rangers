@@ -62,9 +62,9 @@ const AuthenticationComponent = ({ viewType }) => {
           userRole.map((role) => (userRoleName = role.name));
 
           if (userRoleName === "ROLE_ADMIN") {
-            navigate("/superadmin");
-          } else if (userRoleName === "ROLE_SUPERADMIN") {
             navigate("/admin");
+          } else if (userRoleName === "ROLE_SUPERADMIN") {
+            navigate("/superAdmin");
           } else if (userRoleName === "ROLE_KORISNIK") {
             if (isLoggedInConference()) {
               navigate("/home");
