@@ -8,7 +8,8 @@ const ConferenceList = ({ onConferenceClick }) => {
   const [posterName, setPosterName] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [authorLastName, setAuthorLastName] = useState("");
-  const [fileName, setFileName] = useState(null);
+  const [fileName, setFileName] = useState("");
+  const [selectedConferenceIndex, setSelectedConferenceIndex] = useState("");
 
   useEffect(() => {
     const fetchConferences = async () => {
@@ -35,8 +36,9 @@ const ConferenceList = ({ onConferenceClick }) => {
     fetchConferences();
   }, []); // Empty dependency array ensures that this effect runs once on mount
 
-  const handleConferenceClick = (conference) => {
+  const handleConferenceClick = (conference, index) => {
     setSelectedConference(conference);
+    setSelectedConferenceIndex(index);
   };
 
   const handleSubmit = async () => {
@@ -48,9 +50,6 @@ const ConferenceList = ({ onConferenceClick }) => {
       formData.append("emailAutor", emailAuthor);
       formData.append("file", fileName);
 
-      console.log("Form Data:", formData);
-      console.log("Selected Conference:", selectedConference.konfid);
-
       const posterResponse = await fetch(
         `http://localhost:8081/poster/${selectedConference.konfid}`,
         {
@@ -60,8 +59,7 @@ const ConferenceList = ({ onConferenceClick }) => {
       );
 
       if (posterResponse.ok) {
-        const posterData = await posterResponse.json();
-        console.log("Fetched Posters:", posterData);
+        console.log("Poster uploaded");
       } else {
         console.error("Error fetching posters:", posterResponse.statusText);
       }
@@ -76,26 +74,21 @@ const ConferenceList = ({ onConferenceClick }) => {
           {conferences.map((conference, index) => (
             <li
               key={index}
-              className="conference-item"
-              onClick={() => handleConferenceClick(conference)}
+              className={`conference-item ${
+                index === selectedConferenceIndex ? "selected" : ""
+              }`}
+              onClick={() => handleConferenceClick(conference, index)}
             >
               <strong>{conference.ime}</strong>
               <p>Start Time: {conference.startTime}</p>
               <p>End Time: {conference.endTime}</p>
-              <p>Location: {conference.nazivMjesta}</p>
-              <p>Postal Code: {conference.pbr}</p>
-              <p>Street: {conference.ulica}</p>
-              <p>Street Number: {conference.kucniBroj}</p>
+              <p>Location: {conference.mjesto.ulica}</p>
+              <p>Postal Code: {conference.mjesto.pbr}</p>
+              <p>Street: {conference.mjesto.ulica}</p>
+              <p>Street Number: {conference.mjesto.kucBroj}</p>
             </li>
           ))}
         </ul>
-
-        {selectedConference && (
-          <div className="selected-conference">
-            <h3>Selected Conference Details</h3>
-            <p>Password: {selectedConference.konfid}</p>
-          </div>
-        )}
       </div>
       <div className="center-container">
         <div className="login-container">

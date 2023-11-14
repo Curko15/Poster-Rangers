@@ -23,13 +23,15 @@
     transition: background-color 0.3s;
 }
 
-.conference-item:hover {
-    background-color: #984444;
+
+.conference-item.selected {
+    border: 3px solid black;
 }
 
 .selected-conference {
     margin-top: 20px;
     padding: 10px;
     border: 1px solid #3a4262;
-    background-color: #ececec; /* Highlighted background color */
+    color: black;
+    background-color: #ffffff; /* Highlighted background color */
 }
