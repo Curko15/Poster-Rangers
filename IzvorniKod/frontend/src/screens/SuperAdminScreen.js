@@ -8,7 +8,7 @@ import AddConferenceComponent from "../components/AddConferenceComponent.js";
 const SuperAdminScreen = () => {
   return (
     <div>
-      <Header />
+      <Header viewType="superAdmin" />
       <h1>Dobrodošao superadministratore!</h1>
       <AddAdmin />
       <AddConferenceComponent />

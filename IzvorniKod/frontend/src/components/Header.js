@@ -92,11 +92,12 @@ const Header = ({ viewType }) => {
               Login
             </button>
           )}
-        {viewType === "entercode" && !isUserLoggedIn() && (
-          <button id="registerButton" onClick={handleRegisterClick}>
-            Register
-          </button>
-        )}
+        {(viewType === "entercode" || viewType === "homescreen") &&
+          !isUserLoggedIn() && (
+            <button id="registerButton" onClick={handleRegisterClick}>
+              Register
+            </button>
+          )}
         {isUserLoggedIn() && (
           <button id="logOutButton" onClick={handleLogOutClick}>
             Log Out
@@ -107,7 +108,9 @@ const Header = ({ viewType }) => {
           viewType === "photo" ||
           viewType === "poster" ||
           viewType === "promo" ||
-          viewType === "vote") && (
+          viewType === "vote" ||
+          viewType === "admin" ||
+          viewType === "superAdmin") && (
           <button id="exitButton" onClick={handleExitClick}>
             Exit
           </button>
