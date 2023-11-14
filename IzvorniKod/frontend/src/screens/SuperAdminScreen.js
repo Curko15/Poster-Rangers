@@ -11,7 +11,6 @@ const SuperAdminScreen = () => {
       <Header viewType="superAdmin" />
       <h1>Dobrodošao superadministratore!</h1>
       <AddAdmin />
-      <AddConferenceComponent />
       <Footer />
     </div>
   );
