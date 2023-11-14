@@ -10,24 +10,24 @@
 		\item 	\textit{Baza podataka}		
 	\end{itemize}
 	
-		{Korisničko sučelje (eng. User interface, UI) predstavlja interaktivno područje između korisnika i računala. Njegov glavni cilj je omogućiti korisnicima učinkovito korištenje i upravljanje računalom te osigurati da računalo pruži korisniku potrebne informacije.
+		{Korisničko sučelje (eng. User interface, UI) predstavlja interaktivno područje između korisnika i računala. Njegov glavni cilj je omogućiti korisnicima učinkovito korištenje i upravljanje računalom te osigurati da računalo pruži korisniku potrebne informacije.\\
 			
-			Za izradu korisničkog sučelja u ovom slučaju korišten je React, JavaScript biblioteka koja omogućava brzo i jednostavno stvaranje interaktivnih korisničkih sučelja. Kroz korisničko sučelje, korisnik šalje zahtjeve kontroleru, a kontroler potrebne podatke prosljeđuje pomoću JSON (JavaScript Object Notation) datoteka.
+			Za izradu korisničkog sučelja u ovom slučaju korišten je React, JavaScript biblioteka koja omogućava brzo i jednostavno stvaranje interaktivnih korisničkih sučelja. Kroz korisničko sučelje, korisnik šalje zahtjeve kontroleru, a kontroler potrebne podatke prosljeđuje pomoću JSON (JavaScript Object Notation) datoteka.\\
 			
-			JSON datoteke služe za pohranu i prijenos podataka u obliku ključ-vrijednost. Nakon što korisničko sučelje predaje JSON datoteku, ono očekuje odgovor od kontrolera koji će također biti u JSON formatu. Kontroler u ovom slučaju predstavlja REST API (representational state transfer) te obrađuje zahtjeve vanjskih potrošača.
+			JSON datoteke služe za pohranu i prijenos podataka u obliku ključ-vrijednost. Nakon što korisničko sučelje preda JSON datoteku, ono očekuje odgovor od kontrolera koji će također biti u JSON formatu. Kontroler u ovom slučaju predstavlja REST API (representational state transfer) te obrađuje zahtjeve vanjskih potrošača.\\
 			
-			Servis je odgovoran za obradu podataka koje prima od korisničkog sučelja putem kontrolera i baze podataka putem repozitorija. Osim toga, servis obuhvaća poslovne odluke, autorizaciju te provjeru valjanosti identiteta korisnika.
+			Servis je odgovoran za obradu podataka koje prima od korisničkog sučelja putem kontrolera i baze podataka putem repozitorija. Osim toga, servis obuhvaća poslovne odluke, autorizaciju te provjeru valjanosti identiteta korisnika.\\
 			
-			Repozitorij ima ulogu komunikacije s bazom podataka te uključuje funkcije za pronalaženje određenih objekata ili skupina objekata iz baze podataka. Ove funkcije obično vraćaju popis objekata koji zadovoljavaju određeni uvjet.
+			Repozitorij ima ulogu komunikacije s bazom podataka te uključuje funkcije za pronalaženje određenih objekata ili skupina objekata iz baze podataka. Ove funkcije obično vraćaju popis objekata koji zadovoljavaju određeni uvjet.\\
 			
-			Baza podataka se koristi za pohranu i upravljanje podacima te predstavlja ključni dio sustava koji omogućuje trajno čuvanje informacija.
+			Baza podataka koristi se za pohranu i upravljanje podacima te predstavlja ključni dio sustava koji omogućuje trajno čuvanje informacija.\\
 			
-			Kontroler, servis i repozitorij su implementirani pomoću Java Spring Boota, te su pisani u jeziku JavaScript.}
+			Kontroler, servis i repozitorij implementirani su pomoću Java Spring Boota, te su pisani u jeziku JavaScript.}
 
 				
 		\section{Baza podataka}
 			
-		Za potrebe sustava koji implementiramo koristit ćemo se relacijskom bazom podataka koja kao svoju glavnu namjenu ima olakšano modeliranje stvarnog svijeta oko nas. Gradivna jedinica baze je relacija (tablica) koja je definirana svojim imenom te skupom atributa. Baza podataka ove aplikacije sastoji se od sljedećih entiteta:
+		Za potrebe sustava koji implementiramo koristit ćemo se relacijskom bazom podataka koja kao svoju glavnu namjenu ima olakšano modeliranje stvarnog svijeta oko nas. Gradivna jedinica baze jest relacija (tablica) koja je definirana svojim imenom te skupom atributa. Baza podataka ove aplikacije sastoji se od sljedećih entiteta:
 		\begin{itemize}
 		\item 	\textit{Konferencija}
 		\item 	\textit{Korisnik}
@@ -81,7 +81,7 @@
 				
 				
 				
-				{FotoMaterijal - entitet FotoMaterijal koristi nam kako bismo mogli pohraniti fotografije nastale tokom konferencije te ih kasnije prikazati korisnicima. Sadrži entitete: fotoID, nazivFoto, fotoPath te strani ključ konfID pomoću kojega možemo upariti kojoj konferenciji pripada koja fotografija.}
+				{FotoMaterijal - entitet FotoMaterijal koristi nam kako bismo mogli pohraniti fotografije nastale tijekom konferencije te ih kasnije prikazati korisnicima. Sadrži entitete: fotoID, nazivFoto, fotoPath te strani ključ konfID pomoću kojega možemo upariti kojoj konferenciji pripada koja fotografija.}
 				
 	
 				\begin{longtblr}[
@@ -100,7 +100,7 @@
 				\end{longtblr}
 				
 				
-				{Korisnik - entitet kojim se pokriva i registrirani korisnik, ne registrirani korisnik te autor. Sadrži atribute email te lozinka kojima se kasnije može pristupiti posebnom sadržaju specifičnom za registrirane korisnike. Također sadrži ime i prezime i ulogaID koji je strani ključ preko kojeg znamo koju ulogu ima korisnik}
+				{Korisnik - entitet kojim se pokriva registrirani korisnik, neregistrirani korisnik te autor. Sadrži atribute email te lozinka kojima se kasnije može pristupiti posebnom sadržaju specifičnom za registrirane korisnike. Također sadrži ime i prezime i ulogaID koji je strani ključ preko kojeg znamo koju ulogu ima korisnik}
 				
 				
 				\begin{longtblr}[
@@ -119,7 +119,7 @@
 					\SetCell{LightBlue} ulogaID	& INT &   	Jedinstveni identifikator uloge\\ \hline
 				\end{longtblr}
 				
-				{Uloge - entitet kojim se pokrivaju koje uloge sve postoje kao i koje uloge imaju korisnici. Atributi koje sadrži entitet Uloge su: ulogaID koji je glavni ključ i uloga koji opisuje o kojo ulozi je riječ}
+				{Uloge - entitet kojim se pokrivaju koje uloge sve postoje kao i koje uloge imaju korisnici. Atributi koje sadrži entitet Uloge su: ulogaID koji je glavni ključ i uloga koji opisuje o kojoj je ulozi riječ}
 				
 				
 				\begin{longtblr}[
@@ -176,7 +176,7 @@
 					\SetCell{LightBlue} konfID	& INT &   Jedinstveni identifikator konferencije	\\ \hline   
 				\end{longtblr}
 				
-				{Glasanje - Entitet Glasanje služi za prebrojavanje broja glasova postera te također služi za prevenciju glasovanja jednog registriranog korisnika za više postera. Atributi koji sadrži entitet Glasanje su: posterID koji je jedinstveni identifikator postera te je također i primarni ključ, konfID koji je jedinstveni identifikator konferencije te je također i strani ključ email koji je elektronička pošta korisnika ali je isto tako i strani ključ}
+				{Glasanje - entitet Glasanje služi za prebrojavanje broja glasova postera te također služi za prevenciju glasovanja jednog registriranog korisnika za više postera. Atributi koji sadrži entitet Glasanje su: posterID koji je jedinstveni identifikator postera te je također i primarni ključ, konfID koji je jedinstveni identifikator konferencije te je također i strani ključ email koji je elektronička pošta korisnika ali je isto tako i strani ključ}
 				
 				
 				\begin{longtblr}[
@@ -207,15 +207,7 @@
 			
 		\section{Dijagram razreda}
 		
-			\textit{Potrebno je priložiti dijagram razreda s pripadajućim opisom. Zbog preglednosti je moguće dijagram razlomiti na više njih, ali moraju biti grupirani prema sličnim razinama apstrakcije i srodnim funkcionalnostima.}\\
-			
-			\textbf{\textit{dio 1. revizije}}\\
-			
-			\textit{Prilikom prve predaje projekta, potrebno je priložiti potpuno razrađen dijagram razreda vezan uz \textbf{generičku funkcionalnost} sustava. Ostale funkcionalnosti trebaju biti idejno razrađene u dijagramu sa sljedećim komponentama: nazivi razreda, nazivi metoda i vrste pristupa metodama (npr. javni, zaštićeni), nazivi atributa razreda, veze i odnosi između razreda.}\\
-			
-			\textbf{\textit{dio 2. revizije}}\\			
-			
-			\textit{Prilikom druge predaje projekta dijagram razreda i opisi moraju odgovarati stvarnom stanju implementacije}
+
 			
 			
 			
