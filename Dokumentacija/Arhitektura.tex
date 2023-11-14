@@ -60,7 +60,7 @@
 					\SetCell{LightBlue} pbr	& INT &   	Poštanski broj mjesta održavanja konferencije\\ \hline 
 				\end{longtblr}
 				
-				{Mjesto - entitet koji definira mjesto u kojemu se održava konferencija. Atributi koje posjeduje su pbr kao glavni ključ, nazivMjesta, ulica, kućBroj}
+				{Mjesto - entitet koji definira mjesto u kojemu se održava konferencija. Atributi koje posjeduje su pbr kao glavni ključ, nazivMjesta, ulica, kućBroj. Mjesto je u vezi jedan-prema-više s entitetom Konferencija. Odnosno jedna konferencija ima jedno mjesto, dok jedno mjesto ima više konferencija.}
 				
 				
 				\begin{longtblr}[
@@ -81,7 +81,7 @@
 				
 				
 				
-				{FotoMaterijal - entitet FotoMaterijal koristi nam kako bismo mogli pohraniti fotografije nastale tijekom konferencije te ih kasnije prikazati korisnicima. Sadrži entitete: fotoID, nazivFoto, fotoPath te strani ključ konfID pomoću kojega možemo upariti kojoj konferenciji pripada koja fotografija.}
+				{FotoMaterijal - entitet FotoMaterijal koristi nam kako bismo mogli pohraniti fotografije nastale tijekom konferencije te ih kasnije prikazati korisnicima. Sadrži atribute: fotoID, nazivFoto, fotoPath te strani ključ konfID pomoću kojega možemo upariti kojoj konferenciji pripada koja fotografija (veza jedan-prema-više).}
 				
 	
 				\begin{longtblr}[
@@ -100,7 +100,7 @@
 				\end{longtblr}
 				
 				
-				{Korisnik - entitet kojim se pokriva registrirani korisnik, neregistrirani korisnik te autor. Sadrži atribute email te lozinka kojima se kasnije može pristupiti posebnom sadržaju specifičnom za registrirane korisnike. Također sadrži ime i prezime i ulogaID koji je strani ključ preko kojeg znamo koju ulogu ima korisnik}
+				{Korisnik - entitet kojim se pokriva registrirani korisnik, neregistrirani korisnik te autor. Sadrži atribute email te lozinka kojima se kasnije može pristupiti posebnom sadržaju specifičnom za registrirane korisnike. Također sadrži ime i prezime i ulogaID koji je strani ključ preko kojeg je entitet Korisnik spojen vezom više-prema-više s entitetom Uloge.}
 				
 				
 				\begin{longtblr}[
@@ -119,7 +119,7 @@
 					\SetCell{LightBlue} ulogaID	& INT &   	Jedinstveni identifikator uloge\\ \hline
 				\end{longtblr}
 				
-				{Uloge - entitet kojim se pokrivaju koje uloge sve postoje kao i koje uloge imaju korisnici. Atributi koje sadrži entitet Uloge su: ulogaID koji je glavni ključ i uloga koji opisuje o kojoj je ulozi riječ}
+				{Uloge - entitet kojim se pokrivaju koje uloge sve postoje kao i koje uloge imaju korisnici. Atributi koje sadrži entitet Uloge su: ulogaID koji je glavni ključ i uloga koji opisuje o kojoj je ulozi riječ.}
 				
 				
 				\begin{longtblr}[
@@ -135,7 +135,7 @@
 					uloga	& VARCHAR &  Uloga korisnika	\\ \hline 
 				\end{longtblr}
 				
-				{Poster - ovim entitetom kontrolirat će se radovi koje na konferenciju dostavljaju autori te se na njoj izlažu i za njih se može glasati. Njegovi atributi su: posterID, nazivPoster, posterPath, email, imeAutor, prezimeAutor, brojGlasova i konfID koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji poster.}
+				{Poster - ovim entitetom kontrolirat će se radovi koje na konferenciju dostavljaju autori te se na njoj izlažu i za njih se može glasati. Njegovi atributi su: posterID, nazivPoster, posterPath, email, imeAutor, prezimeAutor, brojGlasova i konfID koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji poster (veza jedan-prema-više).}
 				
 				
 				\begin{longtblr}[
@@ -157,7 +157,7 @@
 					\SetCell{LightBlue} konfID	& INT &  Jedinstveni identifikator konferencije	\\ \hline 
 				\end{longtblr}
 				
-				{PromoMaterijal - entitet PromoMaterijal pokriva konkretan ponuđeni materijal kojemu registrirani korisnik može pristupiti. Atributi koje ima su promoID, nazivPromo, url, promoPath i konfID koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji promotivni materijal.}
+				{PromoMaterijal - entitet PromoMaterijal pokriva konkretan ponuđeni materijal kojemu registrirani korisnik može pristupiti. Atributi koje ima su promoID, nazivPromo, url, promoPath i konfID koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji promotivni materijal (veza jedan-prema-više).}
 				 
 				
 				\begin{longtblr}[
@@ -176,7 +176,7 @@
 					\SetCell{LightBlue} konfID	& INT &   Jedinstveni identifikator konferencije	\\ \hline   
 				\end{longtblr}
 				
-				{Glasanje - entitet Glasanje služi za prebrojavanje broja glasova postera te također služi za prevenciju glasovanja jednog registriranog korisnika za više postera. Atributi koji sadrži entitet Glasanje su: posterID koji je jedinstveni identifikator postera te je također i primarni ključ, konfID koji je jedinstveni identifikator konferencije te je također i strani ključ email koji je elektronička pošta korisnika ali je isto tako i strani ključ}
+				{Glasanje - entitet Glasanje služi za prebrojavanje broja glasova postera te također služi za prevenciju glasovanja jednog registriranog korisnika za više postera. Atributi koji sadrži entitet Glasanje su: posterID koji je jedinstveni identifikator postera te je također i primarni ključ, konfID koji je jedinstveni identifikator konferencije te je također i strani ključ email koji je elektronička pošta korisnika ali je isto tako i strani ključ. Obje veze od entiteta Glasanje prema entitetima Korisnik i Konferencija su jedan-prema-više.}
 				
 				
 				\begin{longtblr}[
