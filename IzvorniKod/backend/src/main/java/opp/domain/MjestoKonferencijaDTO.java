@@ -25,5 +25,5 @@ public class MjestoKonferencijaDTO {
 
     private String ulica;
 
-    private int kucBroj;
+    private Long kucBroj;
 }

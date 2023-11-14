@@ -1,33 +1,40 @@
 package opp.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import java.util.List;
+
+
+import java.io.Serializable;
 
 @Entity
+@Table(name = "mjesto")
+@IdClass(Adresa.class)
 @Data
-public class Mjesto {
+
+public class Mjesto implements Serializable {
+/*
+ @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long mjestoID;
+
+ */
 
     @Id
-    @Column(unique = true)
+    @NotNull
+    private String ulica;
+
+    @Id
+    @NotNull
+    private Long kucBroj;
+
     @NotNull
     private Long pbr;
 
     @NotNull
     private String nazivMjesta;
 
-    @NotNull
-    private String ulica;
 
-    @NotNull
-    private int kucBroj;
-
-    @OneToMany(mappedBy = "mjesto")
-    private List<Konferencija> konferencijaList;
 
 
 

@@ -67,38 +67,6 @@ public class KonferencijaController {
     }
 
 
-    /*
-    @PostMapping(value = "/{id}", consumes = { "multipart/form-data" })
-    public ResponseEntity<String> addPoster(@ModelAttribute PosterDTO poster, @PathVariable Long id) throws IOException {
-        // Fetch the Konferencija based on id
-        Konferencija konferencija = konferencijaService.findByKonfid(id);
-
-        if (konferencija == null) {
-            return new ResponseEntity<>("Konferencija nije pronađena", HttpStatus.BAD_REQUEST);
-        }
-
-        Poster posteric = new Poster();
-        posteric.setNazivPoster(poster.getNazivPoster());
-        posteric.setImeAutor(poster.getImeAutor());
-        posteric.setPrezimeAutor(poster.getPrezimeAutor());
-        posteric.setEmailAutor(poster.getEmailAutor());
-        // Associate the Poster with the Konferencija
-        posteric.setKonferencija(konferencija);
-
-        String path = fileService.uploadanje(poster.getFile(), id);
-        System.out.println("Konferencija: " + path);
-        posteric.setPosterPath(path);
-
-        // Save the Poster
-        // Assuming you have a service class to handle business logic, you can use it here
-        posterService.save(posteric); // You need to implement this method
-
-        return ResponseEntity.ok("Poster added successfully");
-    }
-
-     */
-
-
 
     @PostMapping("/loginKonf")
     public ResponseEntity<?> loginKonf(@RequestBody String pass) throws JsonProcessingException {
@@ -129,6 +97,7 @@ public class KonferencijaController {
 
     @GetMapping("/getAllKonf")
     public ResponseEntity<List<Konferencija>> getAllKonf(){
+        System.out.println(konfService.listAll());
         return ResponseEntity.ok(konfService.listAll());
     }
 }
