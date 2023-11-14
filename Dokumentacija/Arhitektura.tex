@@ -60,7 +60,7 @@
 					\SetCell{LightBlue} pbr	& INT &   	Poštanski broj mjesta održavanja konferencije\\ \hline 
 				\end{longtblr}
 				
-				{Mjesto - entitet koji definira mjesto u kojemu se održava konferencija. Atributi koje posjeduje su pbr kao glavni ključ, nazivMjesta, ulica, kućBroj. Mjesto je u vezi jedan-prema-više s entitetom Konferencija. Odnosno jedna konferencija ima jedno mjesto, dok jedno mjesto ima više konferencija.}
+				{Mjesto - entitet koji definira mjesto u kojemu se održava konferencija. Atributi koje posjeduje su kucBroj i ulica kao glavni ključ, nazivMjesta i pbr.  Mjesto je u vezi jedan-prema-više s entitetom Konferencija. Odnosno jedna konferencija ima jedno mjesto, dok jedno mjesto ima više konferencija.}
 				
 				
 				\begin{longtblr}[
@@ -72,10 +72,10 @@
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{Mjesto}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}pbr & INT	&  	Poštanski broj mjesta održavanja konferencije  	\\ \hline
-					nazivMjesta	& VARCHAR & Naziv mjesta gdje se održava konferencija  	\\ \hline 
-					ulica & VARCHAR & Ulica u kojoj će se održavati konferencija \\ \hline 
-					kućBroj & INT	& Kućanski broj ulice u kojoj će se održavati konferencija  		\\ \hline 
+					\SetCell{LightGreen}kucBroj & INT	&  	Kućanski broj ulice u kojoj će se održavati konferencija\\ \hline
+					\SetCell{LightGreen}ulica & VARCHAR	&  	Ulica u kojoj će se održavati konferencija  	\\ \hline
+					nazivMjesta	& VARCHAR & Naziv mjesta gdje se održava konferencija  	\\ \hline  
+					pbr & INT	& Poštanski broj mjesta održavanja konferencije  		\\ \hline
 				\end{longtblr}
 				
 				
@@ -157,7 +157,7 @@
 					\SetCell{LightBlue} konfID	& INT &  Jedinstveni identifikator konferencije	\\ \hline 
 				\end{longtblr}
 				
-				{PromoMaterijal - entitet PromoMaterijal pokriva konkretan ponuđeni materijal kojemu registrirani korisnik može pristupiti. Atributi koje ima su promoID, nazivPromo, url, promoPath i konfID koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji promotivni materijal (veza jedan-prema-više).}
+				{PromoMaterijal - entitet PromoMaterijal pokriva konkretan ponuđeni materijal kojemu registrirani korisnik može pristupiti. Atributi koje ima su promoId, nazivPromo, url, promoPath i konfID koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji promotivni materijal (veza jedan-prema-više).}
 				 
 				
 				\begin{longtblr}[
@@ -169,7 +169,7 @@
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{PromoMaterijal}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}posterID & INT	&  Jedinstveni identifikator postera\\ \hline
+					\SetCell{LightGreen}promoId & INT	&  Jedinstveni identifikator promotivnog materijala\\ \hline
 					nazivPromo	& VARCHAR &   Naziv promotivnog materijala	\\ \hline 
 					promoPath & VARCHAR &  Putanja do izvora sadržaja promotivnog materijala \\ \hline
 					url & VARCHAR &  WEB stranica pokrovitelja \\ \hline
