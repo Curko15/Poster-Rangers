@@ -74,6 +74,9 @@ const Header = ({ viewType }) => {
   const handleBackClick = () => {
     navigate("/");
   };
+  const handleExitClick = () => {
+    navigate("/");
+  };
 
   const renderButtons = () => {
     return (
@@ -99,12 +102,23 @@ const Header = ({ viewType }) => {
             Log Out
           </button>
         )}
+        {(viewType === "homescreen" ||
+          viewType === "liveVideo" ||
+          viewType === "photo" ||
+          viewType === "poster" ||
+          viewType === "promo" ||
+          viewType === "vote") && (
+          <button id="exitButton" onClick={handleExitClick}>
+            Exit
+          </button>
+        )}
 
         {(viewType === "homescreen" ||
           viewType === "liveVideo" ||
           viewType === "photo" ||
           viewType === "poster" ||
-          viewType === "promo") && (
+          viewType === "promo" ||
+          viewType === "vote") && (
           <button id="konfButton" onClick={handleKonfClick}>
             Konferencija
           </button>
