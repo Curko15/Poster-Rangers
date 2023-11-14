@@ -16,7 +16,7 @@ const Header = ({ viewType }) => {
   };
 
   const handleKonfClick = () => {
-    navigate("/");
+    navigate("/home");
   };
 
   const handleFotoClick = () => {
@@ -73,7 +73,7 @@ const Header = ({ viewType }) => {
             Konferencija
           </button>
         )}
-        {isUserLoggedIn &&
+        {isUserLoggedIn() &&
           (viewType === "homescreen" ||
             viewType === "liveVideo" ||
             viewType === "photo" ||
@@ -84,7 +84,7 @@ const Header = ({ viewType }) => {
               Video Prijenos
             </button>
           )}
-        {isUserLoggedIn &&
+        {isUserLoggedIn() &&
           (viewType === "homescreen" ||
             viewType === "liveVideo" ||
             viewType === "photo" ||
@@ -95,7 +95,7 @@ const Header = ({ viewType }) => {
               Fotografije
             </button>
           )}
-        {isUserLoggedIn &&
+        {isUserLoggedIn() &&
           (viewType === "homescreen" ||
             viewType === "liveVideo" ||
             viewType === "photo" ||
@@ -106,7 +106,7 @@ const Header = ({ viewType }) => {
               Promocije
             </button>
           )}
-        {isUserLoggedIn &&
+        {isUserLoggedIn() &&
           (viewType === "homescreen" ||
             viewType === "liveVideo" ||
             viewType === "photo" ||
