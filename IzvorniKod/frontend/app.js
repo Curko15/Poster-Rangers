@@ -6,9 +6,9 @@ const path = require("path");
 const app = express();
 
 // Configuration
-const { PORT } = process.env;
-const { HOST } = process.env;
-const { API_BASE_URL } = process.env;
+const { PORT } = process.env.PORT || 3000;
+const { HOST } = process.env.HOST || "localhost";
+const { API_BASE_URL } = "https://poster-rangers-be.onrender.com";
 
 // Proxy
 app.use(
