@@ -28,7 +28,6 @@ import java.util.List;
 @CrossOrigin("*")
 @NoArgsConstructor
 @AllArgsConstructor
-@CrossOrigin("*")
 public class PosterController {
     @Autowired
     PosterService posterService;
