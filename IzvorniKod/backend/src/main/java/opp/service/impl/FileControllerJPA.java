@@ -11,17 +11,20 @@ import java.nio.file.Paths;
 
 @Service
 public class FileControllerJPA {
-    private static final String putanja = "C:\\Users\\lukal\\Documents\\FER\\3. Godina\\Programsko inzenjerstvo\\Moj Github\\Poster-Rangers\\IzvorniKod\\backend\\src\\main\\resources\\static";
 
 
     public String uploadanje(MultipartFile datoteka, Long ID) throws IOException {
+
+        Path trenutniDirektorij = Paths.get(System.getProperty("user.dir"));
+        Path relativnaPutanja = trenutniDirektorij.resolve("IzvorniKod/backend/src/main/resources/static");
+
 
         StringBuilder builder = new StringBuilder();
         builder.append(ID + "_");
         builder.append(datoteka.getOriginalFilename());
 
 
-        Path uploadPath = Paths.get(putanja, builder.toString());
+        Path uploadPath = Paths.get(relativnaPutanja.toString(), builder.toString());
 
         Files.copy(datoteka.getInputStream(), uploadPath);
 
