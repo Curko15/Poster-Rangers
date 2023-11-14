@@ -83,11 +83,12 @@ const Header = ({ viewType }) => {
             Return
           </button>
         )}
-        {viewType === "entercode" && !isUserLoggedIn() && (
-          <button id="loginButton" onClick={handleLoginClick}>
-            Login
-          </button>
-        )}
+        {(viewType === "entercode" || viewType === "homescreen") &&
+          !isUserLoggedIn() && (
+            <button id="loginButton" onClick={handleLoginClick}>
+              Login
+            </button>
+          )}
         {viewType === "entercode" && !isUserLoggedIn() && (
           <button id="registerButton" onClick={handleRegisterClick}>
             Register
