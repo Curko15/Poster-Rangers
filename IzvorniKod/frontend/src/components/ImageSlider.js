@@ -17,14 +17,14 @@ const ImageSlider = () => {
         });
         const data = await response.json();
         console.log(data);
-        setPosters(data); // Assuming data is an array of poster URLs
+        setPosters(data);
       } catch (error) {
         console.error("Error fetching posters:", error);
       }
     };
 
     fetchPosters();
-  }, []); // Empty dependency array ensures the effect runs once on mount
+  }, []);
 
   return (
     <>
@@ -45,7 +45,10 @@ const ImageSlider = () => {
         className="mySwiper"
       >
         <SwiperSlide>
-          <img src="/img/1_Screenshot from 2023-11-09 16-21-59.png" />
+          <img
+            src="/img/1_Screenshot from 2023-11-09 16-21-59.png"
+            alt="img-alt"
+          />
         </SwiperSlide>
       </Swiper>
     </>

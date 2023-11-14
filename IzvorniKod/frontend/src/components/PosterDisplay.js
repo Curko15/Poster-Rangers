@@ -10,13 +10,12 @@ const PosterDisplay = () => {
     const fetchPosters = async () => {
       const conferenceId = getConferenceId();
       try {
-        // Replace this URL with your actual server endpoint
         const response = await fetch("getAll/1");
         console.log("getAll/" + conferenceId);
 
         const data = await response.json();
 
-        setImages(data); // Assuming data is an array of poster URLs
+        setImages(data);
       } catch (error) {
         console.error("Error fetching posters:", error);
       }

@@ -13,7 +13,7 @@ const AddPoserComponent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let conferenceId = getConferenceId();
+    //let conferenceId = getConferenceId();
 
     const url = "http://localhost:8081/poster/1"; // + conferenceId
 
@@ -32,7 +32,6 @@ const AddPoserComponent = () => {
 
       if (response.ok) {
         console.log("Poster submitted successfully");
-        // Optionally, you can redirect or show a success message to the user.
       } else {
         console.error("Failed to submit poster");
       }

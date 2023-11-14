@@ -18,20 +18,20 @@ function App() {
         <Route path="/" element={<EnterCodeScreen />} />
         <Route path="/home" element={<HomeScreen />} />
         <Route
-            path="/login"
-            element={<AuthenticationScreen viewType="login" />}
+          path="/login"
+          element={<AuthenticationScreen viewType="login" />}
         />
         <Route
-            path="/register"
-            element={<AuthenticationScreen viewType="register" />}
+          path="/register"
+          element={<AuthenticationScreen viewType="register" />}
         />
         <Route path="/posteri" element={<PosterScreen />} />
         <Route path="/glasanje" element={<VoteScreen />} />
         <Route path="/foto" element={<PhotoScreen />} />
         <Route path="/live" element={<LiveVideoScreen />} />
         <Route path="/promo" element={<PromoScreen />} />
-        <Route path="/dodajKonf" element={<AddConferenceComponent/>}/>
-        <Route path="/dodajPoster" element={<AddPosterComponent/>}/>
+        <Route path="/dodajKonf" element={<AddConferenceComponent />} />
+        <Route path="/dodajPoster" element={<AddPosterComponent />} />
       </Routes>
     </Router>
   );

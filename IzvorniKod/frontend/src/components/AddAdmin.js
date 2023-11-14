@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "../css/addConference.css";
-import AdminList from './AdminList';
+import AdminList from "./AdminList";
 
 function AdminForm() {
   const [formData, setFormData] = useState({
-    name: '',
-    surname: '',
-    mail: '',
+    name: "",
+    surname: "",
+    mail: "",
   });
 
   const [admins, setAdmins] = useState(
-    JSON.parse(localStorage.getItem('admins')) || []
+    JSON.parse(localStorage.getItem("admins")) || []
   );
 
   const handleChange = (e) => {
@@ -24,26 +24,30 @@ function AdminForm() {
     const updatedAdmins = [...admins];
     updatedAdmins.splice(index, 1);
     setAdmins(updatedAdmins);
-    localStorage.setItem('admins', JSON.stringify(updatedAdmins));
+    localStorage.setItem("admins", JSON.stringify(updatedAdmins));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-   const isValidEmail = emailPattern.test(formData.mail);
-    
-  if (!isValidEmail) {
-    alert('Molimo unesite ispravnu e-mail adresu.');
-    return;
-  }
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const isValidEmail = emailPattern.test(formData.mail);
 
-   if (!formData.name || !formData.surname || !formData.mail || !isValidEmail) {
-    alert('Molimo unesite sve informacije prije nego što dodate admina.');
-    return;
+    if (!isValidEmail) {
+      alert("Molimo unesite ispravnu e-mail adresu.");
+      return;
     }
-    
-    
+
+    if (
+      !formData.name ||
+      !formData.surname ||
+      !formData.mail ||
+      !isValidEmail
+    ) {
+      alert("Molimo unesite sve informacije prije nego što dodate admina.");
+      return;
+    }
+
     const newAdmin = {
       name: formData.name,
       surname: formData.surname,
@@ -52,12 +56,12 @@ function AdminForm() {
 
     setAdmins([...admins, newAdmin]);
     setFormData({
-      name: '',
-      surname: '',
-      mail: '',
+      name: "",
+      surname: "",
+      mail: "",
     });
 
-    localStorage.setItem('admins', JSON.stringify([...admins, newAdmin]));
+    localStorage.setItem("admins", JSON.stringify([...admins, newAdmin]));
   };
 
   return (
@@ -101,10 +105,7 @@ function AdminForm() {
         </div>
       </form>
 
-      <AdminList
-        admins={admins}
-        onDeleteAdmin={handleDeleteAdmin}
-      />
+      <AdminList admins={admins} onDeleteAdmin={handleDeleteAdmin} />
     </div>
   );
 }

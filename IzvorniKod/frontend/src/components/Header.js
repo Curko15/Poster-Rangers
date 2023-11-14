@@ -29,12 +29,10 @@ const Header = ({ viewType }) => {
 
   const handleLoginClick = () => {
     navigate("/login");
-    //This for login
   };
 
   const handleRegisterClick = () => {
     navigate("/register");
-    //This for register
   };
 
   const handleLogOutClick = () => {
