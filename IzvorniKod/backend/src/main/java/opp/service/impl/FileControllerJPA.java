@@ -11,8 +11,6 @@ import java.nio.file.Paths;
 
 @Service
 public class FileControllerJPA {
-    private static final String putanja = "C:\\Users\\38591\\Desktop\\Poster-Rangers\\IzvorniKod\\backend\\src\\main\\resources\\static";
-
     public String uploadanje(MultipartFile datoteka, Long ID) throws IOException {
 
         Path trenutniDirektorij = Paths.get(System.getProperty("user.dir"));
