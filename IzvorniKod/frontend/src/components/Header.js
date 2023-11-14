@@ -71,9 +71,18 @@ const Header = ({ viewType }) => {
     navigate("/glasanje");
   };
 
+  const handleBackClick = () => {
+    navigate("/");
+  };
+
   const renderButtons = () => {
     return (
       <>
+        {(viewType === "login" || viewType === "register") && (
+          <button id="backButton" onClick={handleBackClick}>
+            Return
+          </button>
+        )}
         {viewType === "entercode" && !isUserLoggedIn() && (
           <button id="loginButton" onClick={handleLoginClick}>
             Login
