@@ -11,8 +11,7 @@ import AuthenticationScreen from "./screens/AuthenticationScreen";
 import SuperAdminScreen from "./screens/SuperAdminScreen";
 import AdminScreen from "./screens/AdminScreen";
 import AddConferenceComponent from "./components/AddConferenceComponent";
-import AddPosterComponent from "./components/AddPosterComponent";
-import ConferenceList from "./screens/mock";
+import ConferenceList from "./screens/addPosterScreen";
 
 function App() {
   return (
@@ -34,10 +33,10 @@ function App() {
         <Route path="/live" element={<LiveVideoScreen />} />
         <Route path="/promo" element={<PromoScreen />} />
         <Route path="/dodajKonf" element={<AddConferenceComponent />} />
-        <Route path="/dodajPoster" element={<AddPosterComponent />} />
+
         <Route path="/superAdmin" element={<SuperAdminScreen />} />
         <Route path="/admin" element={<AdminScreen />} />
-        <Route path="/mock" element={<ConferenceList />} />
+        <Route path="/dodajPoster" element={<ConferenceList />} />
       </Routes>
     </Router>
   );

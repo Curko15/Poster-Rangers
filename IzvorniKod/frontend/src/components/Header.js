@@ -85,6 +85,12 @@ const Header = ({ viewType }) => {
     logOutFromConference();
     navigate("/");
   };
+  const handleDodajKonfClick = () => {
+    navigate("/konferencija/addKonf");
+  };
+  const handleDodajPosterClick = () => {
+    navigate("/dodajPoster");
+  };
 
   const renderButtons = () => {
     return (
@@ -117,10 +123,19 @@ const Header = ({ viewType }) => {
           viewType === "poster" ||
           viewType === "promo" ||
           viewType === "vote" ||
-          viewType === "admin" ||
-          viewType === "superAdmin") && (
+          viewType === "admin") && (
           <button id="exitButton" onClick={handleExitClick}>
             Exit
+          </button>
+        )}
+        {viewType === "admin" && isUserLoggedIn() && (
+          <button id="dodajKonfButton" onClick={handleDodajKonfClick}>
+            Dodaj Konferenciju
+          </button>
+        )}
+        {viewType === "admin" && isUserLoggedIn() && (
+          <button id="dodajPosterButton" onClick={handleDodajPosterClick}>
+            Dodaj Poster
           </button>
         )}
 

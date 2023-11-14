@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../css/mock.css";
+import "../css/addPosterScreen.css";
 
 const ConferenceList = ({ onConferenceClick }) => {
   const [conferences, setConferences] = useState([]);
