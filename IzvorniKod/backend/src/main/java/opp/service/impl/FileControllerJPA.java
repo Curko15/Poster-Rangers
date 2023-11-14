@@ -28,7 +28,7 @@ public class FileControllerJPA {
 
         Files.copy(datoteka.getInputStream(), uploadPath);
 
-        return uploadPath.toString();
+        return builder.toString();
     }
 
 }
