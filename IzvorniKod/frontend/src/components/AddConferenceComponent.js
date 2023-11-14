@@ -32,8 +32,6 @@ const AddConferenceComponent = () => {
       return;
     }
 
-    const url = "http://localhost:8081/konferencija/addKonf";
-
     const conference = {
       ime: conferenceName,
       startTime: conferenceDateStart,
@@ -42,18 +40,21 @@ const AddConferenceComponent = () => {
       password: conferencePassword,
       pbr: conferencePbr,
       ulica: conferenceStreet,
-      kucniBroj: conferenceStreetNumber,
+      kucBroj: conferenceStreetNumber,
     };
     console.log(conference);
 
     try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "http://localhost:8081/konferencija/addKonf",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(conference),
         },
-        body: JSON.stringify(conference),
-      });
+      );
 
       if (response.ok) {
         console.log("Conference submitted successfully");

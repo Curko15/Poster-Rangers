@@ -3,7 +3,7 @@ import "../css/mock.css";
 
 const ConferenceList = ({ onConferenceClick }) => {
   const [conferences, setConferences] = useState([]);
-  const [selectedConference, setSelectedConference] = useState(null);
+  const [selectedConference, setSelectedConference] = useState("");
   const [emailAuthor, setEmailAuthor] = useState("");
   const [posterName, setPosterName] = useState("");
   const [authorName, setAuthorName] = useState("");
@@ -22,6 +22,7 @@ const ConferenceList = ({ onConferenceClick }) => {
 
         if (response.ok) {
           const conferenceData = await response.json();
+
           setConferences(conferenceData);
         } else {
           console.error("Error fetching conferences:", response.statusText);
@@ -40,51 +41,28 @@ const ConferenceList = ({ onConferenceClick }) => {
 
   const handleSubmit = async () => {
     if (selectedConference) {
-      const conferenceId = selectedConference.password;
+      const formData = {
+        nazivPoster: posterName,
+        imeAutor: authorName,
+        prezimeAutor: authorLastName,
+        emailAutor: emailAuthor,
+        file: fileName,
+      };
+      console.log("Form Data:", formData);
+      console.log("Selected Conference:", selectedConference.konfid);
+      const posterResponse = await fetch(
+        `http://localhost:8081/poster/${selectedConference.konfid}`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
 
-      const formData = new FormData();
-      formData.append("nazivPoster", posterName);
-      formData.append("imeAutor", authorName);
-      formData.append("prezimeAutor", authorLastName);
-      formData.append("emailAutor", emailAuthor);
-      formData.append("file", fileName);
-
-      try {
-        const response = await fetch(
-          "http://localhost:8081/konferencija/getKonfId",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              password: conferenceId,
-            }),
-          },
-        );
-
-        if (response.ok) {
-          const conferenceData = await response.json();
-
-          const posterResponse = await fetch(
-            `http://localhost:8081/poster/${conferenceData}`,
-            {
-              method: "POST",
-              body: formData,
-            },
-          );
-
-          if (posterResponse.ok) {
-            const posterData = await posterResponse.json();
-            console.log("Fetched Posters:", posterData);
-          } else {
-            console.error("Error fetching posters:", posterResponse.statusText);
-          }
-        } else {
-          console.error("Error fetching conference data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error:", error);
+      if (posterResponse.ok) {
+        const posterData = await posterResponse.json();
+        console.log("Fetched Posters:", posterData);
+      } else {
+        console.error("Error fetching posters:", posterResponse.statusText);
       }
     }
   };
@@ -114,7 +92,7 @@ const ConferenceList = ({ onConferenceClick }) => {
         {selectedConference && (
           <div className="selected-conference">
             <h3>Selected Conference Details</h3>
-            <p>Password: {selectedConference.password}</p>
+            <p>Password: {selectedConference.konfid}</p>
           </div>
         )}
       </div>
