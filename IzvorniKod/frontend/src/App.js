@@ -34,8 +34,8 @@ function App() {
         <Route path="/promo" element={<PromoScreen />} />
         <Route path="/dodajKonf" element={<AddConferenceComponent />} />
         <Route path="/dodajPoster" element={<AddPosterComponent />} />
-        <Route path="/superAdmin" element={<SuperAdminScreen />} />
         <Route path="/admin" element={<AdminScreen />} />
+        <Route path="/superAdmin" element={<SuperAdminScreen />} />
       </Routes>
     </Router>
   );
