@@ -2,42 +2,43 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/header.css";
 import {
-  getLoggedInUser,
+  isLoggedInConference,
   isUserLoggedIn,
+  logOutFromConference,
   userLogOut,
 } from "../services/AuthService";
 
 const Header = ({ viewType }) => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    let user = getLoggedInUser();
-    const fetchData = async () => {
-      if (isUserLoggedIn()) {
-        try {
-          const response = await fetch(
-            "http://localhost:8081/korisnici/getRole",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                email: user.userEmail,
-                password: user.userPass,
-              }),
-            },
-          );
-
-          const userRole = await response.json(); //TODO: here is the role
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      }
-    };
-
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (isUserLoggedIn()) {
+  //       try {
+  //         const response = await fetch(
+  //           "http://localhost:8081/korisnici/getRole",
+  //           {
+  //             method: "POST",
+  //             headers: {
+  //               "Content-Type": "application/json",
+  //             },
+  //             body: JSON.stringify({
+  //               email: getLoggedInUser().userEmail,
+  //               password: getLoggedInUser().userPass,
+  //             }),
+  //           },
+  //         );
+  //         const userRole = await response.json();
+  //         let userRoleName;
+  //         userRole.map((role) => (userRoleName = role.name));
+  //       } catch (error) {
+  //         console.error("Error fetching data:", error);
+  //       }
+  //     }
+  //   };
+  //
+  //   fetchData();
+  // }, []);
 
   const handleVideoClick = () => {
     navigate("/live");
@@ -67,14 +68,21 @@ const Header = ({ viewType }) => {
     userLogOut();
     navigate("/");
   };
+
   const handleVoteClick = () => {
     navigate("/glasanje");
   };
 
   const handleBackClick = () => {
-    navigate("/");
+    if (isLoggedInConference()) {
+      navigate("/home");
+    } else {
+      navigate("/");
+    }
   };
+
   const handleExitClick = () => {
+    logOutFromConference();
     navigate("/");
   };
 

@@ -1,0 +1,35 @@
+.root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.conference-list-container {
+    width: 40%;
+    margin: 0 30px;
+}
+
+.conference-list {
+    list-style: none;
+    padding: 0;
+}
+
+.conference-item {
+    cursor: pointer;
+    border: 1px solid #55796e;
+    margin: 0 10px 10px 10px;
+    padding: 10px;
+    transition: background-color 0.3s;
+}
+
+.conference-item:hover {
+    background-color: #984444;
+}
+
+.selected-conference {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #3a4262;
+    background-color: #ececec; /* Highlighted background color */
+}

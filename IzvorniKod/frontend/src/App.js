@@ -12,6 +12,7 @@ import SuperAdminScreen from "./screens/SuperAdminScreen";
 import AdminScreen from "./screens/AdminScreen";
 import AddConferenceComponent from "./components/AddConferenceComponent";
 import AddPosterComponent from "./components/AddPosterComponent";
+import ConferenceList from "./screens/mock";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/dodajPoster" element={<AddPosterComponent />} />
         <Route path="/superAdmin" element={<SuperAdminScreen />} />
         <Route path="/admin" element={<AdminScreen />} />
+        <Route path="/mock" element={<ConferenceList />} />
       </Routes>
     </Router>
   );
