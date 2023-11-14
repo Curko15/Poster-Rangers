@@ -13,6 +13,8 @@ public class PromoMaterijal {
 
     private String promoPath;
 
+    private String url;
+
     @ManyToOne
     private Konferencija konferencija;
 
