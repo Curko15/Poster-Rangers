@@ -18,6 +18,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 @RequiredArgsConstructor
 public class SecurtiyConfiguration {
 
+    private static final String[] WHITE_LIST_URL = {
+            "/korisnici/registerPP",
+            "/korisnici/authenticatePP",
+            "/konferencija/loginKonf",
+            };
+
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
@@ -27,7 +33,7 @@ public class SecurtiyConfiguration {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((authorize) -> authorize.requestMatchers("korisnici/**").permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests((authorize) -> authorize.requestMatchers(WHITE_LIST_URL).permitAll().anyRequest().authenticated())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
