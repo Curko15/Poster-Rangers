@@ -8,11 +8,10 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
+@Data
+@Builder
 public class Korisnik {
 
     @Id
@@ -37,14 +36,4 @@ public class Korisnik {
     private Set<Role> roles;
 
 
-
-    @Override
-    public String toString() {
-        return "Korisnik{" +
-                "email='" + email + '\'' +
-                ", hashLozinke='" + hashLozinke + '\'' +
-                ", ime='" + ime + '\'' +
-                ", prezime='" + prezime + '\'' +
-                '}';
-    }
 }

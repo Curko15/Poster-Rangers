@@ -44,11 +44,6 @@ public class TeamsBackendApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Bean
-	MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-		return new MvcRequestMatcher.Builder(introspector);
-	}
-
 
 	@Bean
 	public CommandLineRunner initializeRoles() {
