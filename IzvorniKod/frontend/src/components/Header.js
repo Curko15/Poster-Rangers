@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/header.css";
 import {
+  getLoggedInUser,
   isLoggedInConference,
   isUserLoggedIn,
   logOutFromConference,
@@ -10,35 +11,37 @@ import {
 
 const Header = ({ viewType }) => {
   const navigate = useNavigate();
+  const [userRoleName, setUserRoleName] = useState("");
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (isUserLoggedIn()) {
-  //       try {
-  //         const response = await fetch(
-  //           "http://localhost:8081/korisnici/getRole",
-  //           {
-  //             method: "POST",
-  //             headers: {
-  //               "Content-Type": "application/json",
-  //             },
-  //             body: JSON.stringify({
-  //               email: getLoggedInUser().userEmail,
-  //               password: getLoggedInUser().userPass,
-  //             }),
-  //           },
-  //         );
-  //         const userRole = await response.json();
-  //         let userRoleName;
-  //         userRole.map((role) => (userRoleName = role.name));
-  //       } catch (error) {
-  //         console.error("Error fetching data:", error);
-  //       }
-  //     }
-  //   };
-  //
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (isUserLoggedIn()) {
+        try {
+          const response = await fetch(
+            "http://localhost:8081/korisnici/getRole",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: getLoggedInUser().userEmail,
+                password: getLoggedInUser().userPass,
+              }),
+            },
+          );
+          const userRole = await response.json();
+
+          userRole.map((role) => setUserRoleName(role.name));
+          console.log(userRoleName);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleVideoClick = () => {
     navigate("/live");
@@ -66,6 +69,7 @@ const Header = ({ viewType }) => {
 
   const handleLogOutClick = () => {
     userLogOut();
+    setUserRoleName("");
     navigate("/");
   };
 
@@ -92,9 +96,36 @@ const Header = ({ viewType }) => {
     navigate("/dodajPoster");
   };
 
+  const handleAddPosterClick = () => {
+    navigate("/dodajPoster");
+  };
+
+  const handleAddConferenceClick = () => {
+    navigate("/admin");
+  };
+
+  const handleAddAdminClick = () => {
+    navigate("/superAdmin");
+  };
+
   const renderButtons = () => {
     return (
       <>
+        {userRoleName === "ROLE_ADMIN" && (
+          <button id="addPosterButton" onClick={handleAddPosterClick}>
+            Dodaj poster
+          </button>
+        )}
+        {userRoleName === "ROLE_ADMIN" && (
+          <button id="addConferenceButton" onClick={handleAddConferenceClick}>
+            Dodaj konferenciju
+          </button>
+        )}
+        {userRoleName === "ROLE_SUPERADMIN" && (
+          <button id="logOutButton" onClick={handleAddAdminClick}>
+            Dodaj Admina
+          </button>
+        )}
         {(viewType === "login" || viewType === "register") && (
           <button id="backButton" onClick={handleBackClick}>
             Return

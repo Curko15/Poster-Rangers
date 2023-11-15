@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "../css/addPosterScreen.css";
+import "../css/addAdminPoster.css";
 
-const ConferenceList = ({ onConferenceClick }) => {
+const AddAdminPoster = ({ onConferenceClick }) => {
   const [conferences, setConferences] = useState([]);
   const [selectedConference, setSelectedConference] = useState("");
   const [emailAuthor, setEmailAuthor] = useState("");
@@ -160,4 +160,4 @@ const ConferenceList = ({ onConferenceClick }) => {
   );
 };
 
-export default ConferenceList;
+export default AddAdminPoster;

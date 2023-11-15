@@ -11,7 +11,8 @@ import AuthenticationScreen from "./screens/AuthenticationScreen";
 import SuperAdminScreen from "./screens/SuperAdminScreen";
 import AdminScreen from "./screens/AdminScreen";
 import AddConferenceComponent from "./components/AddConferenceComponent";
-import ConferenceList from "./screens/addPosterScreen";
+import ConferenceList from "./screens/AddPosterScreen";
+import AddPosterScreen from "./screens/AddPosterScreen";
 
 function App() {
   return (
@@ -36,7 +37,7 @@ function App() {
 
         <Route path="/superAdmin" element={<SuperAdminScreen />} />
         <Route path="/admin" element={<AdminScreen />} />
-        <Route path="/dodajPoster" element={<ConferenceList />} />
+        <Route path="/dodajPoster" element={<AddPosterScreen />} />
       </Routes>
     </Router>
   );
