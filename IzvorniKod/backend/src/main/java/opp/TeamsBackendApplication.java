@@ -38,13 +38,6 @@ public class TeamsBackendApplication {
 		this.korisnikService = korisnikService;
 	}
 
-
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-
 	@Bean
 	public CommandLineRunner initializeRoles() {
 		return args -> {

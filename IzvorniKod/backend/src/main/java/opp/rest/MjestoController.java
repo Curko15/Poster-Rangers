@@ -5,6 +5,7 @@ import opp.domain.Mjesto;
 import opp.service.MjestoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +19,9 @@ public class MjestoController {
         this.mjestoService = mjestoService;
     }
 
+
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addMjesto")
     public ResponseEntity<String> addKonf(@RequestBody Mjesto mjesto){
         mjestoService.addKonferencija(mjesto);

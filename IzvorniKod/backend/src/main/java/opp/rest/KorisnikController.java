@@ -3,10 +3,7 @@ package opp.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import opp.domain.Korisnik;
-import opp.domain.LoginDto;
-import opp.domain.Role;
-import opp.domain.User;
+import opp.domain.*;
 import opp.service.KorisnikService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +34,17 @@ public class KorisnikController {
         }
         korisnikService.save(korisnik);
         return new ResponseEntity<>("Korisnik registered successfully", HttpStatus.CREATED);
+    }
+
+    //TEST
+    @PostMapping("/registerPP")
+    public ResponseEntity<AuthenticationResponse> registerPP(@RequestBody Korisnik korisnik){
+           return ResponseEntity.ok(korisnikService.register(korisnik));
+    }
+
+    @PostMapping("/authenticatePP")
+    public ResponseEntity<AuthenticationResponse> registerPP(@RequestBody LoginDto loginDto){
+        return ResponseEntity.ok(korisnikService.authenticate(loginDto));
     }
 
     @PostMapping("/registerAdmin")
@@ -75,8 +83,9 @@ public class KorisnikController {
 
     @PostMapping("/login2")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
-       String response = korisnikService.login(loginDto);
-        return new ResponseEntity<>(response,HttpStatus.OK);
+       //String response = korisnikService.login(loginDto);
+       // return new ResponseEntity<>(response,HttpStatus.OK);
+        return null;
     }
 
     @PreAuthorize("hasRole('KORISNIK')")
