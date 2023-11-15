@@ -206,12 +206,8 @@
 			
 			
 		\section{Dijagram razreda}
-		
-		Potrebno je priloˇziti dijagram razreda s pripadaju´cim opisom. Zbog preglednosti je
-		mogu´ce dijagram razlomiti na viˇse njih, ali moraju biti grupirani prema sliˇcnim ra-
-		zinama apstrakcije i srodnim funkcionalnostima.
-		
-		TODO opisi
+	
+		Zbog lakše organizacije projekta, svi kontroler razredi koji su zaduženi za upravljanje endpoint-ima su svrstani u paket \textit{ src/main/java/opp/rest}. Kontroleri igraju ključnu ulogu u upravljanju HTTP zahtjevima, te su odgovorni za primanje zahtjeva od klijenta, obradu tih zahtjeva i generiranje odgovora. U našoj implementaciji imamo više kontrolera kako bi lakše organizirali i razdvojili sve dostupne endpoint-e. Npr. razred KonferencijaController je zadužen za obradu zahtjeva poput stvaranja konferencija, ulaska u konferenciju i dohvaćanja osnovnih informacija o konferenciji.
 		
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth]{slike/controllersClassDiagram.PNG} %veličina u odnosu na širinu linije
@@ -219,12 +215,13 @@
 			\label{fig:dr-controllers} %label mora biti drugaciji za svaku sliku
 		\end{figure}
 		
+		Svi razredi zaduženi za entitete i DTO (Data Transfer Objects) su smješteni u \textit{src/main/java/opp/domain} paket. Razredi entiteta poput Konferencija, Poster, Mjesto itd. su objekti koji predstavljaju podatke u bazi podataka, te su odgovorni za mapiranje objekata u redove u tablici baze podataka i obrnuto. Također sadrže načine upravljanja podatcima i njihovu validaciju (osiguravaju integritet baze podataka). Razredi DTO su također objekti koji se koriste za razmjenu podataka između aplikacija, u našem slučaju je to komunikacija između backend i frontend dijela.
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth]{slike/domainClassDiagram.PNG} %veličina u odnosu na širinu linije
 			\caption{Dijagram razreda - Domain}
 			\label{fig:dr-domain} %label mora biti drugaciji za svaku sliku
 		\end{figure}
-		
+		TODO opisi
 		Ovaj tu service je upitan treba ga malo bolje nacrtati
 		
 		\begin{figure}[H]
