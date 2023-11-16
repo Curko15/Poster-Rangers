@@ -1,14 +1,14 @@
 \chapter{Specifikacija programske potpore}
-		
+
 	\section{Funkcionalni zahtjevi}
 
 
 			\noindent \textbf{Dionici:}
-			
+
 			\begin{packed_enum}
-				
+
 				\item Primarni dionici:
-				
+
 				\begin{packed_enum}
 					\item Naručitelj
 					\item Razvojni tim
@@ -17,655 +17,655 @@
 					\item Superadministrator
 					\item Administrator
 				\end{packed_enum}
-				
-				\item Sekundarni dionici:	
-				
+
+				\item Sekundarni dionici:
+
 				\begin{packed_enum}
 					\item Sudionici konferencije
 					\item Zaposlenici konferencije
-					\item Autori	
-				\end{packed_enum}		
-				
+					\item Autori
+				\end{packed_enum}
+
 			\end{packed_enum}
-			
+
 			\noindent \textbf{Akteri i njihovi funkcionalni zahtjevi:}
-			
-			
+
+
 			\begin{packed_enum}
 				\item Neregistrirani posjetitelji konferencije
-				
+
 			\begin{quote}
 				Neregistrirani posjetitelji konferencije imaju mogućnost pregledavanja stručnih postera svih prijavljenih sudionika pomoću lozinke dobivene na konferenciji i imaju mogućnost dodatne registracije u sustav po želji.
 			\end{quote}
-				
+
 				\item Registrirani posjetitelji konferencije
-				
+
 		\begin{quote}
 			Registrirani posjetitelji konferencije imaju dodatnu mogućnost glasanja za stručni poster za koji smatraju da je najbolji i pristup rezultatima glasovanja kako bi vidjeli koji su posteri osvojili najviše glasova. Također mogu pratiti trenutna događanja u glavnoj konferencijskoj dvorani putem direktnog videoprijenosa. Nadalje, imaju priliku vidjeti promotivne materijale pokrovitelja konferencije te podatke o trenutnim vremenskim uvjetima i vremenskoj prognozi za navedenu lokaciju. Za vrijeme trajanja konferencije registrirani posjetitelji moći će pregledavati i preuzimati objavljene fotografije s konferencije.
 		\end{quote}
-		
+
 				\item Superadministrator
 				\begin{quote}
 					Superadministrator ima mogućnost davanja administratorskih uloga već postojećim računima.
 				\end{quote}
-				
+
 				\item Administrator
 				\begin{quote}
 					Administrator ima mogućnost kreiranja nove konferencije. Prilikom kreiranja konferencije, administrator može odabrati njezin naziv, opis konferencije, mjesto održavanja, njezin početak kao i njezin kraj. Inicijalnu lozinku konferencije sustav automatski generira.
 				\end{quote}
-				
+
 				\item Autori
 				\begin{quote}
-					Autori su glavni sudionici konferencije koji će prezentirati svoje radove. Oni prije početka konferencije elektroničkom poštom dostavljaju sve potrebne materijale (postere) sistemskom administratoru. Također, nakon završetka konferencije elektroničkom poštom dobivaju informaciju o rangu njihovih radova kao i pozivnicu za dodjelu nagrada.
+					Autori su glavni sudionici konferencije koji će prezentirati svoje radove. Oni prije početka konferencije elektroničkom poštom dostavljaju sve potrebne materijale (postere) administratoru. Također, nakon završetka konferencije elektroničkom poštom dobivaju informaciju o rangu njihovih radova kao i pozivnicu za dodjelu nagrada.
 				\end{quote}
-				
+
 				\item Pokrovitelji
 				\begin{quote}
-					Pokrovitelji financiraju samu konferenciju i dostavljaju promotivne materijale sistemskom administratoru koji će omogućiti njihov prikaz registriranim posjetiteljima.
+					Pokrovitelji financiraju samu konferenciju i dostavljaju promotivne materijale administratoru koji će omogućiti njihov prikaz registriranim posjetiteljima.
 				\end{quote}
-				
-				
+
+
 				\item Aplikacija i baza podataka
 				\begin{quote}
 					Pasivni faktori same funkcionalnosti aplikacije kao i spremanja podataka.
 				\end{quote}
 			\end{packed_enum}
-			
-			\eject 
-			
-			
-				
+
+			\eject
+
+
+
 			\subsection{Obrasci uporabe}
-									
+
 					\noindent \underbar{\textbf{UC1 - Prijava u sustav odgovarajućom lozinkom}}
 					\begin{packed_item}
-						
+
 						\item \textbf{Glavni sudionik: } Svi posjetitelji konferencije
 						\item  \textbf{Cilj:} Prijava u sustav
 						\item  \textbf{Sudionici:} Aplikacija i baza podataka
 						\item  \textbf{Preduvjet:} Odgovarajuća lozinka dostupna svim posjetiteljima konferencije
 						\item  \textbf{Opis osnovnog tijeka:}
-						
+
 						\item[] \begin{packed_enum}
-							
-							\item Posjetitelj upisuje lozinku dobivenu na konferenciji 
+
+							\item Posjetitelj upisuje lozinku dobivenu na konferenciji
 							\item Sustav provjerava odgovara li kriptografski sažetak lozinke upisane od strane korisnika onoj u bazi podataka
 							\item Ukoliko je lozinka točna, posjetitelj se uspješno prijavljuje u aplikaciju
 							\item Prijavljenom korisniku otvara se nova stranica
 						\end{packed_enum}
-						
+
 						\item  \textbf{Opis mogućih odstupanja:}
-						
+
 						\item[] \begin{packed_item}
-							
+
 							\item[1.a] Posjetitelj je upisao pogrešnu lozinku
 							\item[] \begin{packed_enum}
-								
+
 								\item Posjetitelj dobiva obavijest od strane aplikacije kako je njegova lozinka neispravna
 								\item Od posjetitelja se traži da opet upiše lozinku
-								
+
 							\end{packed_enum}
-						
-							
+
+
 						\end{packed_item}
 					\end{packed_item}
-					
+
 					\noindent \underbar{\textbf{UC2 - Odjava prijavljenog korisnika}}
 					\begin{packed_item}
-						
+
 						\item \textbf{Glavni sudionik: }Korisnik
 						\item  \textbf{Cilj:} Odjava prijavljenog korisnika
 						\item  \textbf{Sudionici:} Aplikacija i baza podataka
 						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
-						
+
 						\item[] \begin{packed_enum}
-							
+
 							\item Posjetitelj se uspješno prijavio u sustav odgovarajućom lozinkom
-							\item Korisnik je pritisnuo gumb za odjavu prijavljenih korisnika iz sustava 
+							\item Korisnik je pritisnuo gumb za odjavu prijavljenih korisnika iz sustava
 							\item Sustav ga uspješno odjavljuje i vraća na početnu stranicu
-							
+
 						\end{packed_enum}
-						
+
 						\item  \textbf{Opis mogućih odstupanja:}
-						
+
 						\item[] \begin{packed_item}
-							
+
 							\item[1.a] Korisnik se nije uspješno prijavio u sustav
 							\item[] \begin{packed_enum}
-								
+
 								\item Od strane korisnika zahtijeva se da se prijavi u sustav odgovarajućom lozinkom
-								
+
 							\end{packed_enum}
-							
-							
+
+
 						\end{packed_item}
 					\end{packed_item}
-					
-					
+
+
 					\noindent \underbar{\textbf{UC3 - Pregledavanje stručnih postera prijavljenih korisnika}}
 					\begin{packed_item}
-						
+
 						\item \textbf{Glavni sudionik: }Korisnik
 						\item  \textbf{Cilj:} Pregledavanje stručnih postera
 						\item  \textbf{Sudionici:} Aplikacija i baza podataka
 						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
 						\item  \textbf{Opis osnovnog tijeka:}
-						
+
 						\item[] \begin{packed_enum}
-							
+
 							\item Aplikacija dohvaća potrebne materijale i postere iz baze podataka
 							\item Korisnik ima mogućnost pregledavanja stručnih postera
-							
+
 						\end{packed_enum}
-						
+
 					\end{packed_item}
-					
-				
-				
-				
+
+
+
+
 				\noindent \underbar{\textbf{UC4 - Registracija u sustav prijavljenih korisnika}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: }Korisnik
 					\item  \textbf{Cilj:} Registracija u sustav već prijavljenih korisnika
 					\item  \textbf{Sudionici:} Aplikacija i baza podataka
 					\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
+
 						\item Korisnik je pritisnuo gumb za registraciju u sustav
 						\item Korisniku se otvara nova stranica s poljem za upis adrese elektroničke pošte i nove lozinke
 						\item Sustav provjerava valjanost upisane adrese elektroničke pošte kao i lozinke
-						\item Adresa elektroničke pošte registriranog korisnika sprema se u bazu podataka dok se upisana lozinka kriptira te se njezin sažetak sprema u bazu 
+						\item Adresa elektroničke pošte registriranog korisnika sprema se u bazu podataka dok se upisana lozinka kriptira te se njezin sažetak sprema u bazu
 
 					\end{packed_enum}
-					
+
 					\item  \textbf{Opis mogućih odstupanja:}
-					
+
 					\item[] \begin{packed_item}
-						
+
 						\item[3.a] Pogrešan unos elektroničke pošte
 						\item[] \begin{packed_enum}
-							
+
 							\item Sustav provjerava ispravnost formata unesene adrese elektroničke pošte te ukoliko je kriva, obavještava korisnika o traženom formatu
 							\item Korisnik upisuje ispravan format adrese elektroničke pošte
-							
+
 						\end{packed_enum}
 						\item[3.b] Pogrešan unos lozinke
 						\item[] \begin{packed_enum}
-							
+
 							\item Sustav provjerava ispravnost formata unesene lozinke te ukoliko je kriva, obavještava korisnika o traženom formatu
 							\item Korisnik upisuje ispravan format lozinke
-							
+
 						\end{packed_enum}
-						
+
 						\item[4.a] Korisnik je već prijavljen u sustav
 						\item[] \begin{packed_enum}
-							
+
 							\item Sustav provjerava postoji li već registriran korisnik s istom adresom elektroničke pošte
-							\item Sustav odbija registraciju korisnika te ga obavještava kako je korisnik već registriran 
-							
+							\item Sustav odbija registraciju korisnika te ga obavještava kako je korisnik već registriran
+
 						\end{packed_enum}
-						
+
 					\end{packed_item}
 				\end{packed_item}
-				
-				
-				
+
+
+
 				\noindent \underbar{\textbf{UC5 - Odjava registriranog korisnika}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: }Korisnik
 					\item  \textbf{Cilj:} Odjava iz sustava registriranog korisnika
 					\item  \textbf{Sudionici:} Aplikacija i baza podataka
 					\item  \textbf{Preduvjet:} Registrirani korisnik prijavljen je u sustav
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
-						\item Korisnik je pritisnuo gumb za odjavu registriranih korisnika iz sustava 
+
+						\item Korisnik je pritisnuo gumb za odjavu registriranih korisnika iz sustava
 						\item Sustav ga uspješno odjavljuje i vraća na početnu stranicu prijavljenih korisnika
-						
+
 					\end{packed_enum}
-					
+
 				\end{packed_item}
-				
-				
+
+
 				\noindent \underbar{\textbf{UC6 - Glasanje za najbolji stručni poster konferencije}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: }Korisnik
 					\item  \textbf{Cilj:} Glasanje za najbolji stručni poster konferencije
 					\item  \textbf{Sudionici:} Aplikacija i baza podataka
 					\item  \textbf{Preduvjet:} Glasovanje je moguće samo registriranim korisnicima tijekom određenog vremenskog razdoblja koje je određeno danima i vremenom održavanja konferencije
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
+
 						\item Registrirani korisnik pregledava objavljene stručne postere
 						\item Nakon što registrirani korisnik odabere njemu najbolji poster, ima mogućnost glasanja za taj poster
 						\item Registrirani korisnik pritišće gumb za glasanje za određeni poster
 						\item Aplikacija sprema u bazu podataka taj glas i označava da je taj korisnik glasao i da više nema mogućnost glasanja
 
 					\end{packed_enum}
-					
+
 					\item  \textbf{Opis mogućih odstupanja:}
-					
+
 					\item[] \begin{packed_item}
-						
+
 						\item[3.a] Registrirani korisnik pritišće gumb za glasanje za određeni poster van vremenskog razdoblja predviđenog za glasanje
 						\item[] \begin{packed_enum}
-							
+
 							\item Registrirani korisnik pritišće gumb za glasanje za određeni poster
 							\item Sustav ga obavještava kako ne može glasati budući da glasovanje još nije započeto te mu javlja točno vrijeme početka glasanja ili da je glasovanje završilo
-							
+
 						\end{packed_enum}
-						
+
 						\item[3.b] Registrirani korisnik pritišće gumb za glasanje za drugi poster
 						\item[] \begin{packed_enum}
-							
+
 							\item Registrirani korisnik pritišće gumb za glasanje za poster nakon što je već jednom glasao za neki drugi poster
 							\item Sustav ga obavještava kako ne može glasati budući da je već jednom glasao
-							
+
 						\end{packed_enum}
-						
-						
+
+
 					\end{packed_item}
 				\end{packed_item}
-				
-				
+
+
 				\noindent \underbar{\textbf{UC7 - Povlačenje korisnikovog glasa stručnog postera}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: }Korisnik
 					\item  \textbf{Cilj:} Povlačenje korisnikovog glasa za stručni poster
 					\item  \textbf{Sudionici:} Aplikacija i baza podataka
 					\item  \textbf{Preduvjet:} Povlačenje glasa moguće je samo registriranim korisnicima koji su već glasali tijekom određenog vremenskog razdoblja koje je određeno danima i vremenom održavanja konferencije
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
+
 						\item Korisnik je odlučio promijeniti svoje mišljenje te želi povući svoj glas za već odabrani stručni poster
 						\item Registrirani korisnik pritišće gumb za povlačenje glasa za određeni poster
 						\item Aplikacija briše iz baze podataka taj glas i označava da taj korisnik može ponovno glasati
 					\end{packed_enum}
-					
-					
+
+
 				\end{packed_item}
-				
-				
+
+
 				\noindent \underbar{\textbf{UC8 - Gledanje direktnog videoprijenosa konferencije}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: }Korisnik
 					\item  \textbf{Cilj:} Gledanje direktnog videoprijenosa konferencije
 					\item  \textbf{Sudionici:} Aplikacija i baza podataka
 					\item  \textbf{Preduvjet:} Gledanje direktnog videoprijenosa konferencije moguće je samo registriranim korisnicima tijekom određenog vremenskog razdoblja koje je određeno danima i vremenom održavanja konferencije
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
-						\item Registrirani korisnik pritišće gumb za direktno praćenje videoprijenosa konferencije 
+
+						\item Registrirani korisnik pritišće gumb za direktno praćenje videoprijenosa konferencije
 						\item Aplikacija dohvaća iz baze podataka potreban videoprijenos te se korisniku prikazuje videoprozor
 					\end{packed_enum}
-					
+
 					\item  \textbf{Opis mogućih odstupanja:}
-					
+
 					\item[] \begin{packed_item}
-						
+
 						\item[1.a] Registrirani korisnik pritišće gumb za direktno praćenje videoprijenosa konferencije van vremenskog razdoblja predviđenog za direktni videoprijenos konferencije
 						\item[] \begin{packed_enum}
-							
-							\item Registrirani korisnik pritišće gumb za direktno praćenje videoprijenosa konferencije 
+
+							\item Registrirani korisnik pritišće gumb za direktno praćenje videoprijenosa konferencije
 							\item Sustav ga obavještava kako ne može gledati direktan videoprijenos konferencije budući da on još nije započeo te mu javlja točno vrijeme početka konferencije
-							
+
 						\end{packed_enum}
-				
-						
+
+
 					\end{packed_item}
 				\end{packed_item}
-				
-				
-				
+
+
+
 				\noindent \underbar{\textbf{UC9 - Zatvaranje direktnog videoprijenosa konferencije}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: }Korisnik
 					\item  \textbf{Cilj:} Zatvaranje direktnog videoprijenosa konferencije
 					\item  \textbf{Sudionici:} Aplikacija i baza podataka
 					\item  \textbf{Preduvjet:} Zatvaranje direktnog videoprijenosa konferencije moguće je samo registriranim korisnicima koji gledaju direktan videoprijenos konferencije tijekom određenog vremenskog razdoblja koje je određeno danima i vremenom održavanja konferencije
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
-						\item Registrirani korisnik pritišće gumb za zatvaranje direktnog videoprijenosa konferencije 
+
+						\item Registrirani korisnik pritišće gumb za zatvaranje direktnog videoprijenosa konferencije
 						\item Aplikacija zatvara videoprozor
-						
-						
+
+
 					\end{packed_enum}
-					
+
 				\end{packed_item}
-				
-				
+
+
 				\noindent \underbar{\textbf{UC10 - Pregled poretka stručnih postera}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: }Korisnik
 					\item  \textbf{Cilj:} Pregled poretka stručnih postera
 					\item  \textbf{Sudionici:} Aplikacija i baza podataka
 					\item  \textbf{Preduvjet:} Pregled poretka stručnih postera dostupan je svim registriranim korisnicima po završetku konferencije i glasanja
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
+
 						\item Konferencija je kao i njeno glasanje završila
-						\item Aplikacija iz baze podataka dohvaća glasove za stručne postere te prikazuje poredak najboljih stručnih postera svim registriranim korisnicima 
+						\item Aplikacija iz baze podataka dohvaća glasove za stručne postere te prikazuje poredak najboljih stručnih postera svim registriranim korisnicima
 					\end{packed_enum}
-					
+
 					\item  \textbf{Opis mogućih odstupanja:}
-					
+
 					\item[] \begin{packed_item}
-						
+
 						\item[2.a] Poredak nije dostupan
 						\item[] \begin{packed_enum}
-							
+
 							\item Prostor za poredak stručnih postera jest prazan
 							\item Glasanje kao i sama konferencija nisu još završeni te sustav obavještava korisnika o vremenu objave poretka
-							
+
 						\end{packed_enum}
-				
-						
+
+
 					\end{packed_item}
 				\end{packed_item}
-				
-				
-				
+
+
+
 				\noindent \underbar{\textbf{UC11 - Gledanje promotivnih materijala pokrovitelja}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: }Korisnik
 					\item  \textbf{Cilj:} Gledanje promotivnih materijala pokrovitelja
 					\item  \textbf{Sudionici:} Aplikacija i baza podataka
 					\item  \textbf{Preduvjet:} Mogućnost gledanja promotivnih materijala pokrovitelja imaju registrirani korisnici
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
 						\item Aplikacija iz baze podataka dohvaća promotivne materijale pokrovitelja konferencije
 						\item Na početnoj stranici dostupni su promotivni materijali pokrovitelja koje registrirani korisnik može gledati
 					\end{packed_enum}
-					
+
 				\end{packed_item}
-				
+
 					\noindent \underbar{\textbf{UC12 - Prikaz dodatnih informacija konferencije kao što su vremenski uvjeti i lokacija}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: }Korisnik
 					\item  \textbf{Cilj:} Prikaz dodatnih informacija konferencije kao što su vremenski uvjeti i lokacija
 					\item  \textbf{Sudionici:} Aplikacija i baza podataka
 					\item  \textbf{Preduvjet:} Korisnik mora biti registriran u sustav
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
+
 						\item Aplikacija iz baze podataka dohvaća dodatne podatke o konferenciji kao što su vremenski uvjeti i lokacija
 						\item Na početnoj stranici dostupne su dodatne informacije o konferenciji kao što su vremenski uvjeti i lokacija koje registrirani korisnik može gledati
 					\end{packed_enum}
-					
+
 				\end{packed_item}
-				
-				
+
+
 					\noindent \underbar{\textbf{UC13 - Prikaz objavljenih fotografija s konferencije}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: }Korisnik
 					\item  \textbf{Cilj:} Prikaz objavljenih fotografija
 					\item  \textbf{Sudionici:} Aplikacija i baza podataka
 					\item  \textbf{Preduvjet:} Korisnik mora biti registriran u sustav te su fotografije vidljive samo za vrijeme trajanja konferencije
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
+
 						\item Aplikacija iz baze podataka dohvaća odabrane fotografije s konferencije
-						\item Na početnoj stranici dostupne su odabrane fotografije s konferencije 
-						
+						\item Na početnoj stranici dostupne su odabrane fotografije s konferencije
+
 					\end{packed_enum}
-					
+
 					\item  \textbf{Opis mogućih odstupanja:}
-					
+
 					\item[] \begin{packed_item}
-						
+
 						\item[2.a] Korisnik ne vidi fotografije
 						\item[] \begin{packed_enum}
-							
+
 							\item Korisnik na početnoj stranici ne vidi fotografije s konferencije
-							\item Sustav obavještava korisnika kako fotografije s konferencije nisu dostupne budući da je konferencija završena 
-							
+							\item Sustav obavještava korisnika kako fotografije s konferencije nisu dostupne budući da je konferencija završena
+
 						\end{packed_enum}
-						
+
 					\end{packed_item}
 				\end{packed_item}
-				
-				
+
+
 				\noindent \underbar{\textbf{UC14 - Preuzimanje objavljenih fotografija s konferencije}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: }Korisnik
 					\item  \textbf{Cilj:} Preuzimanje objavljenih fotografija s konferencije
 					\item  \textbf{Sudionici:} Aplikacija i baza podataka
 					\item  \textbf{Preduvjet:} Korisnik mora biti registriran u sustav te su fotografije dostupne za preuzimanje samo za vrijeme trajanja konferencije
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
+
 						\item Aplikacija iz baze podataka dohvaća odabrane fotografije s konferencije
 						\item Korisnik pritišće gumb za preuzimanje fotografije na svoj uređaj
-						
+
 					\end{packed_enum}
-					
+
 				\end{packed_item}
-				
+
 				\noindent \underbar{\textbf{UC15 - Dodavanje autora i njihovih stručnih postera u bazu podataka}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: } Administrator
 					\item  \textbf{Cilj:} Dodavanje autora i njihovih stručnih postera u bazu podataka
 					\item  \textbf{Sudionici:} Baza podataka i aplikacija
 					\item  \textbf{Preduvjet:} Administratoru su dostavljeni svi potrebni materijali za dodavanje autora kao i njihovih stručnih postera
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
+
 						\item Autor elektroničkom poštom šalje administratoru svoje podatke i stručni poster
 						\item Administrator provjera valjanost podataka
 						\item Ukoliko su svi podaci ispravni i valjani, administrator otvara sučelje za dodavanje autora i njegovog postera gdje upisuje sve potrebne informacije vezane za autora i poster te prilaže sam poster
 						\item Nakon pritiska na gumb za spremanje, baza podataka sprema informacije o posteru kao i o njegovom autoru
-						
-					
+
+
 					\end{packed_enum}
 				\end{packed_item}
-				
-				
+
+
 				\noindent \underbar{\textbf{UC16 - Definiranje svih potrebnih parametara za rad sustava}}
 				\begin{packed_item}
-					
-					\item \textbf{Glavni sudionik: }Sistemski administrator
+
+					\item \textbf{Glavni sudionik: } Administrator
 					\item  \textbf{Cilj:} Definiranje svih potrebnih parametara za rad sustava kao što su vrijeme početka i završetka konferencije, otvaranje i zatvaranje glasanja...
 					\item  \textbf{Sudionici:} Baza podataka
-					\item  \textbf{Preduvjet:} Sistemskom administratoru dostupne su sve potrebne informacije o konferenciji
+					\item  \textbf{Preduvjet:} Administratoru su dostupne sve potrebne informacije o konferenciji
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
-						\item Sistemski administrator dobiva sve potrebne informacije o konferenciji
-						\item Dobivene informacije sistemski administrator pohranjuje u bazu podataka
+
+						\item Administrator dobiva sve potrebne informacije o konferenciji
+						\item Dobivene informacije administrator pohranjuje u bazu podataka
 					\end{packed_enum}
-					
+
 				\end{packed_item}
-				
+
 				\noindent \underbar{\textbf{UC17 - Obavještavanje autora o njihovom uspjehu i mjestu održavanja dodjele nagrada}}
 				\begin{packed_item}
-					
-					\item \textbf{Glavni sudionik: }Aplikacija 
+
+					\item \textbf{Glavni sudionik: }Aplikacija
 					\item  \textbf{Cilj:} Obavještavanje autora o njihovom uspjehu i mjestu održavanja dodjele nagrada
 					\item  \textbf{Sudionici:} Autori
 					\item  \textbf{Preduvjet:} Glasanje je kao i sama konferencija završeno
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
+
 						\item Aplikacija iz baze podataka dohvaća podatke o poretku radova
 						\item Autori prva tri najbolja rada dobivaju posebnu čestitku i pozivnicu za dodjelu nagrade dok ostali autori dobivaju samo pozivnicu za dolazak na dodjelu nagrada
 					\end{packed_enum}
-					
-				\end{packed_item}	
-				
-				
+
+				\end{packed_item}
+
+
 				\noindent \underbar{\textbf{UC18 - Dodavanje administratorske uloge postojećim registriranim korisnicima}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: } Superadministrator
 					\item  \textbf{Cilj:} Dodavanje administratorske uloge postojećim registriranim korisnicima
 					\item  \textbf{Sudionici:} Registrirani korisnici, baza podataka
 					\item  \textbf{Preduvjet:} Korisnik se mora registrirati
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
+
 						\item Nakon prijavljivanja u sustav superadministratoru se otvara lista svih već postojećih administratora
-						\item Superadministrator po želji može kreirati novog administratora 
+						\item Superadministrator po želji može kreirati novog administratora
 					\end{packed_enum}
-					
+
 					\item  \textbf{Opis mogućih odstupanja:}
-					
+
 					\item[] \begin{packed_item}
-						
+
 						\item[1.a] Superadministrator ne vidi niti jednog administratora
 						\item[] \begin{packed_enum}
-							
+
 							\item U bazi podataka nema niti jednog administratora
-							\item Superadministrator mora kreirati barem jednog administratora da bi mu se pojavila lista 
-							
+							\item Superadministrator mora kreirati barem jednog administratora da bi mu se pojavila lista
+
 						\end{packed_enum}
-						
+
 					\end{packed_item}
 				\end{packed_item}
-				
+
 				\noindent \underbar{\textbf{UC19 - Kreiranje konferencije}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: } Administrator
 					\item  \textbf{Cilj:} Kreiranje konferencije
 					\item  \textbf{Sudionici:} Aplikacija i baza podataka
 					\item  \textbf{Preduvjet:} Korisnik mora imati ulogu administratora
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
+
 						\item Nakon prijave u sustav administrator ima mogućnost kreiranja nove konferencije
 						\item Administratoru se otvara sučelje za kreiranje nove konferencije s praznim poljima za naziv konferencije, opis konferencije, mjesto održavanja, datum početka kao i datum završetka konferencije koje administrator može popuniti po želji
 						\item Nakon popunjavanja sustav će automatski generirati inicijalnu lozinku konferencije te će se čitava konferencija spremiti u bazu podataka
 					\end{packed_enum}
-	
-					
-					
+
+
+
 				\end{packed_item}
-				
-			
-				
+
+
+
 				\noindent \underbar{\textbf{UC20 - Dodavanje fotografija za konferenciju}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: } Administrator
 					\item  \textbf{Cilj:} Dodavanje fotografija za konferenciju
 					\item  \textbf{Sudionici:} Aplikacija i baza podataka
 					\item  \textbf{Preduvjet:} Korisnik mora imati ulogu administratora
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
+
 						\item Nakon prijave u sustav administrator ima mogućnost dodavanja fotografija u bazu podataka
 						\item Administrator otvara sučelje za dodavanje novih fotografija gdje upisuje potrebne informacije vezane za fotografije te prilaže fotografiju
 						\item Nakon pritiska na gumb za spremanje, baza podatka sprema informacije o fotografiji
 					\end{packed_enum}
-					
+
 					\item  \textbf{Opis mogućih odstupanja:}
-					
+
 					\item[] \begin{packed_item}
-						
+
 						\item[2.a] Unos krivih podataka
 						\item[] \begin{packed_enum}
-							
+
 							\item Administrator je unio neke krive podatke
 							\item Sustav ga upozorava na krive podatke te mu javlja kako da ispravi pogrešku
-							
+
 						\end{packed_enum}
-						
-						
+
+
 					\end{packed_item}
 				\end{packed_item}
-				
+
 				\noindent \underbar{\textbf{UC21 - Dodavanje promotivnih materijala za konferenciju}}
 				\begin{packed_item}
-					
+
 					\item \textbf{Glavni sudionik: } Administrator
 					\item  \textbf{Cilj:} Dodavanje promotivnih materijala za konferenciju
 					\item  \textbf{Sudionici:} Aplikacija i baza podataka
 					\item  \textbf{Preduvjet:} Korisnik mora imati ulogu administratora
 					\item  \textbf{Opis osnovnog tijeka:}
-					
+
 					\item[] \begin{packed_enum}
-						
+
 						\item Nakon prijave u sustav administrator ima mogućnost dodavanja promotivnih materijala u bazu podataka
 						\item Administrator otvara sučelje za dodavanje novih promotivnih materijala gdje upisuje potrebne informacije vezane za promotivne materijale te prilaže promotivni materijal
 						\item Nakon pritiska na gumb za spremanje, baza podatka sprema informacije o promotivnom materijalu
 					\end{packed_enum}
-					
+
 					\item  \textbf{Opis mogućih odstupanja:}
-					
+
 					\item[] \begin{packed_item}
-						
+
 						\item[2.a] Unos krivih podataka
 						\item[] \begin{packed_enum}
-							
+
 							\item Administrator je unio neke krive podatke
 							\item Sustav ga upozorava na krive podatke te mu javlja kako da ispravi pogrešku
-							
+
 						\end{packed_enum}
-						
-						
+
+
 					\end{packed_item}
 				\end{packed_item}
-				
-					
+
+
 				\subsubsection{Dijagrami obrazaca uporabe}
-				
+
 					\begin{figure}[H]
 						\includegraphics[width=\textwidth]{slike/prijavaUseCase.PNG} %veličina u odnosu na širinu linije
 						\caption{Dijagram obrazaca uporabe, prijava u sustav}
 						\label{fig:prijava-dijagram} %label mora biti drugaciji za svaku sliku
 					\end{figure}
-					
+
 					\begin{figure}[H]
 						\includegraphics[width=\textwidth]{slike/korisniciUseCase.PNG} %veličina u odnosu na širinu linije
 						\caption{Dijagram obrazaca uporabe, funkcionalnosti korisnika}
 						\label{fig:korisnik-dijagram} %label mora biti drugaciji za svaku sliku
 					\end{figure}
-					
+
 					\begin{figure}[H]
 						\includegraphics[width=\textwidth]{slike/adminUseCase.PNG} %veličina u odnosu na širinu linije
 						\caption{Dijagram obrazaca uporabe, funkcionalnosti administratora}
 						\label{fig:admin-dijagram} %label mora biti drugaciji za svaku sliku
 					\end{figure}
-					
-				\eject		
-				
+
+				\eject
+
 			\subsection{Sekvencijski dijagrami}
-						
+
 				\textbf{Obrazac uporabe UC1: Prijava u sustav odgovarajućom lozinkom}\\
 				Korisnik na početnom zaslonu upisuje lozinku konferencije te ju šalje poslužitelju. Poslužitelj šalje upit bazi podataka i provjerava je li lozinka ispravna, ako je neispravna ovaj se postupak ponavlja do upisa točne lozinke. Ako je unesena lozinka ispravna, korisniku se potvrđuje da je unio ispravnu lozinku te se od baze podataka zatražuju podaci o konferenciji i oni se šalju korisniku.
-				
+
 				\begin{figure}[H]
 					\includegraphics[width=\textwidth]{slike/uc1Sekvencijski.PNG} %veličina u odnosu na širinu linije
 					\caption{Sekvencijski dijagram obrasca UC1: Prijava u sustav odgovarajućom lozinkom}
@@ -674,14 +674,14 @@
 				\eject
 					\textbf{Obrazac uporabe UC4: Registracija u sustav prijavljenih korisnika}\\
 				Korisnik klikom na gumb registracija pokreće postupak registracije. Sustav mu šalje nazad formu za registraciju u koju upisuje adresu elektroničke pošte i lozinku te ih šalje sustavu. Zatim sustav provjerava format adrese elektroničke pošte pa ako nije valjan obavještava korisnika o tome, inače nastavlja dalje i provjerava ispunjava li lozinka traženi format te u slučaju da ne ispunjava također obavještava korisnika. Na kraju se upitom nad bazom provjerava postoji li registrirani korisnik s tom adresom elektroničke pošte. U slučaju da postoji obavijestit ćemo korisnika o tome, a ako ne, lozinka će se kriptirati i spremiti zajedno s adresom elektroničke pošte u bazu podataka i korisnika ćemo obavijestiti da je registracija bila uspješna.
-				
+
 				\begin{figure}[H]
 					\includegraphics[width=\textwidth]{slike/uc4Sekvencijski.PNG} %veličina u odnosu na širinu linije
 					\caption{Sekvencijski dijagram obrasca UC4: Registracija u sustav prijavljenih korisnika}
 					\label{fig:uc4-sekvencijski} %label mora biti drugaciji za svaku sliku
 				\end{figure}
 				\eject
-				
+
 				\textbf{Obrazci uporabe UC6 i UC7: Glasanje}\\
 				Obrasci UC6 i UC7 opisuju rad sustava glasovanja. Postupci glasanja i povlačenja glasa započinju zahtjevom korisnika, te se za oba prvo provjerava vremenski prozor glasanja (glasanje i promijena glasa je onemogućena ako je vremenski prozor glasanja prošao). Ako je glasanje još uvijek dozvoljeno sljedeći korak je provjera da li je korisnik već glasao, s obzirom na odgovor baze podataka imamo grananje. Kod UC6 ako je korisnik već glasao onda mu se javlja greška i nudi opcija da odmakne svoj glas, inače u bazu podataka se sprema glas, te se korisniko dojavljuje da je glasanje provedeno uspješno. Kod UC7 ako je korisnik već glasao, onda se glas uspješno briše iz baze podataka, inače se javlja korisniku greška da nije glasao prije.
 				\begin{figure}[H]
@@ -694,12 +694,12 @@
 					\caption{Sekvencijski dijagram obrasca UC7: Povlačenje korisnikovog glasa stručnog postera}
 					\label{fig:uc7-sekvencijski} %label mora biti drugaciji za svaku sliku
 				\end{figure}
-				
+
 		\section{Ostali zahtjevi}
-		 
+
 			  \begin{packed_item}
 			 	\item Unutar sustava mora biti omogućen istovremeni rad svih korisnika samog sustava
-			 	\item Aplikacija se mora moći koristiti unutar bilo kojeg web-preglednika 
+			 	\item Aplikacija se mora moći koristiti unutar bilo kojeg web-preglednika
 			 	\item Aplikacija se mora ostvariti objektno orijentiranim pristupom programiranja
 			 	\item Aplikacija mora biti jednostavna i intuitivna za korištenje svim korisnicima svih uzrasta i predznanja
 			 	\item Aplikacija mora biti javno dostupna
@@ -707,7 +707,6 @@
 			 	\item Nadogradnjom postojeće aplikacije ne smije doći do urušavanja funkcionalnosti i kvalitete već postojeće aplikacije
 			 	\item Unutar sustava mora biti omogućen unos svih posebnih slova referentnih za odabrani jezik aplikacija (za slučaj hrvatskog jezika, mora biti moguć unos dijakritičkih znakova)
 			 \end{packed_item}
-			 
-			 
-			 
-	
+
+
+
