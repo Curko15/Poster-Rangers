@@ -7,8 +7,8 @@ const app = express();
 
 // Configuration
 const PORT = process.env.PORT || 3000;
-const HOST = "localhost";
-//const { API_BASE_URL } = "https://poster-rangers-be.onrender.com";
+const HOST = process.env.PORT || "localhost";
+const API_BASE_URL = "https://poster-rangers-be.onrender.com";
 
 // Proxy
 app.use(
@@ -21,7 +21,7 @@ app.use(
 
 app.use(express.static(path.join(__dirname, "build")));
 
-app.listen(3000, "localhost", () => {
+app.listen(PORT, HOST, () => {
   console.log(`Starting Proxy at ${HOST}:${PORT}`);
 });
 
