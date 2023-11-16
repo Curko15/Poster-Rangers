@@ -33,3 +33,8 @@ export const getLoggedInUser = (email, password) => {
   let userPass = sessionStorage.getItem("password", password);
   return { userEmail, userPass };
 };
+
+export const saveAuthToken = (authToken) =>
+  localStorage.setItem("authToken", authToken);
+
+export const getAuthToken = () => localStorage.getItem("authToken");

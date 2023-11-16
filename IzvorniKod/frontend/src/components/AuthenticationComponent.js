@@ -5,6 +5,7 @@ import {
   isLoggedInConference,
   saveLoggedInUser,
   storeToken,
+  saveAuthToken,
 } from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
 
@@ -22,13 +23,16 @@ const AuthenticationComponent = ({ viewType }) => {
     const token = window.btoa(email + ":" + password);
     storeToken(token);
 
-    const url = `/korisnici/${viewType === "login" ? "login" : "register"}`;
     const requestData =
       viewType === "login"
         ? { email: email, hashLozinke: password }
         : { email: email, hashLozinke: password, ime: name, prezime: lastName };
 
     try {
+      const url = `http://localhost:8081/api/korisnici/${
+        viewType === "login" ? "authenticatePP" : "registerPP"
+      }`;
+
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -36,19 +40,26 @@ const AuthenticationComponent = ({ viewType }) => {
         },
         body: JSON.stringify(requestData),
       });
+      const authToken = await response.json();
 
       if (response.ok) {
+        saveAuthToken(authToken);
+
         saveLoggedInUser(email, password);
         console.log(
           `${viewType === "login" ? "Login" : "Registration"} successful`,
         );
         try {
+          console.log("Bearer " + authToken.token);
+          console.log("bok: " + getLoggedInUser().userEmail);
+          console.log("bok2: " + getLoggedInUser().userPass);
           const response = await fetch(
-            "http://localhost:8081/korisnici/getRole",
+            "http://localhost:8081/api/korisnici/getRole",
             {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
+                Authorization: "Bearer " + authToken.token,
               },
               body: JSON.stringify({
                 email: getLoggedInUser().userEmail,
@@ -56,7 +67,6 @@ const AuthenticationComponent = ({ viewType }) => {
               }),
             },
           );
-
           const userRole = await response.json(); //TODO: here is the role
           let userRoleName;
           userRole.map((role) => (userRoleName = role.name));

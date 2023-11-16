@@ -66,6 +66,7 @@ public class KorisnikController {
     @PostMapping("/getRole")
     public ResponseEntity<?> getRole(@RequestBody LoginDto korisnik) throws JsonProcessingException {
         Korisnik postojeciKorisnik = korisnikService.findByEmail(korisnik.getEmail());
+        System.out.println("Pokusaj login-a " + korisnik.getEmail());
         if (postojeciKorisnik != null) {
             if(korisnikService.checkLozinka(korisnik.getPassword(), postojeciKorisnik)){
                 return new ResponseEntity<>(postojeciKorisnik.getRoles(), HttpStatus.OK);
