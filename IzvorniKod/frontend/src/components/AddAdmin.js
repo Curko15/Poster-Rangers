@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../css/addConference.css";
+import "../css/authetication.css";
 import AdminList from "./AdminList";
 import { getConferenceId } from "../services/AuthService";
 

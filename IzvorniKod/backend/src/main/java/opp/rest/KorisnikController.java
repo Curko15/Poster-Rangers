@@ -3,10 +3,7 @@ package opp.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import opp.domain.Korisnik;
-import opp.domain.LoginDto;
-import opp.domain.Role;
-import opp.domain.User;
+import opp.domain.*;
 import opp.service.KorisnikService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,21 +29,25 @@ public class KorisnikController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Korisnik korisnik) {
         System.out.println(korisnik);
-        if (korisnikService.findByEmail(korisnik.getEmail()) != null) {
-            return new ResponseEntity<>("Korisnik je već registriran", HttpStatus.CONFLICT);
-        }
         korisnikService.save(korisnik);
         return new ResponseEntity<>("Korisnik registered successfully", HttpStatus.CREATED);
     }
 
+    //TEST
+    @PostMapping("/registerPP")
+    public ResponseEntity<AuthenticationResponse> registerPP(@RequestBody Korisnik korisnik){
+           return ResponseEntity.ok(korisnikService.register(korisnik));
+    }
+
+    @PostMapping("/authenticatePP")
+    public ResponseEntity<AuthenticationResponse> registerPP(@RequestBody LoginDto loginDto){
+        return ResponseEntity.ok(korisnikService.authenticate(loginDto));
+    }
+
     @PostMapping("/registerAdmin")
-    public ResponseEntity<String> registerAdmin(@RequestBody Korisnik korisnik) {
+    public  ResponseEntity<?> registerAdmin(@RequestBody Korisnik korisnik) {
         System.out.println(korisnik);
-        if (korisnikService.findByEmail(korisnik.getEmail()) != null) {
-            return new ResponseEntity<>("Admin već registriran", HttpStatus.CONFLICT);
-        }
-        korisnikService.saveAdmin(korisnik);
-        return new ResponseEntity<>("Admin registered successfully", HttpStatus.CREATED);
+        return ResponseEntity.ok(korisnikService.saveAdmin(korisnik));
     }
 
     @PostMapping("/login")
@@ -65,6 +66,7 @@ public class KorisnikController {
     @PostMapping("/getRole")
     public ResponseEntity<?> getRole(@RequestBody LoginDto korisnik) throws JsonProcessingException {
         Korisnik postojeciKorisnik = korisnikService.findByEmail(korisnik.getEmail());
+        System.out.println("Pokusaj login-a " + korisnik.getEmail());
         if (postojeciKorisnik != null) {
             if(korisnikService.checkLozinka(korisnik.getPassword(), postojeciKorisnik)){
                 return new ResponseEntity<>(postojeciKorisnik.getRoles(), HttpStatus.OK);
@@ -75,8 +77,9 @@ public class KorisnikController {
 
     @PostMapping("/login2")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
-       String response = korisnikService.login(loginDto);
-        return new ResponseEntity<>(response,HttpStatus.OK);
+       //String response = korisnikService.login(loginDto);
+       // return new ResponseEntity<>(response,HttpStatus.OK);
+        return null;
     }
 
     @PreAuthorize("hasRole('KORISNIK')")

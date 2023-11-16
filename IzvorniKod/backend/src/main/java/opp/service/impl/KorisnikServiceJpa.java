@@ -1,16 +1,20 @@
 package opp.service.impl;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import opp.dao.KorisnikRepo;
 import opp.dao.RoleRepo;
+import opp.domain.AuthenticationResponse;
 import opp.domain.Korisnik;
 import opp.domain.LoginDto;
 import opp.domain.Role;
+import opp.security.JwtService;
 import opp.service.KorisnikService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +26,10 @@ import java.util.Set;
 @AllArgsConstructor
 public class KorisnikServiceJpa implements KorisnikService {
 
-    private KorisnikRepo korisnikRepo;
-    private RoleRepo roleRepo;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private  KorisnikRepo korisnikRepo;
+    private  RoleRepo roleRepo;
+    private  BCryptPasswordEncoder passwordEncoder;
+    private JwtService jwtService;
     private AuthenticationManager authenticationManager;
 
     @Override
@@ -37,14 +42,19 @@ public class KorisnikServiceJpa implements KorisnikService {
         return korisnikRepo.save(korisnik);
     }
 
+
+
     @Override
-    public Korisnik saveAdmin(Korisnik korisnik) {
+    public AuthenticationResponse saveAdmin(Korisnik korisnik) {
         korisnik.setHashLozinke(passwordEncoder.encode(korisnik.getHashLozinke()));
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepo.findByName("ROLE_ADMIN");
         roles.add(userRole);
         korisnik.setRoles(roles);
-        return korisnikRepo.save(korisnik);
+        korisnikRepo.save(korisnik);
+        var jwtToken = jwtService.generateToken(korisnik);
+        return AuthenticationResponse.builder()
+                .token(jwtToken).build();
     }
 
     @Override
@@ -64,7 +74,7 @@ public class KorisnikServiceJpa implements KorisnikService {
 
     @Override
     public Korisnik findByEmail(String email) {
-        return korisnikRepo.findByEmail(email);
+        return korisnikRepo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Korisnik not found"));
     }
 
     @Override
@@ -73,6 +83,33 @@ public class KorisnikServiceJpa implements KorisnikService {
     }
 
     @Override
+    public AuthenticationResponse register(Korisnik korisnik) {
+        korisnik.setHashLozinke(passwordEncoder.encode(korisnik.getHashLozinke()));
+        Set<Role> roles = new HashSet<>();
+        Role userRole = roleRepo.findByName("ROLE_KORISNIK");
+        roles.add(userRole);
+        korisnik.setRoles(roles);
+        korisnikRepo.save(korisnik);
+        var jwtToken = jwtService.generateToken(korisnik);
+        return AuthenticationResponse.builder()
+                .token(jwtToken).build();
+    }
+
+    @Override
+    public AuthenticationResponse authenticate(LoginDto loginDto) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDto.getEmail(),
+                        loginDto.getPassword()
+                )
+        );
+        var korisnik = korisnikRepo.findByEmail(loginDto.getEmail()).orElseThrow(() -> new UsernameNotFoundException("Korisnik not found"));
+        var jwtToken = jwtService.generateToken(korisnik);
+        return AuthenticationResponse.builder()
+                .token(jwtToken).build();
+    }
+
+    /*@Override
     public String login(LoginDto loginDto) {
        Authentication authentication =  authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
             loginDto.getEmail(),
@@ -81,5 +118,5 @@ public class KorisnikServiceJpa implements KorisnikService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return "User logged-in successfully!";
-    }
+    }*/
 }
