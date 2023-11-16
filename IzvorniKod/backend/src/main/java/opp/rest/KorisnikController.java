@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/korisnici")
 public class KorisnikController {
 
@@ -34,10 +34,12 @@ public class KorisnikController {
     }
 
     //TEST
+
     @PostMapping("/registerPP")
     public ResponseEntity<AuthenticationResponse> registerPP(@RequestBody Korisnik korisnik){
            return ResponseEntity.ok(korisnikService.register(korisnik));
     }
+
 
     @PostMapping("/authenticatePP")
     public ResponseEntity<AuthenticationResponse> registerPP(@RequestBody LoginDto loginDto){
@@ -62,6 +64,7 @@ public class KorisnikController {
         }
         return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
     }
+
 
     @PostMapping("/getRole")
     public ResponseEntity<?> getRole(@RequestBody LoginDto korisnik) throws JsonProcessingException {
