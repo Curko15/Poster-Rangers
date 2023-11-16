@@ -664,7 +664,7 @@
 			\subsection{Sekvencijski dijagrami}
 						
 				\textbf{Obrazac uporabe UC1: Prijava u sustav odgovarajućom lozinkom}\\
-				Korisnik na početnom zaslonu upisuje lozinku konferencije te ju šalje poslužitelju. Poslužitelj šalje upit bazi podataka i provjerava je li lozinka ispravna, ako je neispravna ovaj se postupak ponavlja do upisa točne lozinke. Ako je unesena lozinka ispravna korisniku se potvrđuje da je unio ispravnu lozinku te se od baze podataka zatražuju podaci o konferenciji i oni se šalju korisniku.
+				Korisnik na početnom zaslonu upisuje lozinku konferencije te ju šalje poslužitelju. Poslužitelj šalje upit bazi podataka i provjerava je li lozinka ispravna, ako je neispravna ovaj se postupak ponavlja do upisa točne lozinke. Ako je unesena lozinka ispravna, korisniku se potvrđuje da je unio ispravnu lozinku te se od baze podataka zatražuju podaci o konferenciji i oni se šalju korisniku.
 				
 				\begin{figure}[H]
 					\includegraphics[width=\textwidth]{slike/uc1Sekvencijski.PNG} %veličina u odnosu na širinu linije
@@ -681,6 +681,19 @@
 					\label{fig:uc4-sekvencijski} %label mora biti drugaciji za svaku sliku
 				\end{figure}
 				\eject
+				
+				\textbf{Obrazci uporabe UC6 i UC7: Glasanje}\\
+				Obrasci UC6 i UC7 opisuju rad sustava glasovanja. Postupci glasanja i povlačenja glasa započinju zahtjevom korisnika, te se za oba prvo provjerava vremenski prozor glasanja (glasanje i promijena glasa je onemogućena ako je vremenski prozor glasanja prošao). Ako je glasanje još uvijek dozvoljeno sljedeći korak je provjera da li je korisnik već glasao, s obzirom na odgovor baze podataka imamo grananje. Kod UC6 ako je korisnik već glasao onda mu se javlja greška i nudi opcija da odmakne svoj glas, inače u bazu podataka se sprema glas, te se korisniko dojavljuje da je glasanje provedeno uspješno. Kod UC7 ako je korisnik već glasao, onda se glas uspješno briše iz baze podataka, inače se javlja korisniku greška da nije glasao prije.
+				\begin{figure}[H]
+					\includegraphics[width=\textwidth]{slike/uc6Sekvencijski.PNG} %veličina u odnosu na širinu linije
+					\caption{Sekvencijski dijagram obrasca UC6: Glasanje za najbolji stručni poster konferencije}
+					\label{fig:uc6-sekvencijski} %label mora biti drugaciji za svaku sliku
+				\end{figure}
+				\begin{figure}[H]
+					\includegraphics[width=\textwidth]{slike/uc7Sekvencijski.PNG} %veličina u odnosu na širinu linije
+					\caption{Sekvencijski dijagram obrasca UC7: Povlačenje korisnikovog glasa stručnog postera}
+					\label{fig:uc7-sekvencijski} %label mora biti drugaciji za svaku sliku
+				\end{figure}
 				
 		\section{Ostali zahtjevi}
 		 
