@@ -8,7 +8,7 @@ const PromoScreen = () => {
   return (
     <div>
       <Header viewType="promo" />
-      <h1>Promo material</h1>
+      <h1>Promo materijal</h1>
       <Footer />
     </div>
   );
