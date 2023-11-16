@@ -214,16 +214,15 @@
 			\caption{Dijagram razreda - Controllers}
 			\label{fig:dr-controllers} %label mora biti drugaciji za svaku sliku
 		\end{figure}
-		
+		\newpage
 		Svi razredi zaduženi za entitete i DTO (Data Transfer Objects) su smješteni u \textit{src/main/java/opp/domain} paket. Razredi entiteta poput Konferencija, Poster, Mjesto itd. su objekti koji predstavljaju podatke u bazi podataka, te su odgovorni za mapiranje objekata u redove u tablici baze podataka i obrnuto. Također sadrže načine upravljanja podatcima i njihovu validaciju (osiguravaju integritet baze podataka). Razredi DTO su također objekti koji se koriste za razmjenu podataka između aplikacija, u našem slučaju je to komunikacija između backend i frontend dijela.
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth]{slike/domainClassDiagram.PNG} %veličina u odnosu na širinu linije
 			\caption{Dijagram razreda - Domain}
 			\label{fig:dr-domain} %label mora biti drugaciji za svaku sliku
 		\end{figure}
-		TODO opisi
-		Ovaj tu service je upitan treba ga malo bolje nacrtati
-		
+		\newpage
+		Sljedeći dijagram je podijeljen u 3 sloja: Controllers, Service i JPA koji sadrže pripadajuće razrede. Podijela je napravljena kako bi se postigla dobra organizacija i razdvajanje dijelova aplikacije. Sloj Controllers sadrži sve kontroler razrede, te je njihova glavna uloga obrada HTTP zahtjeva. Sloj Service sadrži sučelja koje implementiraju razredi kontrolera. Oni pružaju apstrakciju između kontrolera i sloja podataka (JPA). I na kraju sloj Java Persistence API (JPA). On je zadužen za pristup podacima u relacijskoj bazi podataka i za mapiranje java objekata u odgovarajući tip podatka u bazi podataka.		
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth]{slike/serviceClassDiagram.PNG} %veličina u odnosu na širinu linije
 			\caption{Dijagram razreda - Service}
