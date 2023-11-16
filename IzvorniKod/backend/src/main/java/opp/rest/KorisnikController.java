@@ -47,8 +47,7 @@ public class KorisnikController {
     @PostMapping("/registerAdmin")
     public  ResponseEntity<?> registerAdmin(@RequestBody Korisnik korisnik) {
         System.out.println(korisnik);
-        korisnikService.saveAdmin(korisnik);
-        return ResponseEntity.ok(korisnikService.register(korisnik));
+        return ResponseEntity.ok(korisnikService.saveAdmin(korisnik));
     }
 
     @PostMapping("/login")
