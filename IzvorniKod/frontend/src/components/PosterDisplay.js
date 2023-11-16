@@ -1,27 +1,26 @@
 import React, { useEffect, useState } from "react";
 import "../css/posterDisplay.css";
-import { getConferenceId } from "../services/AuthService";
+import { getAuthToken, getConferenceId } from "../services/AuthService";
+import axios from "axios";
 
-const PosterDisplay = () => {
+const PosterDisplay = async () => {
   const [images, setImages] = useState([]);
   const [display, setDisplay] = useState(false);
 
-  useEffect(() => {
-    const fetchPosters = async () => {
-      const conferenceId = getConferenceId();
-      try {
-        const response = await fetch("getAll/1");
-        console.log("getAll/" + conferenceId);
-
-        const data = await response.json();
-
-        setImages(data);
-      } catch (error) {
-        console.error("Error fetching posters:", error);
-      }
-    };
-    fetchPosters();
-  }, []);
+  try {
+    const response = await axios.get(
+      `http://localhost:8081/api/getAll/${getConferenceId()}`,
+      {
+        headers: {
+          Authorization: "Bearer " + getAuthToken().token,
+        },
+      },
+    );
+    setImages(response.data);
+    console.log(response.data);
+  } catch (error) {
+    console.error("Error:", error);
+  }
 
   return (
     <div className="posterDisplay">

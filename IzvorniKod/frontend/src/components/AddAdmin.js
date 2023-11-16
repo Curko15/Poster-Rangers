@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../css/addConference.css";
 import AdminList from "./AdminList";
 import { getConferenceId } from "../services/AuthService";
+import axios from "axios";
 
 function AdminForm() {
   const [emailAdmin, setEmailAdmin] = useState("");
@@ -16,21 +17,22 @@ function AdminForm() {
       ime: adminName,
       prezime: adminLastName,
       email: emailAdmin,
-      hashLozinke: adminPassword,
+      password: adminPassword,
     };
 
     try {
-      const response = await fetch(
+      const response = await axios.post(
         "http://localhost:8081/korisnici/registerAdmin",
+        admin,
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authenticated: "true",
           },
-          body: JSON.stringify(admin),
         },
       );
-      if (response.ok) {
+
+      if (response.status === 200) {
         console.log("Admin submitted successfully");
         setAdminName("");
         setAdminLastName("");
@@ -40,7 +42,7 @@ function AdminForm() {
         console.error("Failed to submit new admin");
       }
     } catch (error) {
-      console.error("Error submitting admin:", error);
+      console.error("Error submitting admin:", error.message);
     }
   };
 

@@ -58,7 +58,7 @@ public class KorisnikController {
 
         Korisnik postojeciKorisnik = korisnikService.findByEmail(korisnik.getEmail());
         if (postojeciKorisnik != null) {
-            if(korisnikService.checkLozinka(korisnik.getHashLozinke(), postojeciKorisnik)){
+            if(korisnikService.checkLozinka(korisnik.getPassword(), postojeciKorisnik)){
                 return new ResponseEntity<>("Login successful", HttpStatus.OK);
             }
         }

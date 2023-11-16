@@ -6,6 +6,7 @@ import {
   saveLoggedInUser,
   storeToken,
   saveAuthToken,
+  getAuthToken,
 } from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -25,81 +26,69 @@ const AuthenticationComponent = ({ viewType }) => {
 
     const requestData =
       viewType === "login"
-        ? { email: email, hashLozinke: password }
-        : { email: email, hashLozinke: password, ime: name, prezime: lastName };
+        ? { email: email, password: password }
+        : { email: email, password: password, ime: name, prezime: lastName };
 
+    const url = `http://localhost:8081/api/korisnici/${
+      viewType === "login" ? "authenticatePP" : "registerPP"
+    }`;
+    let response;
     try {
-      const url = `http://localhost:8081/api/korisnici/${
-        viewType === "login" ? "authenticatePP" : "registerPP"
-      }`;
-
-      const response = await fetch(url, {
-        method: "POST",
+      response = await axios.post(url, requestData, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(requestData),
       });
-      const authToken = await response.json();
-
-      if (response.ok) {
-        saveAuthToken(authToken);
-
-        saveLoggedInUser(email, password);
-        console.log(
-          `${viewType === "login" ? "Login" : "Registration"} successful`,
-        );
-        const getRoleData = {
-          email: getLoggedInUser().userEmail,
-          password: getLoggedInUser().userPass,
-        };
-        console.log("Mja");
-        const response = await axios.post(
-          "http://localhost:8081/api/korisnici/getRole",
-          getRoleData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + authToken.token,
-            },
-          },
-        );
-        let user = response.data;
-        console.log("ovo je: " + user);
-        console.log("ovo je");
-        // const userRole = await response.json(); //TODO: here is the role
-        let userRole;
-        let userRoleName;
-        // userRole.map((role) => (userRoleName = role.name));
-        console.log("BOOOOOOOk");
-        if (userRoleName === "ROLE_ADMIN") {
-          navigate("/admin");
-        } else if (userRoleName === "ROLE_SUPERADMIN") {
-          navigate("/superAdmin");
-        } else if (userRoleName === "ROLE_KORISNIK") {
-          if (isLoggedInConference()) {
-            navigate("/home");
-          } else {
-            navigate("/");
-          }
-        }
-      } else {
-        console.log(
-          `${viewType === "login" ? "Login" : "Registration"} failed`,
-        );
-      }
     } catch (error) {
-      console.error(
-        `Error during ${viewType === "login" ? "login" : "registration"}:`,
-        error,
+      console.error("Error:", error);
+    }
+
+    const authToken = await response.data;
+    saveAuthToken(authToken);
+
+    saveLoggedInUser(email, password);
+    const getRoleData = {
+      email: getLoggedInUser().userEmail,
+      password: getLoggedInUser().userPass,
+    };
+
+    console.log(getAuthToken().token);
+    let responseRole;
+    try {
+      responseRole = await axios.post(
+        "http://localhost:8081/api/korisnici/getRole",
+        getRoleData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + getAuthToken().token,
+          },
+        },
       );
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    console.log(responseRole.status);
+    let user = responseRole.data;
+    let userRole;
+
+    user.map((role) => (userRole = role.name));
+    console.log(userRole);
+    if (userRole === "ROLE_ADMIN") {
+      navigate("/admin");
+    } else if (userRole === "ROLE_SUPERADMIN") {
+      navigate("/superAdmin");
+    } else if (userRole === "ROLE_KORISNIK") {
+      if (isLoggedInConference()) {
+        navigate("/home");
+      } else {
+        navigate("/");
+      }
     }
   };
 
   useEffect(() => {
-    const handleResize = (entries) => {
-      console.log("Resize event:", entries);
-    };
+    const handleResize = (entries) => {};
 
     const resizeObserver = new ResizeObserver(handleResize);
 

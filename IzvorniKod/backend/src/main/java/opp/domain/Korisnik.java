@@ -27,7 +27,7 @@ public class Korisnik implements UserDetails {
 
     @Size(min=8)
     @NotNull
-    private String hashLozinke;
+    private String password;
     @NotNull
     private String ime;
     @NotNull
@@ -49,9 +49,7 @@ public class Korisnik implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return this.getHashLozinke();
-    }
+    public String getPassword() { return password; }
 
     @Override
     public String getUsername() {
