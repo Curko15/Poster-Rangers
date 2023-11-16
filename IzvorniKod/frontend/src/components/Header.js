@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/header.css";
 import {
+  getAuthToken,
   getLoggedInUser,
   isLoggedInConference,
   isUserLoggedIn,
   logOutFromConference,
   userLogOut,
 } from "../services/AuthService";
+import axios from "axios";
 
 const Header = ({ viewType }) => {
   const navigate = useNavigate();
@@ -17,25 +19,24 @@ const Header = ({ viewType }) => {
     const fetchData = async () => {
       if (isUserLoggedIn()) {
         try {
-          const response = await fetch(
-            "http://localhost:8081/korisnici/getRole",
+          const response = await axios.post(
+            "http://localhost:8081/api/korisnici/getRole",
             {
-              method: "POST",
+              email: getLoggedInUser().userEmail,
+              password: getLoggedInUser().userPass,
+            },
+            {
               headers: {
                 "Content-Type": "application/json",
+                Authorization: "Bearer " + getAuthToken().token,
               },
-              body: JSON.stringify({
-                email: getLoggedInUser().userEmail,
-                password: getLoggedInUser().userPass,
-              }),
             },
           );
-          const userRole = await response.json();
 
+          const userRole = response.data;
           userRole.map((role) => setUserRoleName(role.name));
-          console.log(userRoleName);
         } catch (error) {
-          console.error("Error fetching data:", error);
+          console.error("Error fetching data:", error.message);
         }
       }
     };
@@ -157,16 +158,6 @@ const Header = ({ viewType }) => {
           viewType === "admin") && (
           <button id="exitButton" onClick={handleExitClick}>
             Exit
-          </button>
-        )}
-        {viewType === "admin" && isUserLoggedIn() && (
-          <button id="dodajKonfButton" onClick={handleDodajKonfClick}>
-            Dodaj Konferenciju
-          </button>
-        )}
-        {viewType === "admin" && isUserLoggedIn() && (
-          <button id="dodajPosterButton" onClick={handleDodajPosterClick}>
-            Dodaj Poster
           </button>
         )}
 

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "../css/addConference.css";
-import AdminList from "./AdminList";
-import { getConferenceId } from "../services/AuthService";
+import { getAuthToken } from "../services/AuthService";
 import axios from "axios";
 
 function AdminForm() {
@@ -22,12 +21,12 @@ function AdminForm() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8081/korisnici/registerAdmin",
+        "http://localhost:8081/api/korisnici/registerAdmin",
         admin,
         {
           headers: {
             "Content-Type": "application/json",
-            Authenticated: "true",
+            Authorization: "Bearer " + getAuthToken().token,
           },
         },
       );

@@ -1,4 +1,6 @@
 import React, { useState, useRef } from "react";
+import axios from "axios";
+import { getAuthToken } from "../services/AuthService";
 
 const AddConferenceComponent = () => {
   const [conferenceName, setConferenceName] = useState("");
@@ -42,27 +44,26 @@ const AddConferenceComponent = () => {
       ulica: conferenceStreet,
       kucBroj: conferenceStreetNumber,
     };
-    console.log(conference);
 
     try {
-      const response = await fetch(
-        "http://localhost:8081/konferencija/addKonf",
+      const response = await axios.post(
+        "http://localhost:8081/api/konferencija/addKonf",
+        conference,
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: "Bearer " + getAuthToken().token,
           },
-          body: JSON.stringify(conference),
         },
       );
 
-      if (response.ok) {
+      if (response.status === 200) {
         console.log("Conference submitted successfully");
       } else {
         console.error("Failed to submit conference");
       }
     } catch (error) {
-      console.error("Error submitting conference:", error);
+      console.error("Error submitting conference:", error.message);
     }
   };
 
