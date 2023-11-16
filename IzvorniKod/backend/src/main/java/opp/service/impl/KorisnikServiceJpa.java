@@ -34,7 +34,7 @@ public class KorisnikServiceJpa implements KorisnikService {
 
     @Override
     public Korisnik save(Korisnik korisnik) {
-        korisnik.setHashLozinke(passwordEncoder.encode(korisnik.getHashLozinke()));
+        korisnik.setPassword(passwordEncoder.encode(korisnik.getPassword()));
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepo.findByName("ROLE_KORISNIK");
         roles.add(userRole);
@@ -45,18 +45,21 @@ public class KorisnikServiceJpa implements KorisnikService {
 
 
     @Override
-    public Korisnik saveAdmin(Korisnik korisnik) {
-        korisnik.setHashLozinke(passwordEncoder.encode(korisnik.getHashLozinke()));
+    public AuthenticationResponse saveAdmin(Korisnik korisnik) {
+        korisnik.setPassword(passwordEncoder.encode(korisnik.getPassword()));
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepo.findByName("ROLE_ADMIN");
         roles.add(userRole);
         korisnik.setRoles(roles);
-        return korisnikRepo.save(korisnik);
+        korisnikRepo.save(korisnik);
+        var jwtToken = jwtService.generateToken(korisnik);
+        return AuthenticationResponse.builder()
+                .token(jwtToken).build();
     }
 
     @Override
     public Korisnik saveSuperAdmin(Korisnik korisnik) {
-        korisnik.setHashLozinke(passwordEncoder.encode(korisnik.getHashLozinke()));
+        korisnik.setPassword(passwordEncoder.encode(korisnik.getPassword()));
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepo.findByName("ROLE_SUPERADMIN");
         roles.add(userRole);
@@ -66,12 +69,12 @@ public class KorisnikServiceJpa implements KorisnikService {
 
     @Override
     public boolean checkLozinka(String lozinka, Korisnik korisnik) {
-        return passwordEncoder.matches(lozinka, korisnik.getHashLozinke());
+        return passwordEncoder.matches(lozinka, korisnik.getPassword());
     }
 
     @Override
     public Korisnik findByEmail(String email) {
-        return korisnikRepo.findByEmail(email).orElseThrow();
+        return korisnikRepo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Korisnik not found"));
     }
 
     @Override
@@ -81,7 +84,7 @@ public class KorisnikServiceJpa implements KorisnikService {
 
     @Override
     public AuthenticationResponse register(Korisnik korisnik) {
-        korisnik.setHashLozinke(passwordEncoder.encode(korisnik.getHashLozinke()));
+        korisnik.setPassword(passwordEncoder.encode(korisnik.getPassword()));
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepo.findByName("ROLE_KORISNIK");
         roles.add(userRole);

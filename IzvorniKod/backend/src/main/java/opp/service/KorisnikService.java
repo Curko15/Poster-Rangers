@@ -10,7 +10,7 @@ public interface KorisnikService {
 
     Korisnik save(Korisnik korisnik);
 
-    Korisnik saveAdmin(Korisnik korisnik);
+    AuthenticationResponse saveAdmin(Korisnik korisnik);
 
     Korisnik saveSuperAdmin(Korisnik korisnik);
 

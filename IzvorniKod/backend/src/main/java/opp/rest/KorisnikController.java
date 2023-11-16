@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/korisnici")
 public class KorisnikController {
 
@@ -29,18 +29,17 @@ public class KorisnikController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Korisnik korisnik) {
         System.out.println(korisnik);
-        if (korisnikService.findByEmail(korisnik.getEmail()) != null) {
-            return new ResponseEntity<>("Korisnik je već registriran", HttpStatus.CONFLICT);
-        }
         korisnikService.save(korisnik);
         return new ResponseEntity<>("Korisnik registered successfully", HttpStatus.CREATED);
     }
 
     //TEST
+
     @PostMapping("/registerPP")
     public ResponseEntity<AuthenticationResponse> registerPP(@RequestBody Korisnik korisnik){
            return ResponseEntity.ok(korisnikService.register(korisnik));
     }
+
 
     @PostMapping("/authenticatePP")
     public ResponseEntity<AuthenticationResponse> registerPP(@RequestBody LoginDto loginDto){
@@ -48,13 +47,9 @@ public class KorisnikController {
     }
 
     @PostMapping("/registerAdmin")
-    public ResponseEntity<String> registerAdmin(@RequestBody Korisnik korisnik) {
+    public  ResponseEntity<?> registerAdmin(@RequestBody Korisnik korisnik) {
         System.out.println(korisnik);
-        if (korisnikService.findByEmail(korisnik.getEmail()) != null) {
-            return new ResponseEntity<>("Admin već registriran", HttpStatus.CONFLICT);
-        }
-        korisnikService.saveAdmin(korisnik);
-        return new ResponseEntity<>("Admin registered successfully", HttpStatus.CREATED);
+        return ResponseEntity.ok(korisnikService.saveAdmin(korisnik));
     }
 
     @PostMapping("/login")
@@ -63,16 +58,18 @@ public class KorisnikController {
 
         Korisnik postojeciKorisnik = korisnikService.findByEmail(korisnik.getEmail());
         if (postojeciKorisnik != null) {
-            if(korisnikService.checkLozinka(korisnik.getHashLozinke(), postojeciKorisnik)){
+            if(korisnikService.checkLozinka(korisnik.getPassword(), postojeciKorisnik)){
                 return new ResponseEntity<>("Login successful", HttpStatus.OK);
             }
         }
         return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
     }
 
+
     @PostMapping("/getRole")
     public ResponseEntity<?> getRole(@RequestBody LoginDto korisnik) throws JsonProcessingException {
         Korisnik postojeciKorisnik = korisnikService.findByEmail(korisnik.getEmail());
+        System.out.println("Pokusaj login-a " + korisnik.getEmail());
         if (postojeciKorisnik != null) {
             if(korisnikService.checkLozinka(korisnik.getPassword(), postojeciKorisnik)){
                 return new ResponseEntity<>(postojeciKorisnik.getRoles(), HttpStatus.OK);
