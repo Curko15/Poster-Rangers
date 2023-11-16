@@ -7,7 +7,7 @@ const app = express();
 
 // Configuration
 const PORT = process.env.PORT || 3000;
-const HOST = process.env.PORT || "localhost";
+const HOST = process.env.HOST || "localhost";
 const API_BASE_URL = "https://poster-rangers-be.onrender.com";
 
 // Proxy
