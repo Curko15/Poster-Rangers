@@ -8,7 +8,7 @@ import {
   saveAuthToken,
 } from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 const AuthenticationComponent = ({ viewType }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -49,41 +49,39 @@ const AuthenticationComponent = ({ viewType }) => {
         console.log(
           `${viewType === "login" ? "Login" : "Registration"} successful`,
         );
-        try {
-          console.log("Bearer " + authToken.token);
-          console.log("bok: " + getLoggedInUser().userEmail);
-          console.log("bok2: " + getLoggedInUser().userPass);
-          const response = await fetch(
-            "http://localhost:8081/api/korisnici/getRole",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + authToken.token,
-              },
-              body: JSON.stringify({
-                email: getLoggedInUser().userEmail,
-                password: getLoggedInUser().userPass,
-              }),
+        const getRoleData = {
+          email: getLoggedInUser().userEmail,
+          password: getLoggedInUser().userPass,
+        };
+        console.log("Mja");
+        const response = await axios.post(
+          "http://localhost:8081/api/korisnici/getRole",
+          getRoleData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + authToken.token,
             },
-          );
-          const userRole = await response.json(); //TODO: here is the role
-          let userRoleName;
-          userRole.map((role) => (userRoleName = role.name));
-
-          if (userRoleName === "ROLE_ADMIN") {
-            navigate("/admin");
-          } else if (userRoleName === "ROLE_SUPERADMIN") {
-            navigate("/superAdmin");
-          } else if (userRoleName === "ROLE_KORISNIK") {
-            if (isLoggedInConference()) {
-              navigate("/home");
-            } else {
-              navigate("/");
-            }
+          },
+        );
+        let user = response.data;
+        console.log("ovo je: " + user);
+        console.log("ovo je");
+        // const userRole = await response.json(); //TODO: here is the role
+        let userRole;
+        let userRoleName;
+        // userRole.map((role) => (userRoleName = role.name));
+        console.log("BOOOOOOOk");
+        if (userRoleName === "ROLE_ADMIN") {
+          navigate("/admin");
+        } else if (userRoleName === "ROLE_SUPERADMIN") {
+          navigate("/superAdmin");
+        } else if (userRoleName === "ROLE_KORISNIK") {
+          if (isLoggedInConference()) {
+            navigate("/home");
+          } else {
+            navigate("/");
           }
-        } catch (error) {
-          console.error("Error fetching data:", error);
         }
       } else {
         console.log(
