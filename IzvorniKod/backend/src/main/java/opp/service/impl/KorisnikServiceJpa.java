@@ -45,13 +45,16 @@ public class KorisnikServiceJpa implements KorisnikService {
 
 
     @Override
-    public Korisnik saveAdmin(Korisnik korisnik) {
+    public AuthenticationResponse saveAdmin(Korisnik korisnik) {
         korisnik.setHashLozinke(passwordEncoder.encode(korisnik.getHashLozinke()));
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepo.findByName("ROLE_ADMIN");
         roles.add(userRole);
         korisnik.setRoles(roles);
-        return korisnikRepo.save(korisnik);
+        korisnikRepo.save(korisnik);
+        var jwtToken = jwtService.generateToken(korisnik);
+        return AuthenticationResponse.builder()
+                .token(jwtToken).build();
     }
 
     @Override
@@ -71,7 +74,7 @@ public class KorisnikServiceJpa implements KorisnikService {
 
     @Override
     public Korisnik findByEmail(String email) {
-        return korisnikRepo.findByEmail(email).orElseThrow();
+        return korisnikRepo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Korisnik not found"));
     }
 
     @Override

@@ -29,9 +29,6 @@ public class KorisnikController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Korisnik korisnik) {
         System.out.println(korisnik);
-        if (korisnikService.findByEmail(korisnik.getEmail()) != null) {
-            return new ResponseEntity<>("Korisnik je već registriran", HttpStatus.CONFLICT);
-        }
         korisnikService.save(korisnik);
         return new ResponseEntity<>("Korisnik registered successfully", HttpStatus.CREATED);
     }
@@ -48,13 +45,10 @@ public class KorisnikController {
     }
 
     @PostMapping("/registerAdmin")
-    public ResponseEntity<String> registerAdmin(@RequestBody Korisnik korisnik) {
+    public  ResponseEntity<?> registerAdmin(@RequestBody Korisnik korisnik) {
         System.out.println(korisnik);
-        if (korisnikService.findByEmail(korisnik.getEmail()) != null) {
-            return new ResponseEntity<>("Admin već registriran", HttpStatus.CONFLICT);
-        }
         korisnikService.saveAdmin(korisnik);
-        return new ResponseEntity<>("Admin registered successfully", HttpStatus.CREATED);
+        return ResponseEntity.ok(korisnikService.register(korisnik));
     }
 
     @PostMapping("/login")
