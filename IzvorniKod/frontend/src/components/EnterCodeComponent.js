@@ -27,7 +27,6 @@ const EnterCodeScreen = () => {
 
       if (response.ok) {
         console.log("Login successful");
-        // Redirect to a different screen here
         navigate("/home");
       } else {
         console.error("Login failed");

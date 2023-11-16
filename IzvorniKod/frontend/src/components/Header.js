@@ -1,17 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/header.css";
 import {
   getLoggedInUser,
+  isLoggedInConference,
   isUserLoggedIn,
+  logOutFromConference,
   userLogOut,
 } from "../services/AuthService";
 
 const Header = ({ viewType }) => {
   const navigate = useNavigate();
+  const [userRoleName, setUserRoleName] = useState("");
 
   useEffect(() => {
-    let user = getLoggedInUser();
     const fetchData = async () => {
       if (isUserLoggedIn()) {
         try {
@@ -23,13 +25,15 @@ const Header = ({ viewType }) => {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                email: user.userEmail,
-                password: user.userPass,
+                email: getLoggedInUser().userEmail,
+                password: getLoggedInUser().userPass,
               }),
             },
           );
+          const userRole = await response.json();
 
-          const userRole = await response.json(); //TODO: here is the role
+          userRole.map((role) => setUserRoleName(role.name));
+          console.log(userRoleName);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -65,22 +69,63 @@ const Header = ({ viewType }) => {
 
   const handleLogOutClick = () => {
     userLogOut();
+    setUserRoleName("");
     navigate("/");
   };
+
   const handleVoteClick = () => {
     navigate("/glasanje");
   };
 
   const handleBackClick = () => {
+    if (isLoggedInConference()) {
+      navigate("/home");
+    } else {
+      navigate("/");
+    }
+  };
+
+  const handleExitClick = () => {
+    logOutFromConference();
     navigate("/");
   };
-  const handleExitClick = () => {
-    navigate("/");
+  const handleDodajKonfClick = () => {
+    navigate("/konferencija/addKonf");
+  };
+  const handleDodajPosterClick = () => {
+    navigate("/dodajPoster");
+  };
+
+  const handleAddPosterClick = () => {
+    navigate("/dodajPoster");
+  };
+
+  const handleAddConferenceClick = () => {
+    navigate("/admin");
+  };
+
+  const handleAddAdminClick = () => {
+    navigate("/superAdmin");
   };
 
   const renderButtons = () => {
     return (
       <>
+        {userRoleName === "ROLE_ADMIN" && (
+          <button id="addPosterButton" onClick={handleAddPosterClick}>
+            Dodaj poster
+          </button>
+        )}
+        {userRoleName === "ROLE_ADMIN" && (
+          <button id="addConferenceButton" onClick={handleAddConferenceClick}>
+            Dodaj konferenciju
+          </button>
+        )}
+        {userRoleName === "ROLE_SUPERADMIN" && (
+          <button id="logOutButton" onClick={handleAddAdminClick}>
+            Dodaj Admina
+          </button>
+        )}
         {(viewType === "login" || viewType === "register") && (
           <button id="backButton" onClick={handleBackClick}>
             Return
@@ -92,11 +137,12 @@ const Header = ({ viewType }) => {
               Login
             </button>
           )}
-        {viewType === "entercode" && !isUserLoggedIn() && (
-          <button id="registerButton" onClick={handleRegisterClick}>
-            Register
-          </button>
-        )}
+        {(viewType === "entercode" || viewType === "homescreen") &&
+          !isUserLoggedIn() && (
+            <button id="registerButton" onClick={handleRegisterClick}>
+              Register
+            </button>
+          )}
         {isUserLoggedIn() && (
           <button id="logOutButton" onClick={handleLogOutClick}>
             Log Out
@@ -107,9 +153,20 @@ const Header = ({ viewType }) => {
           viewType === "photo" ||
           viewType === "poster" ||
           viewType === "promo" ||
-          viewType === "vote") && (
+          viewType === "vote" ||
+          viewType === "admin") && (
           <button id="exitButton" onClick={handleExitClick}>
             Exit
+          </button>
+        )}
+        {viewType === "admin" && isUserLoggedIn() && (
+          <button id="dodajKonfButton" onClick={handleDodajKonfClick}>
+            Dodaj Konferenciju
+          </button>
+        )}
+        {viewType === "admin" && isUserLoggedIn() && (
+          <button id="dodajPosterButton" onClick={handleDodajPosterClick}>
+            Dodaj Poster
           </button>
         )}
 

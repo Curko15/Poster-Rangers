@@ -1,5 +1,6 @@
 package opp.service;
 
+import opp.domain.AuthenticationResponse;
 import opp.domain.Korisnik;
 import opp.domain.LoginDto;
 
@@ -19,5 +20,9 @@ public interface KorisnikService {
 
     List<Korisnik> listAll();
 
-    String login(LoginDto loginDto);
+    public AuthenticationResponse register(Korisnik korisnik);
+
+    public AuthenticationResponse authenticate(LoginDto loginDto);
+
+   // String login(LoginDto loginDto);
 }

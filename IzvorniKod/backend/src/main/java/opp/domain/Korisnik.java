@@ -3,17 +3,21 @@ package opp.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class Korisnik {
+@Data
+@Builder
+public class Korisnik implements UserDetails {
 
     @Id
     @Column(unique = true)
@@ -37,14 +41,40 @@ public class Korisnik {
     private Set<Role> roles;
 
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> authorities = this.getRoles().stream()
+                .map((role) -> new SimpleGrantedAuthority((role.getName()))).collect(Collectors.toSet());
+        return authorities;
+    }
 
     @Override
-    public String toString() {
-        return "Korisnik{" +
-                "email='" + email + '\'' +
-                ", hashLozinke='" + hashLozinke + '\'' +
-                ", ime='" + ime + '\'' +
-                ", prezime='" + prezime + '\'' +
-                '}';
+    public String getPassword() {
+        return this.getHashLozinke();
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

@@ -11,10 +11,17 @@ export const isUserLoggedIn = () => {
   return sessionStorage.getItem("email") !== null;
 };
 
-export const setConferenceId = (id) =>
-  sessionStorage.setItem("conferenceId", id);
+export const setConferenceId = (id) => sessionStorage.setItem("conference", id);
 
-export const getConferenceId = () => sessionStorage.getItem("conferenceId");
+export const isLoggedInConference = () => {
+  return sessionStorage.getItem("conference") !== null;
+};
+export const logOutFromConference = () =>
+  sessionStorage.removeItem("conference");
+
+export const getConferenceId = () => {
+  return sessionStorage.getItem("conference");
+};
 
 export const userLogOut = () => {
   sessionStorage.removeItem("email");

@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../css/authetication.css";
-import { saveLoggedInUser, storeToken } from "../services/AuthService";
+import {
+  getLoggedInUser,
+  isLoggedInConference,
+  saveLoggedInUser,
+  storeToken,
+} from "../services/AuthService";
+import { useNavigate } from "react-router-dom";
 
 const AuthenticationComponent = ({ viewType }) => {
   const [email, setEmail] = useState("");
@@ -8,6 +14,7 @@ const AuthenticationComponent = ({ viewType }) => {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const formContainerRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,6 +42,39 @@ const AuthenticationComponent = ({ viewType }) => {
         console.log(
           `${viewType === "login" ? "Login" : "Registration"} successful`,
         );
+        try {
+          const response = await fetch(
+            "http://localhost:8081/korisnici/getRole",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: getLoggedInUser().userEmail,
+                password: getLoggedInUser().userPass,
+              }),
+            },
+          );
+
+          const userRole = await response.json(); //TODO: here is the role
+          let userRoleName;
+          userRole.map((role) => (userRoleName = role.name));
+
+          if (userRoleName === "ROLE_ADMIN") {
+            navigate("/admin");
+          } else if (userRoleName === "ROLE_SUPERADMIN") {
+            navigate("/superAdmin");
+          } else if (userRoleName === "ROLE_KORISNIK") {
+            if (isLoggedInConference()) {
+              navigate("/home");
+            } else {
+              navigate("/");
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
       } else {
         console.log(
           `${viewType === "login" ? "Login" : "Registration"} failed`,

@@ -6,6 +6,9 @@ const AddConferenceComponent = () => {
   const [conferenceDateEnd, setConferenceDateEnd] = useState("");
   const [conferenceLocation, setConferenceLocation] = useState("");
   const [conferencePassword, setConferencePassword] = useState("");
+  const [conferencePbr, setConferencePbr] = useState("");
+  const [conferenceStreet, setConferenceStreet] = useState("");
+  const [conferenceStreetNumber, setConferenceStreetNumber] = useState("");
 
   const formContainerRef = useRef(null);
 
@@ -29,28 +32,32 @@ const AddConferenceComponent = () => {
       return;
     }
 
-    const url = "http://localhost:8081/konferencija/addKonf";
-
     const conference = {
       ime: conferenceName,
       startTime: conferenceDateStart,
       endTime: conferenceDateEnd,
-      mjestoKonf: conferenceLocation,
+      nazivMjesta: conferenceLocation,
       password: conferencePassword,
+      pbr: conferencePbr,
+      ulica: conferenceStreet,
+      kucBroj: conferenceStreetNumber,
     };
+    console.log(conference);
 
     try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "http://localhost:8081/konferencija/addKonf",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(conference),
         },
-        body: JSON.stringify(conference),
-      });
+      );
 
       if (response.ok) {
         console.log("Conference submitted successfully");
-        // Optionally, you can redirect or show a success message to the user.
       } else {
         console.error("Failed to submit conference");
       }
@@ -79,7 +86,7 @@ const AddConferenceComponent = () => {
           <label>
             Date Start:
             <input
-              type="date"
+              type="datetime-local"
               name="startTime"
               value={conferenceDateStart}
               className="input-field"
@@ -91,12 +98,24 @@ const AddConferenceComponent = () => {
           <label>
             Date End:
             <input
-              type="date"
+              type="datetime-local"
               name="endTime"
               value={conferenceDateEnd}
               className="input-field"
               required
               onChange={(e) => setConferenceDateEnd(e.target.value)}
+            />
+          </label>
+
+          <label>
+            Password:
+            <input
+              type="password"
+              name="password"
+              value={conferencePassword}
+              className="input-field"
+              required
+              onChange={(e) => setConferencePassword(e.target.value)}
             />
           </label>
 
@@ -113,14 +132,38 @@ const AddConferenceComponent = () => {
           </label>
 
           <label>
-            Password:
+            Street:
             <input
-              type="password"
-              name="password"
-              value={conferencePassword}
+              type="text"
+              name="street"
+              value={conferenceStreet}
               className="input-field"
               required
-              onChange={(e) => setConferencePassword(e.target.value)}
+              onChange={(e) => setConferenceStreet(e.target.value)}
+            />
+          </label>
+
+          <label>
+            Street Number:
+            <input
+              type="number"
+              name="streetNumber"
+              value={conferenceStreetNumber}
+              className="input-field"
+              required
+              onChange={(e) => setConferenceStreetNumber(e.target.value)}
+            />
+          </label>
+
+          <label>
+            PBR (Postal Code):
+            <input
+              type="number"
+              name="pbr"
+              value={conferencePbr}
+              className="input-field"
+              required
+              onChange={(e) => setConferencePbr(e.target.value)}
             />
           </label>
 

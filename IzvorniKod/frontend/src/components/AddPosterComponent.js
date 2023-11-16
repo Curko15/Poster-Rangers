@@ -8,14 +8,25 @@ const AddPoserComponent = () => {
   const [authorLastName, setAuthorLastName] = useState("");
   const [fileName, setFileName] = useState(null);
 
-  const formContainerRef = useRef(null);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let conferencePass = getConferenceId();
+    const response = await fetch(
+      "http://localhost:8081/konferencija/getKonfId",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: conferencePass,
+        }),
+      },
+    );
 
-    //let conferenceId = getConferenceId();
+    let conferenceId = response.json();
 
-    const url = "http://localhost:8081/poster/1"; // + conferenceId
+    const url = `http://localhost:8081/poster/${conferenceId}`; // + conferenceId
 
     const formData = new FormData();
     formData.append("nazivPoster", posterName);
@@ -42,7 +53,7 @@ const AddPoserComponent = () => {
 
   return (
     <div className="center-container">
-      <div ref={formContainerRef} className="login-container">
+      <div className="login-container">
         <h2>Add New Poster To Conference</h2>
         <form onSubmit={handleSubmit}>
           <label>
