@@ -14,9 +14,9 @@ const { API_BASE_URL } = "https://poster-rangers-be.onrender.com";
 app.use(
   "/api",
   createProxyMiddleware({
-    target: API_BASE_URL,
+    target: "https://poster-rangers-be.onrender.com",
     changeOrigin: true,
-  }),
+  })
 );
 
 app.use(express.static(path.join(__dirname, "build")));
