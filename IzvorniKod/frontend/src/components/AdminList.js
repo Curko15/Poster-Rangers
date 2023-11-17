@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../css/conferenceList.css";
 
+// UNUSED
 function AdminList({ admins, onDeleteAdmin }) {
   const [deleteConfirmation, setDeleteConfirmation] = useState(null);
 
@@ -19,8 +20,8 @@ function AdminList({ admins, onDeleteAdmin }) {
 
   return (
     <div>
-      <h2>Popis admina</h2>
-      <ul className="list-container">
+      <h2>Admini</h2>
+      <ul className="list-admins">
         {admins.map((admin, index) => (
           <li key={index}>
             Admin: {admin.name} {admin.surname}

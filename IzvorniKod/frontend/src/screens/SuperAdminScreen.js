@@ -1,15 +1,15 @@
 import React from "react";
 import Header from ".././components/Header.js";
 import Footer from "../components/Footer";
-import "../css/main.css";
 import AddAdmin from "../components/AddAdmin.js";
-import AddConferenceComponent from "../components/AddConferenceComponent.js";
+
+import "../css/main.css";
 
 const SuperAdminScreen = () => {
   return (
-    <div>
+    <div className="root-container">
       <Header viewType="superAdmin" />
-      <h1>Dobrodošao superadministratore!</h1>
+      <h1 className="title">Dobrodošao superadministratore!</h1>
       <AddAdmin />
       <Footer />
     </div>

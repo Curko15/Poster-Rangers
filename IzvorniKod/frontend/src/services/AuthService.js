@@ -34,7 +34,11 @@ export const getLoggedInUser = (email, password) => {
   return { userEmail, userPass };
 };
 
-export const saveAuthToken = (authToken) =>
-  localStorage.setItem("authToken", authToken);
+export const saveAuthToken = (authToken) => {
+  localStorage.setItem("authToken", authToken.token);
+};
 
-export const getAuthToken = () => localStorage.getItem("authToken");
+export const getAuthToken = () => {
+  let token = localStorage.getItem("authToken");
+  return { token };
+};

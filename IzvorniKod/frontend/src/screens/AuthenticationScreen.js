@@ -1,13 +1,14 @@
 import React from "react";
 import Header from ".././components/Header.js";
+import Authentication from "../components/Authentication";
+
 import "../css/main.css";
-import AuthenticationComponent from "../components/AuthenticationComponent";
 
 const AuthenticationScreen = ({ viewType }) => {
   return (
     <div>
       <Header viewType="login" />
-      <AuthenticationComponent viewType={viewType} />
+      <Authentication viewType={viewType} />
     </div>
   );
 };

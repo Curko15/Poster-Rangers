@@ -1,15 +1,18 @@
 import React from "react";
 import Header from ".././components/Header.js";
 import Footer from "../components/Footer";
+import AddConference from "../components/AddConference.js";
+
 import "../css/main.css";
-import AddConferenceComponent from "../components/AddConferenceComponent.js";
 
 const AdminScreen = () => {
   return (
-    <div>
+    <div className="root-container">
       <Header viewType="admin" />
-      <h1>Dobrodošao administratore!</h1>
-      <AddConferenceComponent />
+      <div className="title">
+        <h1>Dobrodošao administratore!</h1>
+      </div>
+      <AddConference />
       <Footer />
     </div>
   );

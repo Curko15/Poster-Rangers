@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/header.css";
+import axios from "axios";
 import {
+  getAuthToken,
   getLoggedInUser,
   isLoggedInConference,
   isUserLoggedIn,
   logOutFromConference,
   userLogOut,
 } from "../services/AuthService";
+
+import "../css/header.css";
 
 const Header = ({ viewType }) => {
   const navigate = useNavigate();
@@ -17,25 +20,24 @@ const Header = ({ viewType }) => {
     const fetchData = async () => {
       if (isUserLoggedIn()) {
         try {
-          const response = await fetch(
-            "http://localhost:8081/korisnici/getRole",
+          const response = await axios.post(
+            "/api/korisnici/getRole",
             {
-              method: "POST",
+              email: getLoggedInUser().userEmail,
+              password: getLoggedInUser().userPass,
+            },
+            {
               headers: {
                 "Content-Type": "application/json",
+                Authorization: "Bearer " + getAuthToken().token,
               },
-              body: JSON.stringify({
-                email: getLoggedInUser().userEmail,
-                password: getLoggedInUser().userPass,
-              }),
             },
           );
-          const userRole = await response.json();
 
+          const userRole = response.data;
           userRole.map((role) => setUserRoleName(role.name));
-          console.log(userRoleName);
         } catch (error) {
-          console.error("Error fetching data:", error);
+          console.error("Error fetching data:", error.message);
         }
       }
     };
@@ -68,6 +70,7 @@ const Header = ({ viewType }) => {
   };
 
   const handleLogOutClick = () => {
+    logOutFromConference();
     userLogOut();
     setUserRoleName("");
     navigate("/");
@@ -88,12 +91,6 @@ const Header = ({ viewType }) => {
   const handleExitClick = () => {
     logOutFromConference();
     navigate("/");
-  };
-  const handleDodajKonfClick = () => {
-    navigate("/konferencija/addKonf");
-  };
-  const handleDodajPosterClick = () => {
-    navigate("/dodajPoster");
   };
 
   const handleAddPosterClick = () => {
@@ -123,29 +120,29 @@ const Header = ({ viewType }) => {
         )}
         {userRoleName === "ROLE_SUPERADMIN" && (
           <button id="logOutButton" onClick={handleAddAdminClick}>
-            Dodaj Admina
+            Dodaj admina
           </button>
         )}
         {(viewType === "login" || viewType === "register") && (
           <button id="backButton" onClick={handleBackClick}>
-            Return
+            Natrag
           </button>
         )}
         {(viewType === "entercode" || viewType === "homescreen") &&
           !isUserLoggedIn() && (
             <button id="loginButton" onClick={handleLoginClick}>
-              Login
+              Prijava
             </button>
           )}
         {(viewType === "entercode" || viewType === "homescreen") &&
           !isUserLoggedIn() && (
             <button id="registerButton" onClick={handleRegisterClick}>
-              Register
+              Registracija
             </button>
           )}
         {isUserLoggedIn() && (
           <button id="logOutButton" onClick={handleLogOutClick}>
-            Log Out
+            Odjava
           </button>
         )}
         {(viewType === "homescreen" ||
@@ -157,17 +154,7 @@ const Header = ({ viewType }) => {
           viewType === "admin" ||
           viewType === "superAdmin") && (
           <button id="exitButton" onClick={handleExitClick}>
-            Exit
-          </button>
-        )}
-        {viewType === "admin" && isUserLoggedIn() && (
-          <button id="dodajKonfButton" onClick={handleDodajKonfClick}>
-            Dodaj Konferenciju
-          </button>
-        )}
-        {viewType === "admin" && isUserLoggedIn() && (
-          <button id="dodajPosterButton" onClick={handleDodajPosterClick}>
-            Dodaj Poster
+            Izlaz
           </button>
         )}
 
@@ -222,7 +209,7 @@ const Header = ({ viewType }) => {
             viewType === "promo" ||
             viewType === "vote") && (
             <button id="voteButton" onClick={handleVoteClick}>
-              Glasaj
+              Glasanje
             </button>
           )}
       </>
