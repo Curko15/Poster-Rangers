@@ -1,7 +1,7 @@
 \chapter{Arhitektura i dizajn sustava}
 
 		{ Arhitektura sustava je hijerarhijska, dakle svaki pojedini sloj
-			komunicira isključivo sa slojevima koji su neposredno ispred i iza njega. Slojevi sustava koji mi implementiramo jesu:}
+			komunicira isključivo sa slojevima koji su neposredno ispred i iza njega. Slojevi sustava koje mi implementiramo jesu:}
 	\begin{itemize}
 		\item 	\textit{Korisničko sučelje}
 		\item 	\textit{Kontroler}
@@ -10,7 +10,7 @@
 		\item 	\textit{Baza podataka}
 	\end{itemize}
 
-		{Korisničko sučelje (eng. User interface, UI) predstavlja interaktivno područje između korisnika i računala. Njegov glavni cilj je omogućiti korisnicima učinkovito korištenje i upravljanje računalom te osigurati da računalo pruži korisniku potrebne informacije.\\
+		{Korisničko sučelje (eng. User interface, UI) predstavlja interaktivno područje između korisnika i računala. Njegov je glavni cilj omogućiti korisnicima učinkovito korištenje i upravljanje računalom te osigurati da računalo pruži korisniku potrebne informacije.\\
 
 			Za izradu korisničkog sučelja u ovom slučaju korišten je React, JavaScript biblioteka koja omogućava brzo i jednostavno stvaranje interaktivnih korisničkih sučelja. Kroz korisničko sučelje, korisnik šalje zahtjeve kontroleru, a kontroler potrebne podatke prosljeđuje pomoću JSON (JavaScript Object Notation) datoteka.\\
 
@@ -39,7 +39,7 @@
 			\subsection{Opis tablica}
 
 
-				{Konferencija - centralni entitet koji definira događaj kojemu pristupaju sudionici, bilo autori ili ne. Atributi koje posjeduje su konfID, kod (za pristup posterima koji su u natjecanju), datPocetak, datKraj, nazivKonf, mjestoKonf, opisKonf}
+				{Konferencija - centralni entitet koji definira događaj kojemu pristupaju sudionici, bilo autori ili ne. Atributi koje posjeduje su \textit{konfID}, \textit{kod} (za pristup posterima koji su u natjecanju), \textit{datPocetak}, \textit{datKraj}, \textit{nazivKonf}, \textit{mjestoKonf}, \textit{opisKonf}}
 
 
 				\begin{longtblr}[
@@ -60,7 +60,7 @@
 					\SetCell{LightBlue} pbr	& INT &   	Poštanski broj mjesta održavanja konferencije\\ \hline
 				\end{longtblr}
 
-				{Mjesto - entitet koji definira mjesto u kojemu se održava konferencija. Atributi koje posjeduje su kucBroj i ulica kao glavni ključ, nazivMjesta i pbr.  Mjesto je u vezi jedan-prema-više s entitetom Konferencija. Odnosno jedna konferencija ima jedno mjesto, dok jedno mjesto ima više konferencija.}
+				{Mjesto - entitet koji definira mjesto u kojemu se održava konferencija. Atributi koje posjeduje su \textit{kucBroj} i \textit{ulica} kao glavni ključ, \textit{nazivMjesta} i \textit{pbr}.  Mjesto je u vezi jedan-prema-više s entitetom Konferencija. Odnosno jedna konferencija ima jedno mjesto, dok jedno mjesto ima više konferencija.}
 
 
 				\begin{longtblr}[
@@ -81,7 +81,7 @@
 
 
 
-				{FotoMaterijal - entitet FotoMaterijal koristi nam kako bismo mogli pohraniti fotografije nastale tijekom konferencije te ih kasnije prikazati korisnicima. Sadrži atribute: fotoID, nazivFoto, fotoPath te strani ključ konfID pomoću kojega možemo upariti kojoj konferenciji pripada koja fotografija (veza jedan-prema-više).}
+				{FotoMaterijal - entitet FotoMaterijal koristi nam kako bismo mogli pohraniti fotografije nastale tijekom konferencije te ih kasnije prikazati korisnicima. Sadrži atribute: \textit{fotoID}, \textit{nazivFoto}, \textit{fotoPath} te strani ključ \textit{konfID} pomoću kojega možemo upariti kojoj konferenciji pripada koja fotografija (veza jedan-prema-više).}
 
 
 				\begin{longtblr}[
@@ -100,7 +100,7 @@
 				\end{longtblr}
 
 
-				{Korisnik - entitet kojim se pokriva registrirani korisnik, neregistrirani korisnik te autor. Sadrži atribute email te lozinka kojima se kasnije može pristupiti posebnom sadržaju specifičnom za registrirane korisnike. Također sadrži ime i prezime i ulogaID koji je strani ključ preko kojeg je entitet Korisnik spojen vezom više-prema-više s entitetom Uloge.}
+				{Korisnik - entitet kojim se pokriva registrirani korisnik, neregistrirani korisnik te autor. Sadrži atribute \textit{email} te \textit{lozinka} kojima se kasnije može pristupiti posebnom sadržaju specifičnom za registrirane korisnike. Također sadrži \textit{ime} i \textit{prezime} i \textit{ulogaID} koji je strani ključ preko kojeg je entitet Korisnik spojen vezom više-prema-više s entitetom Uloge.}
 
 
 				\begin{longtblr}[
@@ -119,7 +119,7 @@
 					\SetCell{LightBlue} ulogaID	& INT &   	Jedinstveni identifikator uloge\\ \hline
 				\end{longtblr}
 
-				{Uloge - entitet kojim se pokrivaju koje uloge sve postoje kao i koje uloge imaju korisnici. Atributi koje sadrži entitet Uloge su: ulogaID koji je glavni ključ i uloga koji opisuje o kojoj je ulozi riječ.}
+				{Uloge - entitet kojim se pokrivaju koje uloge sve postoje kao i koje uloge imaju korisnici. Atributi koje sadrži entitet Uloge su: \textit{ulogaID} koji je glavni ključ i \textit{uloga} koja opisuje o kojoj je ulozi riječ.}
 
 
 				\begin{longtblr}[
@@ -135,7 +135,7 @@
 					uloga	& VARCHAR &  Uloga korisnika	\\ \hline
 				\end{longtblr}
 
-				{Poster - ovim entitetom kontrolirat će se radovi koje na konferenciju dostavljaju autori te se na njoj izlažu i za njih se može glasati. Njegovi atributi su: posterID, nazivPoster, posterPath, email, imeAutor, prezimeAutor, brojGlasova i konfID koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji poster (veza jedan-prema-više).}
+				{Poster - ovim entitetom kontrolirat će se radovi koje na konferenciju dostavljaju autori te se na njoj izlažu i za njih se može glasati. Njegovi atributi su: \textit{posterID}, \textit{nazivPoster}, \textit{posterPath}, \textit{email}, \textit{imeAutor}, \textit{prezimeAutor}, \textit{brojGlasova} i \textit{konfID} koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji poster (veza jedan-prema-više).}
 
 
 				\begin{longtblr}[
@@ -157,7 +157,7 @@
 					\SetCell{LightBlue} konfID	& INT &  Jedinstveni identifikator konferencije	\\ \hline
 				\end{longtblr}
 
-				{PromoMaterijal - entitet PromoMaterijal pokriva konkretan ponuđeni materijal kojemu registrirani korisnik može pristupiti. Atributi koje ima su promoId, nazivPromo, url, promoPath i konfID koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji promotivni materijal (veza jedan-prema-više).}
+				{PromoMaterijal - entitet PromoMaterijal pokriva konkretan ponuđeni materijal kojemu registrirani korisnik može pristupiti. Atributi koje ima su \textit{promoId}, \textit{nazivPromo}, \textit{url}, \textit{promoPath} i \textit{konfID} koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji promotivni materijal (veza jedan-prema-više).}
 
 
 				\begin{longtblr}[
@@ -176,7 +176,7 @@
 					\SetCell{LightBlue} konfID	& INT &   Jedinstveni identifikator konferencije	\\ \hline
 				\end{longtblr}
 
-				{Glasanje - entitet Glasanje služi za prebrojavanje broja glasova postera te također služi za prevenciju glasovanja jednog registriranog korisnika za više postera. Atributi koji sadrži entitet Glasanje su: posterID koji je jedinstveni identifikator postera te je također i primarni ključ, konfID koji je jedinstveni identifikator konferencije te je također i strani ključ email koji je elektronička pošta korisnika ali je isto tako i strani ključ. Obje veze od entiteta Glasanje prema entitetima Korisnik i Konferencija su jedan-prema-više.}
+				{Glasanje - entitet Glasanje služi za prebrojavanje broja glasova postera te također služi za prevenciju glasovanja jednog registriranog korisnika za više postera. Atributi koji sadrži entitet Glasanje su: \textit{posterID} koji je jedinstveni identifikator postera te je također i primarni ključ, \textit{konfID} koji je jedinstveni identifikator konferencije te je također i strani ključ \textit{email} koji je elektronička pošta korisnika, ali je isto tako i strani ključ. Obje veze od entiteta Glasanje prema entitetima Korisnik i Konferencija su jedan-prema-više.}
 
 
 				\begin{longtblr}[
@@ -197,7 +197,7 @@
 
 			\subsection{Dijagram baze podataka}
 					\begin{figure}[H]
-					\includegraphics[width=\textwidth]{slike/bazaPodataka.PNG} %veličina u odnosu na širinu linije
+					\includegraphics[width=1.2\textwidth]{slike/bazaPodataka.PNG} %veličina u odnosu na širinu linije
 					\caption{Dijagram baze podataka}
 					\label{fig:promjene4} %label mora biti drugaciji za svaku sliku
 				\end{figure}
@@ -207,7 +207,7 @@
 
 		\section{Dijagram razreda}
 
-		Zbog lakše organizacije projekta, svi kontroler razredi koji su zaduženi za upravljanje krajnijm točkama su svrstani u paket \textit{ src/main/java/opp/rest}. Kontroleri igraju ključnu ulogu u upravljanju HTTP zahtjevima, te su odgovorni za primanje zahtjeva od klijenta, obradu tih zahtjeva i generiranje odgovora. U našoj implementaciji imamo više kontrolera kako bi lakše organizirali i razdvojili sve dostupne krajnje točke. Npr. razred KonferencijaController je zadužen za obradu zahtjeva poput stvaranja konferencija, ulaska u konferenciju i dohvaćanja osnovnih informacija o konferenciji.
+		Zbog lakše organizacije projekta, svi kontroler razredi koji su zaduženi za upravljanje krajnijm točkama svrstani su u paket \textit{src/main/java/opp/rest}. Kontroleri igraju ključnu ulogu u upravljanju HTTP zahtjevima te su odgovorni za primanje zahtjeva od klijenta, obradu tih zahtjeva i generiranje odgovora. U našoj implementaciji imamo više kontrolera kako bi lakše organizirali i razdvojili sve dostupne krajnje točke. Npr. razred KonferencijaController zadužen je za obradu zahtjeva poput stvaranja konferencija, ulaska u konferenciju i dohvaćanja osnovnih informacija o konferenciji.
 
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth]{slike/controllersClassDiagram.PNG} %veličina u odnosu na širinu linije
@@ -215,26 +215,19 @@
 			\label{fig:dr-controllers} %label mora biti drugaciji za svaku sliku
 		\end{figure}
 		\newpage
-		Svi razredi zaduženi za entitete i DTO (Data Transfer Objects) su smješteni u \textit{src/main/java/opp/domain} paket. Razredi entiteta poput Konferencija, Poster, Mjesto itd. su objekti koji predstavljaju podatke u bazi podataka, te su odgovorni za mapiranje objekata u redove u tablici baze podataka i obrnuto. Također sadrže načine upravljanja podatcima i njihovu validaciju (osiguravaju integritet baze podataka). Razredi DTO su također objekti koji se koriste za razmjenu podataka između aplikacija, u našem slučaju je to komunikacija između backend i frontend dijela.
+		Svi razredi zaduženi za entitete i DTO (Data Transfer Objects) smješteni su u \textit{src/main/java/opp/domain} paket. Razredi entiteta poput Konferencija, Poster, Mjesto itd. objekti su koji predstavljaju podatke u bazi podataka te su odgovorni za mapiranje objekata u redove u tablici baze podataka i obrnuto. Također, sadrže načine upravljanja podatcima i njihovu validaciju (osiguravaju integritet baze podataka). Razredi DTO također su objekti koji se koriste za razmjenu podataka između aplikacija, a u našem je slučaju to komunikacija između backend i frontend dijela.
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth]{slike/domainClassDiagram.PNG} %veličina u odnosu na širinu linije
 			\caption{Dijagram razreda - Domain}
 			\label{fig:dr-domain} %label mora biti drugaciji za svaku sliku
 		\end{figure}
 		\newpage
-		Sljedeći dijagram je podijeljen u 3 sloja: Controllers, Service i JPA koji sadrže pripadajuće razrede. Podijela je napravljena kako bi se postigla dobra organizacija i razdvajanje dijelova aplikacije. Sloj Controllers sadrži sve kontroler razrede, te je njihova glavna uloga obrada HTTP zahtjeva. Sloj Service sadrži sučelja koje implementiraju razredi kontrolera. Oni pružaju apstrakciju između kontrolera i sloja podataka (JPA). I na kraju sloj Java Persistence API (JPA). On je zadužen za pristup podacima u relacijskoj bazi podataka i za mapiranje java objekata u odgovarajući tip podatka u bazi podataka.
+		Sljedeći dijagram podijeljen je u 3 sloja: Controllers, Service i JPA koji sadrže pripadajuće razrede. Podjela je napravljena kako bi se postigla dobra organizacija i razdvajanje dijelova aplikacije. Sloj Controllers sadrži sve kontroler razrede te je njihova glavna uloga obrada HTTP zahtjeva. Sloj Service sadrži sučelja koja implementiraju razredi kontrolera. Oni pružaju apstrakciju između kontrolera i sloja podataka (JPA). Sloj Java Persistence API (JPA) zadužen je za pristup podacima u relacijskoj bazi podataka i za mapiranje java objekata u odgovarajući tip podatka u bazi podataka.
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth]{slike/serviceClassDiagram.PNG} %veličina u odnosu na širinu linije
 			\caption{Dijagram razreda - Service}
 			\label{fig:dr-service} %label mora biti drugaciji za svaku sliku
 		\end{figure}
-
-
-
-
-
-
-
 			\eject
 
 		\section{Dijagram stanja}
