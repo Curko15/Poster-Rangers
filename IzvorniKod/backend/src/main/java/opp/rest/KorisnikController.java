@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@CrossOrigin(origins = "https://poster-rangers-fe.onrender.com")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/korisnici")
 public class KorisnikController {
 
