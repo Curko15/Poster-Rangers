@@ -15,15 +15,11 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.net.http.HttpHeaders;
-import java.util.Arrays;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurtiyConfiguration {
-
     private static final String[] WHITE_LIST_URL = {
             "/korisnici/registerPP",
             "/korisnici/authenticatePP",
@@ -43,15 +39,14 @@ public class SecurtiyConfiguration {
                 .cors(cors -> {
                     CorsConfiguration corsConfig = new CorsConfiguration();
                     corsConfig.setAllowCredentials(true);
-                    corsConfig.addAllowedOriginPattern("https://poster-rangers-fe.onrender.com/**"); // Or use addAllowedOrigin for specific origins
+                    corsConfig.addAllowedOriginPattern("https://poster-rangers-fe.onrender.com");
                     corsConfig.addAllowedHeader("Authorization");
-                    corsConfig.addAllowedHeader("Content-Type"); /// Or specify explicit headers you want to allow
+                    corsConfig.addAllowedHeader("Content-Type");
                     corsConfig.addAllowedMethod(HttpMethod.GET);
-                    corsConfig.addAllowedMethod(HttpMethod.POST);// Or specify explicit methods you want to allow
-                    // ... any other CORS configurations ...
+                    corsConfig.addAllowedMethod(HttpMethod.POST);
 
                     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-                    source.registerCorsConfiguration("/**", corsConfig); // Apply CORS to all paths
+                    source.registerCorsConfiguration("/**", corsConfig);
                     cors.configurationSource(source);
                 })
                 .csrf(AbstractHttpConfigurer::disable)
