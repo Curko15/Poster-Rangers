@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../css/conferenceList.css";
 
+//UNUSED
 function ConferenceList({ conferences, onDeleteConference }) {
   const [deleteConfirmation, setDeleteConfirmation] = useState(null);
 
@@ -25,9 +26,9 @@ function ConferenceList({ conferences, onDeleteConference }) {
           <li key={index}>
             Naziv konferencije: {conference.name}
             <br />
-            Datum početka: {conference.start}
+            Datum i vrijeme početka: {conference.start}
             <br />
-            Datum završetka: {conference.end}
+            Datum i vrijeme završetka: {conference.end}
             <br />
             Lokacija: {conference.location}
             <br />

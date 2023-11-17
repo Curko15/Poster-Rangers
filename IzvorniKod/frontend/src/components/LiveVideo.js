@@ -15,19 +15,10 @@ class LiveVideo extends React.Component {
     return (
       <div className="outer-container">
         <div className="centered-video">
-          <YouTube
-            videoId="4kLviL8XwAI"
-            opts={options}
-            onReady={this._onReady}
-            id="video"
-          />
+          <YouTube videoId="4kLviL8XwAI" opts={options} id="live-video" />
         </div>
       </div>
     );
-  }
-
-  _onReady(event) {
-    event.target.pauseVideo();
   }
 }
 

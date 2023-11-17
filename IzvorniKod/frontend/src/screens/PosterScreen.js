@@ -9,7 +9,9 @@ const PosterScreen = () => {
   return (
     <div>
       <Header viewType="poster" />
-      <h1>Odaberi svoj omiljeni poster</h1>
+      <div className="title">
+        <h1>Pogledaj sve postere koji su se uključili u natjecanje!</h1>
+      </div>
       <PosterDisplay />
       <Footer />
     </div>

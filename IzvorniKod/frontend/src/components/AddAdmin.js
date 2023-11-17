@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import "../css/addConference.css";
 import { getAuthToken } from "../services/AuthService";
 import axios from "axios";
 
-function AdminForm() {
+import "../css/addConference.css";
+
+function AddAdmin() {
   const [emailAdmin, setEmailAdmin] = useState("");
   const [adminPassword, setAdminPassword] = useState(null);
   const [adminName, setAdminName] = useState("");
@@ -20,16 +21,12 @@ function AdminForm() {
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:8081/api/korisnici/registerAdmin",
-        admin,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + getAuthToken().token,
-          },
+      const response = await axios.post("/api/korisnici/registerAdmin", admin, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + getAuthToken().token,
         },
-      );
+      });
 
       if (response.status === 200) {
         console.log("Admin submitted successfully");
@@ -47,11 +44,11 @@ function AdminForm() {
 
   return (
     <div className="center-container">
-      <div className="login-container">
-        <h2>Dodaj novog Admina</h2>
+      <div className="form-container">
+        <h2>Dodaj novog admina</h2>
         <form onSubmit={handleSubmit}>
           <label className="label">
-            Ime admina:
+            Ime:
             <input
               type="text"
               name="ime"
@@ -63,7 +60,7 @@ function AdminForm() {
           </label>
 
           <label className="label">
-            Prezime admina:
+            Prezime:
             <input
               type="text"
               name="prezime"
@@ -75,7 +72,7 @@ function AdminForm() {
           </label>
 
           <label className="label">
-            Mail:
+            Email:
             <input
               type="text"
               name="email"
@@ -86,10 +83,8 @@ function AdminForm() {
             />
           </label>
 
-          {/* Add a new input field for the password */}
-
           <label className="label">
-            Password:
+            Lozinka:
             <input
               type="password"
               name="password"
@@ -97,16 +92,23 @@ function AdminForm() {
               onChange={(e) => setAdminPassword(e.target.value)}
               className="input-field"
               required
+              hidden={false}
             />
           </label>
 
-          <button type="submit" className="button" onClick={handleSubmit}>
-            Dodaj admina
-          </button>
+          <div className="button-container">
+            <button
+              type="submit"
+              className="submit-button"
+              onClick={handleSubmit}
+            >
+              Dodaj
+            </button>
+          </div>
         </form>
       </div>
     </div>
   );
 }
 
-export default AdminForm;
+export default AddAdmin;

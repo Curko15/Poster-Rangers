@@ -9,7 +9,6 @@ const WeatherDisplay = (props) => {
     unit: "metric",
   });
 
-  //TODO: Fix result of API call that gets weather info
   if (!data) {
     return <div>Loading...</div>;
   }

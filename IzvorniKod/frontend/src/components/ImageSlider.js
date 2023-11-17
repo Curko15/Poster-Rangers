@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCoverflow, Pagination } from "swiper/modules";
+import { getConferenceId } from "../services/AuthService";
+import axios from "axios";
+
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-import { EffectCoverflow, Pagination } from "swiper/modules";
 import "../css/imageSlider.css";
-import { getAuthToken, getConferenceId } from "../services/AuthService";
-import axios from "axios";
 
 const ImageSlider = () => {
   const [posters, setPosters] = useState([]);
@@ -16,7 +17,7 @@ const ImageSlider = () => {
     const fetchPosters = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:8081/api/konferencija/getKonfId",
+          "/api/konferencija/getKonfId",
           {
             password: conferenceId,
           },
@@ -30,7 +31,7 @@ const ImageSlider = () => {
         if (response.status === 200) {
           const conferenceData = response.data;
           const posterResponse = await axios.get(
-            `http://localhost:8081/api/poster/getAll/${conferenceData}`,
+            `/api/poster/getAll/${conferenceData}`,
           );
 
           if (posterResponse.status === 200) {

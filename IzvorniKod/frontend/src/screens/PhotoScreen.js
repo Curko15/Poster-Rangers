@@ -8,7 +8,9 @@ const PosterScreen = () => {
   return (
     <div>
       <Header viewType="photo" />
-      <h1>Pregled fotografija</h1>
+      <div className="title">
+        <h1>Pregled fotografija</h1>
+      </div>
       <Footer />
     </div>
   );

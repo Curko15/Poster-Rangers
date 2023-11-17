@@ -1,11 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Header from ".././components/Header.js";
 import Footer from "../components/Footer";
 import ImageSlider from "../components/ImageSlider";
 import LiveVideo from "../components/LiveVideo";
 
 import "../css/main.css";
-import { useNavigate } from "react-router-dom";
 
 const HomeScreen = () => {
   const navigate = useNavigate();
@@ -13,12 +13,13 @@ const HomeScreen = () => {
   return (
     <div>
       <Header viewType="homescreen" />
-      <h1>Dobrodošli!</h1>
-      <h2>Neki od postera u natjecanju!</h2>
+      <div className="title">
+        <h1>Dobrodošli!</h1>
+        <h2>Neki od postera u natjecanju!</h2>
+      </div>
       <ImageSlider />
       <div className="viewAll">
         <button onClick={() => navigate("/posteri")}>Pogledaj sve</button>
-        <button onClick={() => navigate("/dodajPoster")}>Dodaj poster</button>
       </div>
       <LiveVideo />
       <div className="viewAll">

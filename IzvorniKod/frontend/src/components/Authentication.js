@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import "../css/authetication.css";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   getLoggedInUser,
   isLoggedInConference,
@@ -8,18 +9,33 @@ import {
   saveAuthToken,
   getAuthToken,
 } from "../services/AuthService";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-const AuthenticationComponent = ({ viewType }) => {
+
+import "../css/authetication.css";
+
+const Authentication = ({ viewType }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
   const formContainerRef = useRef(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (viewType === "login") {
+      if (!email || !password) {
+        setErrorMessage("Molimo unesite email i lozinku");
+        return;
+      }
+    } else {
+      if (!email || !password || !name || !lastName) {
+        setErrorMessage("Molimo unesite sve podatke");
+        return;
+      }
+    }
 
     const token = window.btoa(email + ":" + password);
     storeToken(token);
@@ -29,7 +45,7 @@ const AuthenticationComponent = ({ viewType }) => {
         ? { email: email, password: password }
         : { email: email, password: password, ime: name, prezime: lastName };
 
-    const url = `http://localhost:8081/api/korisnici/${
+    const url = `/api/korisnici/${
       viewType === "login" ? "authenticatePP" : "registerPP"
     }`;
     let response;
@@ -41,6 +57,7 @@ const AuthenticationComponent = ({ viewType }) => {
       });
     } catch (error) {
       console.error("Error:", error);
+      alert("Pogrešan email ili lozinka");
     }
 
     const authToken = await response.data;
@@ -52,19 +69,14 @@ const AuthenticationComponent = ({ viewType }) => {
       password: getLoggedInUser().userPass,
     };
 
-    console.log(getAuthToken().token);
     let responseRole;
     try {
-      responseRole = await axios.post(
-        "http://localhost:8081/api/korisnici/getRole",
-        getRoleData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + getAuthToken().token,
-          },
+      responseRole = await axios.post("/api/korisnici/getRole", getRoleData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + getAuthToken().token,
         },
-      );
+      });
     } catch (error) {
       console.error("Error:", error);
     }
@@ -86,7 +98,6 @@ const AuthenticationComponent = ({ viewType }) => {
 
   useEffect(() => {
     const handleResize = (entries) => {};
-
     const resizeObserver = new ResizeObserver(handleResize);
 
     if (formContainerRef.current) {
@@ -100,13 +111,13 @@ const AuthenticationComponent = ({ viewType }) => {
 
   return (
     <div className="center-container">
-      <div ref={formContainerRef} className="login-container">
-        <h2>{viewType === "login" ? "Login" : "Register"}</h2>
+      <div ref={formContainerRef} className="form-container">
+        <h2>{viewType === "login" ? "Login" : "Registracija"}</h2>
         <form onSubmit={handleSubmit}>
           {viewType === "register" && (
             <>
               <label>
-                Name:
+                Ime:
                 <input
                   type="text"
                   value={name}
@@ -116,7 +127,7 @@ const AuthenticationComponent = ({ viewType }) => {
               </label>
               <br />
               <label>
-                Last name:
+                Prezime:
                 <input
                   type="text"
                   value={lastName}
@@ -138,7 +149,7 @@ const AuthenticationComponent = ({ viewType }) => {
           </label>
           <br />
           <label>
-            Password:
+            Lozinka:
             <input
               type="password"
               value={password}
@@ -149,13 +160,14 @@ const AuthenticationComponent = ({ viewType }) => {
           <br />
           <div className="button-container">
             <button type="submit" className="submit-button">
-              {viewType === "login" ? "Login" : "Register"}
+              {viewType === "login" ? "Login" : "Registracija"}
             </button>
           </div>
+          {errorMessage && <h2 className="error-message">{errorMessage}</h2>}
         </form>
       </div>
     </div>
   );
 };
 
-export default AuthenticationComponent;
+export default Authentication;

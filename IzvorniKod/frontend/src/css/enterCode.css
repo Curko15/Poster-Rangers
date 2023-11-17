@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: #8ECAE6;
+    background-color: #3A6EA5;
 }
 
 .codeCard h1 {
@@ -36,10 +36,16 @@
     font-size: 16px;
 }
 
+.inputForm span {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #181717;
+}
+
 .codeInput:focus {
     outline: none !important;
-    border:1px solid #FB8500;
-    box-shadow: 0 0 10px #FB8500;
+    border:1px solid var(--btn-border-hover);
+    box-shadow: 0 0 5px var(--btn-border-hover);
 }
 
 .spanCard {

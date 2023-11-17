@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import axios from "axios";
 import { getAuthToken } from "../services/AuthService";
 
-const AddConferenceComponent = () => {
+const AddConference = () => {
   const [conferenceName, setConferenceName] = useState("");
   const [conferenceDateStart, setConferenceDateStart] = useState("");
   const [conferenceDateEnd, setConferenceDateEnd] = useState("");
@@ -11,6 +11,7 @@ const AddConferenceComponent = () => {
   const [conferencePbr, setConferencePbr] = useState("");
   const [conferenceStreet, setConferenceStreet] = useState("");
   const [conferenceStreetNumber, setConferenceStreetNumber] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const formContainerRef = useRef(null);
 
@@ -18,19 +19,32 @@ const AddConferenceComponent = () => {
     e.preventDefault();
 
     const currentDate = new Date();
-
     if (new Date(conferenceDateStart) < currentDate) {
-      alert("Datum početka konferencije je prošao.");
+      setErrorMessage("Datum početka konferencije je prošao.");
       return;
     }
 
     if (new Date(conferenceDateEnd) < currentDate) {
-      alert("Datum završetka konferencije je prošao");
+      setErrorMessage("Datum završetka konferencije je prošao");
       return;
     }
 
     if (new Date(conferenceDateEnd) < new Date(conferenceDateStart)) {
-      alert("Datum završetka mora biti nakon datuma početka");
+      setErrorMessage("Datum završetka mora biti nakon datuma početka");
+      return;
+    }
+
+    if (
+      !conferenceName ||
+      !conferenceDateStart ||
+      !conferenceDateEnd ||
+      !conferencePassword ||
+      !conferenceLocation ||
+      !conferencePbr ||
+      !conferenceStreet ||
+      !conferenceStreetNumber
+    ) {
+      setErrorMessage("Molimo unesite sve podatke");
       return;
     }
 
@@ -47,7 +61,7 @@ const AddConferenceComponent = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8081/api/konferencija/addKonf",
+        "/api/konferencija/addKonf",
         conference,
         {
           headers: {
@@ -58,6 +72,14 @@ const AddConferenceComponent = () => {
       );
 
       if (response.status === 200) {
+        setConferenceName("");
+        setConferenceDateStart("");
+        setConferenceDateEnd("");
+        setConferencePassword("");
+        setConferenceLocation("");
+        setConferenceStreet("");
+        setConferenceStreetNumber("");
+        setConferencePbr("");
         console.log("Conference submitted successfully");
       } else {
         console.error("Failed to submit conference");
@@ -69,11 +91,11 @@ const AddConferenceComponent = () => {
 
   return (
     <div className="center-container">
-      <div ref={formContainerRef} className="login-container">
-        <h2>Add Conference</h2>
+      <div ref={formContainerRef} className="form-container">
+        <h2>Dodaj konferenciju</h2>
         <form onSubmit={handleSubmit}>
           <label>
-            Conference Name:
+            Ime:
             <input
               type="text"
               name="ime"
@@ -85,7 +107,7 @@ const AddConferenceComponent = () => {
           </label>
 
           <label>
-            Date Start:
+            Datum i vrijeme početka:
             <input
               type="datetime-local"
               name="startTime"
@@ -97,7 +119,7 @@ const AddConferenceComponent = () => {
           </label>
 
           <label>
-            Date End:
+            Datum i vrijeme kraja:
             <input
               type="datetime-local"
               name="endTime"
@@ -109,7 +131,7 @@ const AddConferenceComponent = () => {
           </label>
 
           <label>
-            Password:
+            Pristupni kod:
             <input
               type="password"
               name="password"
@@ -121,7 +143,7 @@ const AddConferenceComponent = () => {
           </label>
 
           <label>
-            Location:
+            Mjesto:
             <input
               type="text"
               name="location"
@@ -133,7 +155,7 @@ const AddConferenceComponent = () => {
           </label>
 
           <label>
-            Street:
+            Ulica:
             <input
               type="text"
               name="street"
@@ -145,7 +167,7 @@ const AddConferenceComponent = () => {
           </label>
 
           <label>
-            Street Number:
+            Kućni broj:
             <input
               type="number"
               name="streetNumber"
@@ -157,7 +179,7 @@ const AddConferenceComponent = () => {
           </label>
 
           <label>
-            PBR (Postal Code):
+            Poštanski broj:
             <input
               type="number"
               name="pbr"
@@ -168,11 +190,20 @@ const AddConferenceComponent = () => {
             />
           </label>
 
-          <button type="submit">Submit Conference</button>
+          <div className="button-container">
+            <button
+              type="submit"
+              className="submit-button"
+              onClick={handleSubmit}
+            >
+              Dodaj
+            </button>
+          </div>
         </form>
+        {errorMessage && <h2 className="error-message">{errorMessage}</h2>}
       </div>
     </div>
   );
 };
 
-export default AddConferenceComponent;
+export default AddConference;

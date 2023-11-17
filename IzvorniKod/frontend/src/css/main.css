@@ -1,4 +1,11 @@
 :root {
+    --c-1: #004E98;
+    --c-2: #3A6EA5;
+    --c-3: #FF6700;
+    --c-4: #333;
+    --c-5: rgba(192, 192, 192, 0.55);
+    --c-6: #EBEBEB;
+
     /* Header */
     --header-bcg: #333;
 
@@ -11,24 +18,35 @@
     --btn-shadow-hover: rgb(206, 41, 5);
 
     /* Footer */
-    --footer-bcg: rgba(255, 69, 0, 0.87);
+    --footer-bcg: var(--c-1);
 }
 
 * {
     font-family: 'Roboto', sans-serif;
 }
 
+.root-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--c-2);
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
 h1 {
     font-size: 2.5rem;
-    font-weight: 500;
-    margin-left: 35%;
-    align-content: center;
+    font-weight: 700;
 }
 
 h2 {
     font-size: 2rem;
     font-weight: 500;
-    margin-left: 35%;
     align-content: center;
 }
 
@@ -41,7 +59,7 @@ button {
     box-shadow: 0 4px 4px var(--btn-shadow);
     color: white;
     font-size: 1.2rem;
-    padding: 10px;
+    padding: 10px 15px;
 }
 
 button:hover {
@@ -50,9 +68,24 @@ button:hover {
     box-shadow: 0 4px 4px var(--btn-shadow-hover);
 }
 
+input:focus {
+    outline: var(--btn-bcg-hover) 1px solid;
+    box-shadow: 0 2px 4px var(--btn-shadow-hover);
+}
+
 .viewAll {
     display: flex;
     justify-content: center;
     margin: 20px;
     padding: 10px;
+}
+
+.error-message {
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgb(248, 75, 75);
+    border-radius: 4px;
+    background-color: rgba(255, 137, 137, 0.17);
 }

@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../screens/HomeScreen";
-import "../css/enterCode.css";
-import { getAuthToken, setConferenceId } from "../services/AuthService";
 import axios from "axios";
+import { setConferenceId } from "../services/AuthService";
+import "../screens/HomeScreen";
 
-const EnterCodeScreen = () => {
+import "../css/enterCode.css";
+
+const EnterCode = () => {
   const [userCode, setUserCode] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
   const handleCodeChange = (event) => {
     setUserCode(event.target.value);
     setError(null);
@@ -16,12 +18,9 @@ const EnterCodeScreen = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:8081/api/konferencija/loginKonf",
-        {
-          password: userCode,
-        },
-      );
+      const response = await axios.post("/api/konferencija/loginKonf", {
+        password: userCode,
+      });
 
       setConferenceId(userCode);
 
@@ -34,34 +33,29 @@ const EnterCodeScreen = () => {
       }
     } catch (error) {
       console.error("Error during login:", error.message);
-      setError("Error during login");
+      setError("Nepravilan pristupni kod");
     }
   };
 
   return (
     <div className="codeCard">
-      <h1>Welcome!</h1>
+      <h1>Dobrodošli!</h1>
       <div className="inputForm">
-        <span className="spanCard">Enter Your Code:</span>
+        <span className="spanCard">Upiši kod i pristupi konferenciji:</span>
         <input
           className="codeInput"
           type="text"
           value={userCode}
           onChange={handleCodeChange}
-          placeholder="Insert 6 digit code here"
+          placeholder="Ovdje upiši svoj kod"
         />
-        <button
-          className="submitButton"
-          onClick={handleSubmit}
-          disabled={userCode.length !== 6}
-        >
-          Go
+        <button className="submitButton" onClick={handleSubmit}>
+          Kreni
         </button>
       </div>
       {error && <p className="errorText">{error}</p>}
-      <p className="codeInfo">Check src/App.js file for routing info.</p>
     </div>
   );
 };
 
-export default EnterCodeScreen;
+export default EnterCode;

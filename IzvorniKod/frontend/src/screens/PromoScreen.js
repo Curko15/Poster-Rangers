@@ -8,7 +8,10 @@ const PromoScreen = () => {
   return (
     <div>
       <Header viewType="promo" />
-      <h1>Promo material</h1>
+      <div className="title">
+        <h1>Promotivni materijali</h1>
+        <h2>Pogledaj što ti sve naši sponzori nude</h2>
+      </div>
       <Footer />
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../css/footer.css";
 
 const Footer = () => {
-  const placeName = useState("New York City"); //it should be empty string, setPlaceName is for setting name from DB
+  const placeName = useState("Lokacija");
   const date = new Date().toLocaleDateString();
 
   return (
@@ -12,7 +12,7 @@ const Footer = () => {
         <p className="location">{placeName}</p>
       </div>
       <div className="weather">
-        <div className="fix">Here should go component WeatherDisplay</div>
+        <div className="fix">WeatherDisplay</div>
       </div>
     </footer>
   );

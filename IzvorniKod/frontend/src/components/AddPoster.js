@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "../css/addAdminPoster.css";
 import axios from "axios";
 import { getAuthToken } from "../services/AuthService";
 
-const AddAdminPoster = ({ onConferenceClick }) => {
+import "../css/addPoster.css";
+
+const AddPoster = ({ onConferenceClick }) => {
   const [conferences, setConferences] = useState([]);
   const [selectedConference, setSelectedConference] = useState("");
   const [emailAuthor, setEmailAuthor] = useState("");
@@ -11,19 +12,30 @@ const AddAdminPoster = ({ onConferenceClick }) => {
   const [authorName, setAuthorName] = useState("");
   const [authorLastName, setAuthorLastName] = useState("");
   const [fileName, setFileName] = useState("");
-  const [selectedConferenceIndex, setSelectedConferenceIndex] = useState("");
+  const [selectedConferenceIndex, setSelectedConferenceIndex] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const dateTimeFormater = (dateTime) => {
+    function padWithZero(number) {
+      return number.toString().padStart(2, "0");
+    }
+
+    const dateObj = new Date(dateTime);
+    return `${padWithZero(dateObj.getHours())}:${padWithZero(
+      dateObj.getMinutes(),
+    )} ${padWithZero(dateObj.getDate())}.${padWithZero(
+      dateObj.getMonth() + 1,
+    )}.${dateObj.getFullYear()}`;
+  };
 
   useEffect(() => {
     const fetchConferences = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8081/api/konferencija/getAllKonf",
-          {
-            headers: {
-              Authorization: "Bearer " + getAuthToken().token,
-            },
+        const response = await axios.get("/api/konferencija/getAllKonf", {
+          headers: {
+            Authorization: "Bearer " + getAuthToken().token,
           },
-        );
+        });
 
         if (response.status === 200) {
           setConferences(response.data);
@@ -36,7 +48,7 @@ const AddAdminPoster = ({ onConferenceClick }) => {
     };
 
     fetchConferences();
-  }, []); // Empty dependency array ensures that this effect runs once on mount
+  }, []);
 
   const handleConferenceClick = (conference, index) => {
     setSelectedConference(conference);
@@ -45,6 +57,16 @@ const AddAdminPoster = ({ onConferenceClick }) => {
 
   const handleSubmit = async () => {
     if (selectedConference) {
+      if (
+        !authorName ||
+        !authorLastName ||
+        !emailAuthor ||
+        !posterName ||
+        !fileName
+      ) {
+        setErrorMessage("Sva polja su obavezna!");
+        return;
+      }
       const formData = new FormData();
       formData.append("nazivPoster", posterName);
       formData.append("imeAutor", authorName);
@@ -54,7 +76,7 @@ const AddAdminPoster = ({ onConferenceClick }) => {
 
       try {
         const posterResponse = await axios.post(
-          `http://localhost:8081/api/poster/${selectedConference.konfid}`,
+          `/api/poster/${selectedConference.konfid}`,
           formData,
           {
             headers: {
@@ -64,6 +86,13 @@ const AddAdminPoster = ({ onConferenceClick }) => {
         );
 
         if (posterResponse.status === 200) {
+          setAuthorName("");
+          setAuthorLastName("");
+          setEmailAuthor("");
+          setPosterName("");
+          setFileName("");
+          setSelectedConference("");
+          setSelectedConferenceIndex(null);
           console.log("Poster uploaded");
         } else {
           console.error("Error fetching posters:", posterResponse.statusText);
@@ -71,13 +100,15 @@ const AddAdminPoster = ({ onConferenceClick }) => {
       } catch (error) {
         console.error("Error:", error.message);
       }
+    } else {
+      alert("Odaberite konferenciju");
     }
   };
 
   return (
-    <div className="root">
+    <div className="all-container">
       <div className="conference-list-container">
-        <h2>Conference List</h2>
+        <h2>Lista konferencija</h2>
         <ul className="conference-list">
           {conferences.map((conference, index) => (
             <li
@@ -88,33 +119,28 @@ const AddAdminPoster = ({ onConferenceClick }) => {
               onClick={() => handleConferenceClick(conference, index)}
             >
               <strong>{conference.ime}</strong>
-              <p>Start Time: {conference.startTime}</p>
-              <p>End Time: {conference.endTime}</p>
-              <p>Location: {conference.mjesto.ulica}</p>
-              <p>Postal Code: {conference.mjesto.pbr}</p>
-              <p>Street: {conference.mjesto.ulica}</p>
-              <p>Street Number: {conference.mjesto.kucBroj}</p>
+              <p>
+                Datum i vrijeme početka:{" "}
+                {dateTimeFormater(conference.startTime)}
+              </p>
+              <p>
+                Datum i vrijeme kraja: {dateTimeFormater(conference.endTime)}
+              </p>
+              <p>
+                Adresa: {conference.mjesto.ulica} {conference.mjesto.kucBroj},{" "}
+                {conference.mjesto.pbr} {conference.mjesto.nazivMjesta}
+              </p>
             </li>
           ))}
         </ul>
       </div>
-      <div className="center-container">
-        <div className="login-container">
-          <h2>Add New Poster To Conference</h2>
-          <label>
-            Poster Name:
-            <input
-              type="text"
-              name="posterName"
-              value={posterName}
-              onChange={(e) => setPosterName(e.target.value)}
-              className="input-field"
-              required
-            />
-          </label>
+      <div className="poster-container">
+        <h2 className="subtitle">Odaberi konferenciju i dodaj novi poster</h2>
 
+        <div className="author-info">
+          <h3>Podaci o autoru</h3>
           <label>
-            Author Name:
+            Ime:
             <input
               type="text"
               name="authorName"
@@ -124,9 +150,8 @@ const AddAdminPoster = ({ onConferenceClick }) => {
               required
             />
           </label>
-
           <label>
-            Author LastName:
+            Prezime:
             <input
               type="text"
               name="authorLastName"
@@ -136,9 +161,8 @@ const AddAdminPoster = ({ onConferenceClick }) => {
               required
             />
           </label>
-
           <label>
-            Author Email:
+            Email:
             <input
               type="text"
               name="emailAuthor"
@@ -148,9 +172,23 @@ const AddAdminPoster = ({ onConferenceClick }) => {
               required
             />
           </label>
+        </div>
 
+        <div className="poster-info">
+          <h3>Podaci o posteru</h3>
           <label>
-            Poster File:
+            Naziv:
+            <input
+              type="text"
+              name="posterName"
+              value={posterName}
+              onChange={(e) => setPosterName(e.target.value)}
+              className="input-field"
+              required
+            />
+          </label>
+          <label>
+            Slika:
             <input
               type="file"
               name="file"
@@ -159,13 +197,20 @@ const AddAdminPoster = ({ onConferenceClick }) => {
               required
             />
           </label>
-          <button onClick={handleSubmit} className="submit-poster-button">
-            Submit Poster
+        </div>
+        <div className="button-container">
+          <button
+            type="submit"
+            className="submit-button"
+            onClick={handleSubmit}
+          >
+            Dodaj
           </button>
         </div>
+        {errorMessage && <h2 className="error-message">{errorMessage}</h2>}
       </div>
     </div>
   );
 };
 
-export default AddAdminPoster;
+export default AddPoster;

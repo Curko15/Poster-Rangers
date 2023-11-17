@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/header.css";
+import axios from "axios";
 import {
   getAuthToken,
   getLoggedInUser,
@@ -9,7 +9,8 @@ import {
   logOutFromConference,
   userLogOut,
 } from "../services/AuthService";
-import axios from "axios";
+
+import "../css/header.css";
 
 const Header = ({ viewType }) => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Header = ({ viewType }) => {
       if (isUserLoggedIn()) {
         try {
           const response = await axios.post(
-            "http://localhost:8081/api/korisnici/getRole",
+            "/api/korisnici/getRole",
             {
               email: getLoggedInUser().userEmail,
               password: getLoggedInUser().userPass,
@@ -90,12 +91,6 @@ const Header = ({ viewType }) => {
     logOutFromConference();
     navigate("/");
   };
-  const handleDodajKonfClick = () => {
-    navigate("/konferencija/addKonf");
-  };
-  const handleDodajPosterClick = () => {
-    navigate("/dodajPoster");
-  };
 
   const handleAddPosterClick = () => {
     navigate("/dodajPoster");
@@ -124,29 +119,29 @@ const Header = ({ viewType }) => {
         )}
         {userRoleName === "ROLE_SUPERADMIN" && (
           <button id="logOutButton" onClick={handleAddAdminClick}>
-            Dodaj Admina
+            Dodaj admina
           </button>
         )}
         {(viewType === "login" || viewType === "register") && (
           <button id="backButton" onClick={handleBackClick}>
-            Return
+            Natrag
           </button>
         )}
         {(viewType === "entercode" || viewType === "homescreen") &&
           !isUserLoggedIn() && (
             <button id="loginButton" onClick={handleLoginClick}>
-              Login
+              Prijava
             </button>
           )}
         {(viewType === "entercode" || viewType === "homescreen") &&
           !isUserLoggedIn() && (
             <button id="registerButton" onClick={handleRegisterClick}>
-              Register
+              Registracija
             </button>
           )}
         {isUserLoggedIn() && (
           <button id="logOutButton" onClick={handleLogOutClick}>
-            Log Out
+            Odjava
           </button>
         )}
         {(viewType === "homescreen" ||
@@ -157,7 +152,7 @@ const Header = ({ viewType }) => {
           viewType === "vote" ||
           viewType === "admin") && (
           <button id="exitButton" onClick={handleExitClick}>
-            Exit
+            Izlaz
           </button>
         )}
 
@@ -212,7 +207,7 @@ const Header = ({ viewType }) => {
             viewType === "promo" ||
             viewType === "vote") && (
             <button id="voteButton" onClick={handleVoteClick}>
-              Glasaj
+              Glasanje
             </button>
           )}
       </>

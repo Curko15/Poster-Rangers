@@ -10,7 +10,7 @@ import EnterCodeScreen from "./screens/EnterCodeScreen";
 import AuthenticationScreen from "./screens/AuthenticationScreen";
 import SuperAdminScreen from "./screens/SuperAdminScreen";
 import AdminScreen from "./screens/AdminScreen";
-import AddConferenceComponent from "./components/AddConferenceComponent";
+import AddConference from "./components/AddConference";
 import AddPosterScreen from "./screens/AddPosterScreen";
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
         <Route path="/foto" element={<PhotoScreen />} />
         <Route path="/live" element={<LiveVideoScreen />} />
         <Route path="/promo" element={<PromoScreen />} />
-        <Route path="/dodajKonf" element={<AddConferenceComponent />} />
+        <Route path="/dodajKonf" element={<AddConference />} />
         <Route path="/superAdmin" element={<SuperAdminScreen />} />
         <Route path="/admin" element={<AdminScreen />} />
         <Route path="/dodajPoster" element={<AddPosterScreen />} />
