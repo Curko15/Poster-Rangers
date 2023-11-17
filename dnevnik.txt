@@ -6,3 +6,6 @@
 4.11.2023. Pregled dotad napravljene dokumentacije i podjela daljnjih poslova
 8.11.2023. Rasprava oko promjene baze i obrazaca, dodavanje funkcija superadmina i admina
 11.11.2023. Spajanje backenda i frontenda
+13.11.2023. Popravljanje komunikacije između backenda i frontenda
+15.11.2023. Popravljanje frontenda i pokušaj postavljanja aplikacije na javni poslužitelj
+16.11.2023. Postavljanje aplikacije na poslužitelj za prvu reviziju
