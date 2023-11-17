@@ -30,7 +30,8 @@ public class SecurtiyConfiguration {
             "/konferencija/loginKonf",
             "/korisnici/registerAdmin",
             "/konferencija/getKonfId",
-            "/poster/getAll/*"
+            "/poster/getAll/**",
+            "/poster/**",
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -42,7 +43,7 @@ public class SecurtiyConfiguration {
                 .cors(cors -> {
                     CorsConfiguration corsConfig = new CorsConfiguration();
                     corsConfig.setAllowCredentials(true);
-                    corsConfig.addAllowedOriginPattern("https://poster-rangers-fe.onrender.com"); // Or use addAllowedOrigin for specific origins
+                    corsConfig.addAllowedOriginPattern("https://poster-rangers-fe.onrender.com/**"); // Or use addAllowedOrigin for specific origins
                     corsConfig.addAllowedHeader("Authorization");
                     corsConfig.addAllowedHeader("Content-Type"); /// Or specify explicit headers you want to allow
                     corsConfig.addAllowedMethod(HttpMethod.GET);
