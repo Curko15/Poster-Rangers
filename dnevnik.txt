@@ -1,3 +1,11 @@
 18.10.2023 Prvi sastanak s asistentom, demonstratorom i grupom
 20.10.2023 Grupni sastanak, rasprava o projektnom zadatku (brainstorming)
-23.10.2023 Sastanak i diskusija o flow-u aplikacje te definiranje glavnih screenova
+22.10.2023. Dogovor oko baze podataka i skica
+23.10.2023 Sastanak i diskusija o flowu aplikacije te definiranje glavnih screenova
+28.10.2023. Izrada konceptualnog modela baze podataka
+4.11.2023. Pregled dotad napravljene dokumentacije i podjela daljnjih poslova
+8.11.2023. Rasprava oko promjene baze i obrazaca, dodavanje funkcija superadmina i admina
+11.11.2023. Spajanje backenda i frontenda
+13.11.2023. Popravljanje komunikacije između backenda i frontenda
+15.11.2023. Popravljanje frontenda i pokušaj postavljanja aplikacije na javni poslužitelj
+16.11.2023. Postavljanje aplikacije na poslužitelj za prvu reviziju
