@@ -1,0 +1,39 @@
+.list-container {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+}
+
+/* Stil za naslov popisa */
+h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* Stil za svaku pojedinačnu konferenciju u popisu */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  color: black;
+}
+
+/* Stil za informacije o konferenciji */
+li p {
+  margin: 0;
+  font-weight: bold;
+}
+
+.confirmation-text {
+  color: red;
+}
+

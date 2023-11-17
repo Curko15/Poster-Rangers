@@ -1,0 +1,11 @@
+.outer-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centered-video {
+    width: 70%;
+    padding-top: 2vh;
+}

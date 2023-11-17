@@ -5,3 +5,4 @@
 /Dokumentacija/*.out
 /Dokumentacija/*.synctex.gz
 /Dokumentacija/*.toc
+/package-lock.json
