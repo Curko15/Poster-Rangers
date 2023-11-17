@@ -70,6 +70,7 @@ const Header = ({ viewType }) => {
   };
 
   const handleLogOutClick = () => {
+    logOutFromConference();
     userLogOut();
     setUserRoleName("");
     navigate("/");

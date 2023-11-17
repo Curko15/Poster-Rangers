@@ -74,15 +74,13 @@ const AddPoster = ({ onConferenceClick }) => {
       formData.append("emailAutor", emailAuthor);
       formData.append("file", fileName);
 
-      console.log(selectedConference.konfid);
-      console.log(formData);
-
       try {
         const posterResponse = await axios.post(
           `/api/poster/${selectedConference.konfid}`,
           formData,
           {
             headers: {
+              "Content-Type": "multipart/form-data",
               Authorization: "Bearer " + getAuthToken().token,
             },
           },
