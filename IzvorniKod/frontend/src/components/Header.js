@@ -151,7 +151,8 @@ const Header = ({ viewType }) => {
           viewType === "poster" ||
           viewType === "promo" ||
           viewType === "vote" ||
-          viewType === "admin") && (
+          viewType === "admin" ||
+          viewType === "superAdmin") && (
           <button id="exitButton" onClick={handleExitClick}>
             Izlaz
           </button>
