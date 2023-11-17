@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import "../css/addposter.css";
-import { getConferenceId } from "../services/AuthService";
+import { getAuthToken, getConferenceId } from "../services/AuthService";
+import axios from "axios";
 const AddPoserComponent = () => {
   const [emailAuthor, setEmailAuthor] = useState("");
   const [posterName, setPosterName] = useState("");
@@ -10,44 +11,45 @@ const AddPoserComponent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let conferencePass = getConferenceId();
-    const response = await fetch(
-      "http://localhost:8081/konferencija/getKonfId",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          password: conferencePass,
-        }),
-      },
-    );
-
-    let conferenceId = response.json();
-
-    const url = `http://localhost:8081/poster/${conferenceId}`; // + conferenceId
-
-    const formData = new FormData();
-    formData.append("nazivPoster", posterName);
-    formData.append("imeAutor", authorName);
-    formData.append("prezimeAutor", authorLastName);
-    formData.append("emailAutor", emailAuthor);
-    formData.append("file", fileName);
 
     try {
-      const response = await fetch(url, {
-        method: "POST",
-        body: formData,
+      // Fetch conference ID
+      const response = await axios.post(
+        "http://localhost:8081/api/konferencija/getKonfId",
+        {
+          password: getConferenceId(),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + getAuthToken().token,
+          },
+        },
+      );
+
+      const url = `http://localhost:8081/api/poster/${response.data}`;
+
+      const formData = new FormData();
+      formData.append("nazivPoster", posterName);
+      formData.append("imeAutor", authorName);
+      formData.append("prezimeAutor", authorLastName);
+      formData.append("emailAutor", emailAuthor);
+      formData.append("file", fileName);
+
+      const posterResponse = await axios.post(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + getAuthToken().token,
+        },
       });
 
-      if (response.ok) {
+      if (posterResponse.status === 200) {
         console.log("Poster submitted successfully");
       } else {
         console.error("Failed to submit poster");
       }
     } catch (error) {
-      console.error("Error submitting poster:", error);
+      console.error("Error submitting poster:", error.message);
     }
   };
 

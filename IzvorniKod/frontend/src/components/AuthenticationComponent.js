@@ -68,12 +68,9 @@ const AuthenticationComponent = ({ viewType }) => {
     } catch (error) {
       console.error("Error:", error);
     }
-    console.log(responseRole.status);
-    let user = responseRole.data;
-    let userRole;
 
-    user.map((role) => (userRole = role.name));
-    console.log(userRole);
+    let userRole = responseRole.data.find((role) => true)?.name;
+
     if (userRole === "ROLE_ADMIN") {
       navigate("/admin");
     } else if (userRole === "ROLE_SUPERADMIN") {

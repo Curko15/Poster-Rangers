@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../screens/HomeScreen";
 import "../css/enterCode.css";
-import { setConferenceId } from "../services/AuthService";
+import { getAuthToken, setConferenceId } from "../services/AuthService";
+import axios from "axios";
 
 const EnterCodeScreen = () => {
   const [userCode, setUserCode] = useState("");
@@ -15,17 +16,16 @@ const EnterCodeScreen = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("/konferencija/loginKonf", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await axios.post(
+        "http://localhost:8081/api/konferencija/loginKonf",
+        {
+          password: userCode,
         },
-        body: JSON.stringify({ password: userCode }),
-      });
+      );
 
       setConferenceId(userCode);
 
-      if (response.ok) {
+      if (response.status === 200) {
         console.log("Login successful");
         navigate("/home");
       } else {
@@ -33,7 +33,7 @@ const EnterCodeScreen = () => {
         setError("Invalid credentials");
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      console.error("Error during login:", error.message);
       setError("Error during login");
     }
   };

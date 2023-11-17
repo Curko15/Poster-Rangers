@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../css/addAdminPoster.css";
+import axios from "axios";
+import { getAuthToken } from "../services/AuthService";
 
 const AddAdminPoster = ({ onConferenceClick }) => {
   const [conferences, setConferences] = useState([]);
@@ -14,22 +16,22 @@ const AddAdminPoster = ({ onConferenceClick }) => {
   useEffect(() => {
     const fetchConferences = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:8081/konferencija/getAllKonf",
+        const response = await axios.get(
+          "http://localhost:8081/api/konferencija/getAllKonf",
           {
-            method: "GET",
+            headers: {
+              Authorization: "Bearer " + getAuthToken().token,
+            },
           },
         );
 
-        if (response.ok) {
-          const conferenceData = await response.json();
-
-          setConferences(conferenceData);
+        if (response.status === 200) {
+          setConferences(response.data);
         } else {
           console.error("Error fetching conferences:", response.statusText);
         }
       } catch (error) {
-        console.error("Error:", error);
+        console.error("Error:", error.message);
       }
     };
 
@@ -50,18 +52,24 @@ const AddAdminPoster = ({ onConferenceClick }) => {
       formData.append("emailAutor", emailAuthor);
       formData.append("file", fileName);
 
-      const posterResponse = await fetch(
-        `http://localhost:8081/poster/${selectedConference.konfid}`,
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+      try {
+        const posterResponse = await axios.post(
+          `http://localhost:8081/api/poster/${selectedConference.konfid}`,
+          formData,
+          {
+            headers: {
+              Authorization: "Bearer " + getAuthToken().token,
+            },
+          },
+        );
 
-      if (posterResponse.ok) {
-        console.log("Poster uploaded");
-      } else {
-        console.error("Error fetching posters:", posterResponse.statusText);
+        if (posterResponse.status === 200) {
+          console.log("Poster uploaded");
+        } else {
+          console.error("Error fetching posters:", posterResponse.statusText);
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
       }
     }
   };

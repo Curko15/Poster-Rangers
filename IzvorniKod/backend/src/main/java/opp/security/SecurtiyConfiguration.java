@@ -28,7 +28,9 @@ public class SecurtiyConfiguration {
             "/korisnici/registerPP",
             "/korisnici/authenticatePP",
             "/konferencija/loginKonf",
-            "/korisnici/registerAdmin"
+            "/korisnici/registerAdmin",
+            "/konferencija/getKonfId",
+            "/poster/getAll/*"
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;

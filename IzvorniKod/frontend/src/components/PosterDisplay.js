@@ -7,20 +7,25 @@ const PosterDisplay = async () => {
   const [images, setImages] = useState([]);
   const [display, setDisplay] = useState(false);
 
-  try {
-    const response = await axios.get(
-      `http://localhost:8081/api/getAll/${getConferenceId()}`,
-      {
-        headers: {
-          Authorization: "Bearer " + getAuthToken().token,
-        },
-      },
-    );
-    setImages(response.data);
-    console.log(response.data);
-  } catch (error) {
-    console.error("Error:", error);
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8081/api/getAll/${getConferenceId()}`,
+          {
+            headers: {
+              Authorization: "Bearer " + getAuthToken().token,
+            },
+          },
+        );
+        setImages(response.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData(); // Call the function immediately on mount
+  }, []);
 
   return (
     <div className="posterDisplay">
