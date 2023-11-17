@@ -17,15 +17,9 @@ const EnterCodeScreen = () => {
   const handleSubmit = async () => {
     try {
       const response = await axios.post(
-        "/konferencija/loginKonf",
+        "http://localhost:8081/api/konferencija/loginKonf",
         {
           password: userCode,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + getAuthToken().token,
-          },
         },
       );
 
