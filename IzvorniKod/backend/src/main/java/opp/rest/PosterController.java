@@ -25,7 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/poster")
-@CrossOrigin("*")
+@CrossOrigin(origins = "https://poster-rangers-fe.onrender.com")
 @NoArgsConstructor
 @AllArgsConstructor
 public class PosterController {
