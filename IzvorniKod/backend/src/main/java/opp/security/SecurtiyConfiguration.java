@@ -28,6 +28,9 @@ public class SecurtiyConfiguration {
             "/konferencija/getKonfId",
             "/poster/getAll/**",
             "/poster/**",
+            "glasanje/**",
+            "glasanje/*",
+            "glasanje/addGlas"
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
