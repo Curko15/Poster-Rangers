@@ -8,6 +8,7 @@ import opp.service.GlasanjeService;
 import opp.service.KonferencijaService;
 import opp.service.KorisnikService;
 import opp.service.impl.UserServiceJPA;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -27,10 +28,13 @@ import java.util.List;
 
 public class GlasanjeController {
 
+    @Autowired
     private GlasanjeService glasanjeService;
 
+    @Autowired
     private KorisnikService korisnikService;
 
+    @Autowired
     private KonferencijaService konferencijaService;
 
     public GlasanjeController(GlasanjeService glasanjeService) {
