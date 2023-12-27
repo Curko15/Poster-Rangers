@@ -4,24 +4,25 @@ package opp;
 import opp.dao.RoleRepo;
 import opp.domain.Korisnik;
 import opp.domain.Role;
+import opp.service.EmailSenderService;
 import opp.service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
-
-import java.util.HashSet;
-import java.util.Set;
+import org.springframework.context.event.EventListener;
 
 @SpringBootApplication
 public class TeamsBackendApplication {
 
+	@Autowired
+	private EmailSenderService senderService;
+	@Autowired
 	private KorisnikService korisnikService;
+	@Autowired
 	private RoleRepo roleRepo;
 
 
@@ -31,12 +32,11 @@ public class TeamsBackendApplication {
 
 	}
 
-	@Autowired
-	@Lazy
-	public TeamsBackendApplication(RoleRepo roleRepo, KorisnikService korisnikService) {
-		this.roleRepo = roleRepo;
-		this.korisnikService = korisnikService;
-	}
+/*	@EventListener(ApplicationReadyEvent.class)
+	public void sendMail(){
+		senderService.sendEmail("curkovicm4@gmail.com", "This is Subject",
+				"This is Body of Email");
+	}*/
 
 	@Bean
 	public CommandLineRunner initializeRoles() {
