@@ -40,7 +40,7 @@ public class Korisnik implements UserDetails {
     )
     private Set<Role> roles;
 
-    private  String reset_password_token;
+    private  String resetPasswordToken;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = this.getRoles().stream()

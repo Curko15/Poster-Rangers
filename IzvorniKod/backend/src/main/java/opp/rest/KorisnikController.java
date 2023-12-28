@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Set;
 
@@ -91,4 +92,29 @@ public class KorisnikController {
         List<Korisnik> lista = korisnikService.listAll();
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
+
+    @PostMapping("/forgotPassword")
+    public String processForgotPassword(@RequestBody String email){
+        String token = generateRandomString(45);
+        System.out.println("Email: " + email);
+        System.out.println("Token: " + token);
+        return null;
+    }
+
+
+    private String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+";
+
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(characters.length());
+            char randomChar = characters.charAt(randomIndex);
+            sb.append(randomChar);
+        }
+
+        return sb.toString();
+    }
+
 }

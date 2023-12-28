@@ -23,6 +23,7 @@ public class SecurtiyConfiguration {
     private static final String[] WHITE_LIST_URL = {
             "/korisnici/registerPP",
             "/korisnici/authenticatePP",
+            "/korisnici/forgotPassword",
             "/konferencija/loginKonf",
             "/korisnici/registerAdmin",
             "/konferencija/getKonfId",
