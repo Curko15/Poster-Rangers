@@ -26,7 +26,7 @@ public interface KorisnikService {
 
     AuthenticationResponse authenticate(LoginDto loginDto);
 
-    void updateResetPassword(String token, String email);
+    void updateResetPasswordToken(String token, String email);
 
     void updatePassword(Korisnik korisnik, String novaLozinka);
 }

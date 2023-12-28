@@ -8,6 +8,7 @@ import opp.service.KorisnikService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +24,9 @@ public class KorisnikController {
     private KorisnikService korisnikService;
     private PasswordEncoder passwordEncoder;
 
-    public KorisnikController(KorisnikService korisnikService) {
+    public KorisnikController(KorisnikService korisnikService, PasswordEncoder passwordEncoder) {
         this.korisnikService = korisnikService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/register")
@@ -96,6 +98,17 @@ public class KorisnikController {
     @PostMapping("/forgotPassword")
     public String processForgotPassword(@RequestBody String email){
         String token = generateRandomString(45);
+
+        try {
+            korisnikService.updateResetPasswordToken(token, email);
+            //generate password link
+            //send mail
+            String resetPasswordLink = "";
+
+
+        }catch (Exception e) {
+            throw new UsernameNotFoundException("Korisnik s emailom: " + email + " ne postoji");
+        }
         System.out.println("Email: " + email);
         System.out.println("Token: " + token);
         return null;
