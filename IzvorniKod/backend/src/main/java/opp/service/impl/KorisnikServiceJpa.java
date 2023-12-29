@@ -119,6 +119,7 @@ public class KorisnikServiceJpa implements KorisnikService {
     public void updateResetPasswordToken(String token, String email) {
         Korisnik korisnik = korisnikRepo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Korisnik not found"));
         korisnik.setResetPasswordToken(token);
+        korisnikRepo.save(korisnik);
     }
 
     @Override
@@ -126,7 +127,7 @@ public class KorisnikServiceJpa implements KorisnikService {
         String encodedPassword = passwordEncoder.encode(novaLozinka);
 
         korisnik.setPassword(encodedPassword);
-
+        korisnik.setResetPasswordToken(null);
         korisnikRepo.save(korisnik);
     }
 

@@ -121,8 +121,9 @@ public class KorisnikController {
     }
 
     @PostMapping("/reset-password")
-    public String resetPassword(@RequestBody String newPassword, @RequestParam("token") String token) throws Exception {
+    public String resetPassword(@RequestBody Map<String, String> requestBody, @RequestParam("token") String token) throws Exception {
         Korisnik korisnik = korisnikService.findByResetPasswordToken(token);
+        String newPassword = requestBody.get("newPassword");
         if(korisnik == null) throw new Exception("Token nije valjan");
         korisnikService.updatePassword(korisnik, newPassword);
         return "Lozinka je uspješno promijenjena";
@@ -144,7 +145,7 @@ public class KorisnikController {
 
 
     private String generateRandomString(int length) {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+";
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
         SecureRandom random = new SecureRandom();
         StringBuilder sb = new StringBuilder(length);
