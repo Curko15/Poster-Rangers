@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -101,8 +102,9 @@ public class KorisnikController {
     }
 
     @PostMapping("/password-reset-request")
-    public String processForgotPassword(@RequestBody String email, final HttpServletRequest request){
+    public String processForgotPassword(@RequestBody Map<String, String> requestBody, final HttpServletRequest request){
         String token = generateRandomString(45);
+        String email = requestBody.get("email");
         String passwordResetUrl = "";
         try {
             korisnikService.updateResetPasswordToken(token, email);
