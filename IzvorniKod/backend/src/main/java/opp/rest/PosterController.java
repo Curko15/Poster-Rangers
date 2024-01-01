@@ -1,5 +1,6 @@
 package opp.rest;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import opp.domain.*;
@@ -20,7 +21,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import opp.service.impl.FileControllerJPA;
 
+import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -38,7 +42,7 @@ public class PosterController {
     FileControllerJPA fileService;
 
     @PostMapping(value = "/{id}", consumes = { "multipart/form-data" })
-    public ResponseEntity<String> addPoster(@ModelAttribute PosterDTO poster, @PathVariable Long id) throws IOException {
+    public ResponseEntity<String> addPoster(@ModelAttribute PosterDTO poster, @PathVariable Long id) throws IOException, SQLException {
         // Fetch the Konferencija based on id
         Konferencija konferencija = konferencijaService.findByKonfid(id);
 
@@ -54,9 +58,16 @@ public class PosterController {
         // Associate the Poster with the Konferencija
         posteric.setKonferencija(konferencija);
 
-        String path = fileService.uploadanje(poster.getFile(), id);
-        System.out.println("Konferencija: " + path);
-        posteric.setPosterPath(path);
+
+        //Blob:
+        byte[] bl = fileService.uploadanje(poster.getFile(), id);
+        posteric.setImage(bl);
+
+        //Stock:////////////////////////////////////////////
+        //String path = fileService.uploadanje(poster.getFile(), id);
+        //System.out.println("Konferencija: " + path);
+        //posteric.setPosterPath(path);
+        //////////////////////////////////////////////////////////////////
 
         // Save the Poster
         // Assuming you have a service class to handle business logic, you can use it here
@@ -64,6 +75,8 @@ public class PosterController {
 
         return ResponseEntity.ok("Poster added successfully");
     }
+
+
 
 
 

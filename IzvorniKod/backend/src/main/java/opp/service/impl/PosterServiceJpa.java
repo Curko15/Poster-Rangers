@@ -7,6 +7,8 @@ import opp.service.PosterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PosterServiceJpa implements PosterService {
     @Autowired
@@ -15,5 +17,13 @@ public class PosterServiceJpa implements PosterService {
     @Override
     public Poster save(Poster poster) {
         return posterRepo.save(poster);
+    }
+
+
+
+
+    @Override
+    public Poster viewById(long id) {
+        return posterRepo.findById(id).get();
     }
 }
