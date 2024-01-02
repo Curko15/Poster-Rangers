@@ -30,7 +30,8 @@ public class SecurtiyConfiguration {
             "/poster/**",
             "glasanje/**",
             "glasanje/*",
-            "glasanje/addGlas"
+            "glasanje/addGlas",
+            "/images/**"
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
