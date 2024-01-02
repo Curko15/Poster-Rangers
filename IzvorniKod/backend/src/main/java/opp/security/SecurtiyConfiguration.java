@@ -23,6 +23,9 @@ public class SecurtiyConfiguration {
     private static final String[] WHITE_LIST_URL = {
             "/korisnici/registerPP",
             "/korisnici/authenticatePP",
+            "/korisnici/reset-password",
+            "/korisnici/reset-password1",
+            "/korisnici/password-reset-request",
             "/konferencija/loginKonf",
             "/korisnici/registerAdmin",
             "/konferencija/getKonfId",
@@ -33,6 +36,7 @@ public class SecurtiyConfiguration {
             "glasanje/addGlas",
             "/images/**"
     };
+
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;

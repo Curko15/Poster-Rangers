@@ -9,5 +9,6 @@ import java.util.Optional;
 public interface KorisnikRepo extends JpaRepository<Korisnik, String> {
 //U <> upisujemo tip entiteta i tip ID-a
     Optional<Korisnik> findByEmail(String email);
+    Optional<Korisnik> findByResetPasswordToken(String token);
 
 }

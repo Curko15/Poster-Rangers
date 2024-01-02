@@ -3,15 +3,20 @@ package opp.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import opp.domain.*;
+import opp.service.EmailSenderService;
 import opp.service.KorisnikService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.SecureRandom;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -22,8 +27,12 @@ public class KorisnikController {
     private KorisnikService korisnikService;
     private PasswordEncoder passwordEncoder;
 
-    public KorisnikController(KorisnikService korisnikService) {
+    private EmailSenderService emailSenderService;
+
+    public KorisnikController(KorisnikService korisnikService, PasswordEncoder passwordEncoder, EmailSenderService emailSenderService) {
         this.korisnikService = korisnikService;
+        this.passwordEncoder = passwordEncoder;
+        this.emailSenderService = emailSenderService;
     }
 
     @PostMapping("/register")
@@ -91,4 +100,84 @@ public class KorisnikController {
         List<Korisnik> lista = korisnikService.listAll();
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
+
+    @PostMapping("/password-reset-request")
+    public String processForgotPassword(@RequestBody Map<String, String> requestBody, final HttpServletRequest request){
+        String token = generateRandomString(45);
+        String email = requestBody.get("email");
+        String passwordResetUrl = "";
+        try {
+            korisnikService.updateResetPasswordToken(token, email);
+            //generate password link
+            //send mail
+            String s =  getFrontendOrigin(request);
+            passwordResetUrl =  passwordResetEmailLink(email, applicationUrl(request), token);
+
+        }catch (Exception e) {
+            throw new UsernameNotFoundException("Korisnik s emailom: " + email + " ne postoji");
+        }
+
+        return passwordResetUrl;
+    }
+
+    @PostMapping("/reset-password")
+    public String resetPassword(@RequestBody Map<String, String> requestBody, @RequestParam("token") String token) throws Exception {
+        Korisnik korisnik = korisnikService.findByResetPasswordToken(token);
+        String newPassword = requestBody.get("newPassword");
+        if(korisnik == null) throw new Exception("Token nije valjan");
+        korisnikService.updatePassword(korisnik, newPassword);
+        return "Lozinka je uspješno promijenjena";
+    }
+
+    @GetMapping("/reset-password1")
+    public String resetPassword(@RequestParam("token") String token) throws Exception {
+        //Korisnik korisnik = korisnikService.findByResetPasswordToken(token)
+        return "dobro";
+    }
+
+    private String passwordResetEmailLink(String email, String applicationUrl, String token) {
+        String url = applicationUrl+"/promjeniLozinku?token="+token;
+        Korisnik korisnik = korisnikService.findByEmail(email);
+        String mailContent ="<p> Hi, "+ korisnik.getIme() + ", </p>"+
+                "<p><b>You recently requested to reset your password,</b>"+"" +
+                "Please, follow the link below to complete the action.</p>"+
+                "<a href=\"" +url+ "\">Reset password</a>"+
+                "<p> Users Registration Portal Service";
+
+        String subject = "Password Reset Request Verification";
+        emailSenderService.sendEmail(email, subject, mailContent);
+        return url;
+    }
+
+
+    private String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(characters.length());
+            char randomChar = characters.charAt(randomIndex);
+            sb.append(randomChar);
+        }
+
+        return sb.toString();
+    }
+
+    private String applicationUrl(HttpServletRequest request){
+        //return "http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+        String originHeader = request.getHeader("Origin");
+        return originHeader;
+    }
+
+    private String getFrontendOrigin(HttpServletRequest request) {
+        // Get the Origin header from the request
+        String originHeader = request.getHeader("Origin");
+
+        // If the Origin header is present, return it; otherwise, return a default value
+        return originHeader != null ? originHeader : "http://localhost:";
+    }
+
 }
+
