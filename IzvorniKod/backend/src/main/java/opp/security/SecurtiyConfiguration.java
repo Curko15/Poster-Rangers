@@ -24,6 +24,7 @@ public class SecurtiyConfiguration {
             "/korisnici/registerPP",
             "/korisnici/authenticatePP",
             "/korisnici/reset-password",
+            "/korisnici/reset-password1",
             "/korisnici/password-reset-request",
             "/konferencija/loginKonf",
             "/korisnici/registerAdmin",

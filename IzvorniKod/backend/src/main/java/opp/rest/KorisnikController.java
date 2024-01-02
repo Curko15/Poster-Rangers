@@ -110,8 +110,8 @@ public class KorisnikController {
             korisnikService.updateResetPasswordToken(token, email);
             //generate password link
             //send mail
+            String s =  getFrontendOrigin(request);
             passwordResetUrl =  passwordResetEmailLink(email, applicationUrl(request), token);
-
 
         }catch (Exception e) {
             throw new UsernameNotFoundException("Korisnik s emailom: " + email + " ne postoji");
@@ -129,8 +129,14 @@ public class KorisnikController {
         return "Lozinka je uspješno promijenjena";
     }
 
+    @GetMapping("/reset-password1")
+    public String resetPassword(@RequestParam("token") String token) throws Exception {
+        //Korisnik korisnik = korisnikService.findByResetPasswordToken(token)
+        return "dobro";
+    }
+
     private String passwordResetEmailLink(String email, String applicationUrl, String token) {
-        String url = applicationUrl+"/korisnici/reset-password?token="+token;
+        String url = applicationUrl+"/promjeniLozinku?token="+token;
         Korisnik korisnik = korisnikService.findByEmail(email);
         String mailContent ="<p> Hi, "+ korisnik.getIme() + ", </p>"+
                 "<p><b>You recently requested to reset your password,</b>"+"" +
@@ -160,7 +166,17 @@ public class KorisnikController {
     }
 
     private String applicationUrl(HttpServletRequest request){
-        return "http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+        //return "http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+        String originHeader = request.getHeader("Origin");
+        return originHeader;
+    }
+
+    private String getFrontendOrigin(HttpServletRequest request) {
+        // Get the Origin header from the request
+        String originHeader = request.getHeader("Origin");
+
+        // If the Origin header is present, return it; otherwise, return a default value
+        return originHeader != null ? originHeader : "http://localhost:";
     }
 
 }

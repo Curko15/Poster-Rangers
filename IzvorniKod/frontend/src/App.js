@@ -37,7 +37,7 @@ function App() {
         <Route path="/superAdmin" element={<SuperAdminScreen />} />
         <Route path="/admin" element={<AdminScreen />} />
         <Route path="/dodajPoster" element={<AddPosterScreen />} />
-        <Route path="/promijeniLozinku" element={<ResetPasswordScreen />} />
+        <Route path="/promjeniLozinku" element={<ResetPasswordScreen />} />
       </Routes>
     </Router>
   );
