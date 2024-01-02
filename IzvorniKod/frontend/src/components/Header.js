@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
@@ -11,10 +13,17 @@ import {
 } from "../services/AuthService";
 
 import "../css/header.css";
+import { CSSTransition } from "react-transition-group";
 
 const Header = ({ viewType }) => {
   const navigate = useNavigate();
   const [userRoleName, setUserRoleName] = useState("");
+  const [isNavVisible, setIsNavVisible] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  const toggleNav = () => {
+    setIsNavVisible((isNavVisible) => !isNavVisible);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,6 +53,26 @@ const Header = ({ viewType }) => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 700px)");
+    mediaQuery.addListener(handleMediaQueryChange);
+    handleMediaQueryChange(mediaQuery);
+
+    return () => {
+      mediaQuery.removeListener(handleMediaQueryChange);
+    };
+  }, []);
+
+  const handleMediaQueryChange = (mediaQuery) => {
+    if (mediaQuery.matches) {
+      setIsSmallScreen(true);
+      setIsNavVisible(false); // Close navList on small screens
+    } else {
+      setIsSmallScreen(false);
+      setIsNavVisible(true); // Open navList on larger screens
+    }
+  };
 
   const handleVideoClick = () => {
     navigate("/live");
@@ -150,19 +179,6 @@ const Header = ({ viewType }) => {
           viewType === "photo" ||
           viewType === "poster" ||
           viewType === "promo" ||
-          viewType === "vote" ||
-          viewType === "admin" ||
-          viewType === "superAdmin") && (
-          <button id="exitButton" onClick={handleExitClick}>
-            Izlaz
-          </button>
-        )}
-
-        {(viewType === "homescreen" ||
-          viewType === "liveVideo" ||
-          viewType === "photo" ||
-          viewType === "poster" ||
-          viewType === "promo" ||
           viewType === "vote") && (
           <button id="konfButton" onClick={handleKonfClick}>
             Konferencija
@@ -177,6 +193,17 @@ const Header = ({ viewType }) => {
             viewType === "vote") && (
             <button id="videoButton" onClick={handleVideoClick}>
               Video Prijenos
+            </button>
+          )}
+        {isUserLoggedIn() &&
+          (viewType === "homescreen" ||
+            viewType === "liveVideo" ||
+            viewType === "photo" ||
+            viewType === "poster" ||
+            viewType === "promo" ||
+            viewType === "vote") && (
+            <button id="voteButton" onClick={handleVoteClick}>
+              Glasanje
             </button>
           )}
         {isUserLoggedIn() &&
@@ -212,15 +239,42 @@ const Header = ({ viewType }) => {
               Glasanje
             </button>
           )}
+        {(viewType === "homescreen" ||
+          viewType === "liveVideo" ||
+          viewType === "photo" ||
+          viewType === "poster" ||
+          viewType === "promo" ||
+          viewType === "vote" ||
+          viewType === "admin" ||
+          viewType === "superAdmin") && (
+          <button id="exitButton" onClick={handleExitClick}>
+            Izlaz
+          </button>
+        )}
       </>
     );
   };
 
   return (
     <header className="headerTrack">
-      <nav>
-        <div className="navList">{renderButtons()}</div>
-      </nav>
+      <CSSTransition
+        in={!isSmallScreen || isNavVisible}
+        timeout={350}
+        classNames="NavAnimation"
+        unmountOnExit
+        >
+        <nav style={{
+            display: isNavVisible ? 'grid' : 'none',
+            /* other styles */
+          }}>
+          <div className="navList">{renderButtons()}</div>
+        </nav>
+      </CSSTransition>
+      {isSmallScreen && (
+        <button onClick={toggleNav} className="Burger">
+          <FontAwesomeIcon icon={faBars} />
+        </button>
+      )}
     </header>
   );
 };

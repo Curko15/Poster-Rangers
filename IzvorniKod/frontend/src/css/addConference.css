@@ -46,3 +46,14 @@ h2 {
   right: 10px;
   top: 12px;
 }
+
+@media only screen and (max-width: 768px) {
+
+  h1 {
+    font-size: 1.7rem;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+  }
+}
