@@ -12,6 +12,7 @@ import SuperAdminScreen from "./screens/SuperAdminScreen";
 import AdminScreen from "./screens/AdminScreen";
 import AddConference from "./components/AddConference";
 import AddPosterScreen from "./screens/AddPosterScreen";
+import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/superAdmin" element={<SuperAdminScreen />} />
         <Route path="/admin" element={<AdminScreen />} />
         <Route path="/dodajPoster" element={<AddPosterScreen />} />
+        <Route path="/promjeniLozinku" element={<ResetPasswordScreen />} />
       </Routes>
     </Router>
   );

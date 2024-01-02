@@ -23,12 +23,19 @@ public class SecurtiyConfiguration {
     private static final String[] WHITE_LIST_URL = {
             "/korisnici/registerPP",
             "/korisnici/authenticatePP",
+            "/korisnici/reset-password",
+            "/korisnici/reset-password1",
+            "/korisnici/password-reset-request",
             "/konferencija/loginKonf",
             "/korisnici/registerAdmin",
             "/konferencija/getKonfId",
             "/poster/getAll/**",
             "/poster/**",
+            "/glasanje/**",
+            "/glasanje/*",
+            "/glasanje/addGlas"
     };
+
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -40,6 +47,7 @@ public class SecurtiyConfiguration {
                     CorsConfiguration corsConfig = new CorsConfiguration();
                     corsConfig.setAllowCredentials(true);
                     corsConfig.addAllowedOriginPattern("https://poster-rangers-fe.onrender.com");
+                    corsConfig.addAllowedOriginPattern("http://localhost:3000/");
                     corsConfig.addAllowedHeader("Authorization");
                     corsConfig.addAllowedHeader("Content-Type");
                     corsConfig.addAllowedMethod(HttpMethod.GET);

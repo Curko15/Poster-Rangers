@@ -70,7 +70,7 @@ const ImageSlider = () => {
         className="mySwiper"
       >
         {posters.map((poster, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={poster.posterId}>
             <img src={poster.posterPath} alt={`poster-${index}`} />
           </SwiperSlide>
         ))}
