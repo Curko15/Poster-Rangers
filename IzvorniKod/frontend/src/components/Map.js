@@ -8,7 +8,7 @@ import axios from "axios";
 function Map({ calculateButton }) {
   const mapElement = useRef();
   const [map, setMap] = useState(null);
-  const [location, setLocation] = useState("");
+
   const [streetName, setStreetName] = useState("");
   const [mapCoordinates, setMapCoordinates] = useState({ lat: 0, lon: 0 });
 
@@ -66,7 +66,6 @@ function Map({ calculateButton }) {
 
           if (locationResponse.status === 200) {
             const posterData = locationResponse.data;
-            setLocation(posterData.nazivMjesta);
             setStreetName(`${posterData.ulica} ${posterData.kucBroj}`);
 
             const coordinatesResponse = await axios.get(
