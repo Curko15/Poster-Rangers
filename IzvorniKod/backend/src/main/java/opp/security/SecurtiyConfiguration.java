@@ -34,7 +34,11 @@ public class SecurtiyConfiguration {
             "glasanje/**",
             "glasanje/*",
             "glasanje/addGlas",
-            "/images/**"
+            "/images/**",
+            "/static/images/**",
+            "/api/images/**",
+            "/static/**",
+            "/resources/**"
     };
 
 
