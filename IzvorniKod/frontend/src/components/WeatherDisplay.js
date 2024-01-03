@@ -43,7 +43,7 @@ const App = () => {
 
         if (locationResponse.status === 200) {
           const locationData = locationResponse.data;
-          setLocationName(locationData.location);
+          setLocationName(locationData.nazivMjesta);
         } else {
           console.error(
             "Error fetching location name:",
