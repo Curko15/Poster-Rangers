@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 public class FileControllerJPA {
 
 //iNTELIJ RADI:
+    /*
     public String uploadanje(MultipartFile datoteka, Long ID) throws IOException {
 
         Path trenutniDirektorij = Paths.get(System.getProperty("user.dir"));
@@ -38,9 +39,9 @@ public class FileControllerJPA {
 
         return builder.toString();
     }
-
+*/
     //MAVEN RADI:
-    /*
+
     public String uploadanje(MultipartFile datoteka, Long ID) throws IOException {
         System.out.println("Usao sam");
 
@@ -82,7 +83,7 @@ public class FileControllerJPA {
         return builder.toString();
     }
 
-    */
+
 
 
 
