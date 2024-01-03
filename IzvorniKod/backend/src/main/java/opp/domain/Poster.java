@@ -27,8 +27,14 @@ public class Poster {
 
     private String prezimeAutor;
 
-
+/*
+    @Column(columnDefinition = "bytea")
     private byte[] image;
+*/
+    @Column(columnDefinition = "bytea")
+    private byte[] imagebyte;
+
+    private String imageType;
 
     /*
     @Lob

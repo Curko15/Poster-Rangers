@@ -9,6 +9,7 @@ import opp.service.PosterService;
 import opp.domain.Konferencija;
 import opp.service.KonferencijaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,9 @@ import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/poster")
@@ -61,7 +64,12 @@ public class PosterController {
 
         //Blob:
         byte[] bl = fileService.uploadanje(poster.getFile(), id);
-        posteric.setImage(bl);
+
+        MediaType mediaType = MediaType.parseMediaType(poster.getFile().getContentType());
+        String fileType = mediaType.getSubtype(); // This gives you the file extension
+        posteric.setImageType(fileType);
+
+        posteric.setImagebyte(bl);
 
         //Stock:////////////////////////////////////////////
         //String path = fileService.uploadanje(poster.getFile(), id);

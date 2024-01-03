@@ -71,7 +71,10 @@ const ImageSlider = () => {
       >
         {posters.map((poster, index) => (
           <SwiperSlide key={poster.posterId}>
-            <img src={poster.posterPath} alt={`poster-${index}`} />
+            <img
+              src={`data:image/${poster.imageType};base64,${poster.imagebyte}`}
+              alt={`poster-${index}`}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
