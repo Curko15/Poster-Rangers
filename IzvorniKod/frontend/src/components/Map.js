@@ -64,16 +64,16 @@ function Map({ calculateButton }) {
         //Ovdje moram popraviti cijeli response
         if (response.status === 200) {
           const conferenceData = response.data;
-          const posterResponse = await axios.get(
-            `/api/poster/getAll/${conferenceData}`,
+          const mapResponse = await axios.get(
+            `/api/konferencija/getLocation/${conferenceData}`,
           );
 
-          if (posterResponse.status === 200) {
-            const posterData = posterResponse.data;
+          if (mapResponse.status === 200) {
+            const posterData = mapResponse.data;
             setMapLongitude(posterData);
             setMapLatitude(posterData);
           } else {
-            console.error("Error fetching posters:", posterResponse.statusText);
+            console.error("Error fetching posters:", mapResponse.statusText);
           }
         } else {
           console.error("Error fetching conference data:", response.statusText);

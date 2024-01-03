@@ -1,7 +1,7 @@
 import React from "react";
 import Header from ".././components/Header.js";
 import Footer from "../components/Footer";
-import GalleryDisplay from "../components/GalleryDisplay";
+// import GalleryDisplay from "../components/GalleryDisplay";
 import "../css/main.css";
 
 const PosterScreen = () => {
