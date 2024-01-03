@@ -26,3 +26,23 @@ h2 {
   border-radius: 4px;
   font-size: 16px;
 }
+
+.password-input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-with-button {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.eye-icon {
+  font-size: 18px;
+  color: #555;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 12px;
+}

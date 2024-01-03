@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import { getAuthToken } from "../services/AuthService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const AddConference = () => {
   const [conferenceName, setConferenceName] = useState("");
@@ -12,8 +14,18 @@ const AddConference = () => {
   const [conferenceStreet, setConferenceStreet] = useState("");
   const [conferenceStreetNumber, setConferenceStreetNumber] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const formContainerRef = useRef(null);
+
+  const generateCode = () => {
+    const code = Math.floor(100000 + Math.random() * 900000);
+    setConferencePassword(code.toString());
+  };
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -130,18 +142,28 @@ const AddConference = () => {
             />
           </label>
 
-          <label>
+          <label className="password-input-container">
             Pristupni kod:
-            <input
-              type="password"
-              name="password"
-              value={conferencePassword}
-              className="input-field"
-              required
-              onChange={(e) => setConferencePassword(e.target.value)}
-            />
+            <div className="input-with-button">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={conferencePassword}
+                className="input-field"
+                required
+                onChange={(e) => setConferencePassword(e.target.value)}
+              />
+              <FontAwesomeIcon
+                icon={showPassword ? faEyeSlash : faEye}
+                className="eye-icon"
+                onClick={handleTogglePassword}
+              />
+            </div>
           </label>
-
+          <img
+            src="resources/static/Slika.jpg"
+            alt="Description of the image"
+          />
           <label>
             Mjesto:
             <input
@@ -197,6 +219,13 @@ const AddConference = () => {
               onClick={handleSubmit}
             >
               Dodaj
+            </button>
+            <button
+              type="button"
+              className="submit-button"
+              onClick={generateCode}
+            >
+              Generiraj kod
             </button>
           </div>
         </form>

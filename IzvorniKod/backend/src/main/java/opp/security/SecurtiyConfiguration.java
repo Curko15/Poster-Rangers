@@ -23,6 +23,9 @@ public class SecurtiyConfiguration {
     private static final String[] WHITE_LIST_URL = {
             "/korisnici/registerPP",
             "/korisnici/authenticatePP",
+            "/korisnici/reset-password",
+            "/korisnici/reset-password1",
+            "/korisnici/password-reset-request",
             "/konferencija/loginKonf",
             "/korisnici/registerAdmin",
             "/konferencija/getKonfId",
@@ -30,8 +33,14 @@ public class SecurtiyConfiguration {
             "/poster/**",
             "glasanje/**",
             "glasanje/*",
-            "glasanje/addGlas"
+            "glasanje/addGlas",
+            "/images/**",
+            "/static/images/**",
+            "/api/images/**",
+            "/static/**",
+            "/resources/**"
     };
+
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -42,7 +51,7 @@ public class SecurtiyConfiguration {
                 .cors(cors -> {
                     CorsConfiguration corsConfig = new CorsConfiguration();
                     corsConfig.setAllowCredentials(true);
-                    corsConfig.addAllowedOriginPattern("https://poster-rangers-fe.onrender.com");
+                    corsConfig.addAllowedOriginPattern("https://poster-rangers-fe-b71q.onrender.com");
                     corsConfig.addAllowedOriginPattern("http://localhost:3000/");
                     corsConfig.addAllowedHeader("Authorization");
                     corsConfig.addAllowedHeader("Content-Type");
