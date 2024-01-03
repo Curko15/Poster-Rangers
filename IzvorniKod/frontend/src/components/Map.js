@@ -7,9 +7,10 @@ import axios from "axios";
 
 function Map({ calculateButton }) {
   const mapElement = useRef();
-  const [mapLongitude, setMapLongitude] = useState(-74.006 || 0); // Providing a default value of 0 if null is encountered
-  const [mapLatitude, setMapLatitude] = useState(40.7128 || 0); // Providing a default value of 0 if null is encountered
   const [map, setMap] = useState(null);
+  const [location, setLocation] = useState("");
+  const [streetName, setStreetName] = useState("");
+  const [mapCoordinates, setMapCoordinates] = useState({ lat: 0, lon: 0 });
 
   useEffect(() => {
     const initializeMap = async () => {
@@ -18,7 +19,7 @@ function Map({ calculateButton }) {
         const mapInstance = tt.map({
           key: "aLgQNoPtQzJe5nGzbNocRvlSyQEjlOF4",
           container: mapElement.current,
-          center: [mapLongitude, mapLatitude],
+          center: [mapCoordinates.lon, mapCoordinates.lat],
           zoom: 15,
         });
 
@@ -44,50 +45,71 @@ function Map({ calculateButton }) {
         map.remove();
       }
     };
-  }, [mapLongitude, mapLatitude]);
+  }, [mapCoordinates]);
 
   useEffect(() => {
-    const conferenceId = getConferenceId();
-    const fetchPosters = async () => {
+    const fetchMapData = async () => {
       try {
-        const response = await axios.post(
+        const conferenceId = getConferenceId();
+        const conferenceResponse = await axios.post(
           "/api/konferencija/getKonfId",
           {
             password: conferenceId,
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
         );
-        //Ovdje moram popraviti cijeli response
-        if (response.status === 200) {
-          const conferenceData = response.data;
-          const mapResponse = await axios.get(
+
+        if (conferenceResponse.status === 200) {
+          const conferenceData = conferenceResponse.data;
+          const locationResponse = await axios.get(
             `/api/konferencija/getLocation/${conferenceData}`,
           );
 
-          if (mapResponse.status === 200) {
-            const posterData = mapResponse.data;
-            setMapLongitude(posterData);
-            setMapLatitude(posterData);
+          if (locationResponse.status === 200) {
+            const posterData = locationResponse.data;
+            setLocation(posterData.nazivMjesta);
+            setStreetName(`${posterData.ulica} ${posterData.kucBroj}`);
+
+            const coordinatesResponse = await axios.get(
+              `https://api.tomtom.com/search/2/geocode/${encodeURIComponent(
+                streetName,
+              )}.json?key=aLgQNoPtQzJe5nGzbNocRvlSyQEjlOF4`,
+            );
+
+            if (coordinatesResponse.status === 200) {
+              const coordinates = coordinatesResponse.data.results[0].position;
+              setMapCoordinates({ lat: coordinates.lat, lon: coordinates.lon });
+            } else {
+              console.error(
+                "Error fetching coordinates:",
+                coordinatesResponse.statusText,
+              );
+            }
           } else {
-            console.error("Error fetching posters:", mapResponse.statusText);
+            console.error(
+              "Error fetching location data:",
+              locationResponse.statusText,
+            );
           }
         } else {
-          console.error("Error fetching conference data:", response.statusText);
+          console.error(
+            "Error fetching conference data:",
+            conferenceResponse.statusText,
+          );
         }
       } catch (error) {
         console.error("Error:", error);
       }
     };
-    addMarkerToLocation(map, mapLatitude, mapLongitude);
-  }, []);
+
+    fetchMapData();
+  }, [streetName]);
+
+  useEffect(() => {
+    addMarkerToLocation(map, mapCoordinates.lat, mapCoordinates.lon);
+  }, [map, mapCoordinates]);
 
   function addMarkerToLocation(map, latitude, longitude) {
     if (!map || isNaN(latitude) || isNaN(longitude)) {
-      // Check if the map exists and if latitude/longitude are valid numbers
       return;
     }
 
