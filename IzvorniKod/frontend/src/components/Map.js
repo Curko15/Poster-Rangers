@@ -99,11 +99,7 @@ function Map({ calculateButton }) {
   return (
     <>
       <div className="mapContainer">
-        <div className="map">
-          <div className="mapInner">
-            <div ref={mapElement} className="mapDiv"></div>
-          </div>
-        </div>
+        <div className="mapDiv" ref={mapElement}></div>
       </div>
     </>
   );
