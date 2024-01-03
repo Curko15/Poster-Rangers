@@ -10,9 +10,7 @@ const ResetPassword = () => {
   const token = new URLSearchParams(location.search).get("token");
 
   useEffect(() => {
-    // Check if the token is present in the URL
     if (!token) {
-      // Handle the case when the token is missing (e.g., redirect to an error page)
       console.error("Token is missing");
     }
   }, [token]);
@@ -36,15 +34,14 @@ const ResetPassword = () => {
         })
         .then((response) => {
           console.log("Password updated successfully!", response);
-          // Handle success response (e.g., redirect to login page)
         })
         .catch((error) => {
           console.error("Error updating password:", error);
-          // Handle errors (e.g., display error message)
         });
+      setPassword("");
+      setConfirmPassword("");
     } else {
       console.log("Passwords don't match or token is missing");
-      // Handle passwords mismatch or missing token case
     }
   };
 

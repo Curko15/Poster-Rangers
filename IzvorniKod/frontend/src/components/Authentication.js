@@ -10,6 +10,8 @@ import {
 } from "../services/AuthService";
 
 import "../css/authetication.css";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Authentication = ({ viewType }) => {
   const [email, setEmail] = useState("");
@@ -19,9 +21,14 @@ const Authentication = ({ viewType }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [newPasswordReq, setNewPasswordReq] = useState(false);
   const [newEmail, setNewEmail] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const formContainerRef = useRef(null);
   const navigate = useNavigate();
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -112,6 +119,7 @@ const Authentication = ({ viewType }) => {
           "Content-Type": "application/json",
         },
       });
+      setNewEmail("");
     } catch (error) {
       console.error("Error:", error);
       alert("Pogrešan email");
@@ -174,12 +182,19 @@ const Authentication = ({ viewType }) => {
               <br />
               <label>
                 Lozinka:
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="input-field"
-                />
+                <div className="input-with-button">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="input-field"
+                  />
+                  <FontAwesomeIcon
+                    icon={showPassword ? faEyeSlash : faEye}
+                    className="eye-icon"
+                    onClick={handleTogglePassword}
+                  />
+                </div>
               </label>
               <br />
               {viewType === "login" && (
