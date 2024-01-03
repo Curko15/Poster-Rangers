@@ -31,8 +31,7 @@ const ResetPassword = () => {
     // Check if passwords match before sending the request
     if (password === confirmPassword && token) {
       axios
-        .post("/api/korisnici/reset-password", {
-          token: token, // Use the token retrieved from the URL
+        .post(`/api/korisnici/reset-password?token=${token}`, {
           newPassword: password,
         })
         .then((response) => {

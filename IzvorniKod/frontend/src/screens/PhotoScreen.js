@@ -11,7 +11,7 @@ const PosterScreen = () => {
       <div className="title">
         <h1>Pregled fotografija</h1>
       </div>
-      <GalleryDisplay />
+      {/*<GalleryDisplay />*/}
       <Footer />
     </div>
   );

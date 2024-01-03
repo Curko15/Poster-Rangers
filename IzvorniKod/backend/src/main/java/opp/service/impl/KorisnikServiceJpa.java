@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -78,6 +79,11 @@ public class KorisnikServiceJpa implements KorisnikService {
     }
 
     @Override
+    public Korisnik findByResetPasswordToken(String token) {
+        return korisnikRepo.findByResetPasswordToken(token).orElseThrow(() -> new UsernameNotFoundException("Korisnik not found"));
+    }
+
+    @Override
     public List<Korisnik> listAll() {
         return korisnikRepo.findAll();
     }
@@ -109,14 +115,21 @@ public class KorisnikServiceJpa implements KorisnikService {
                 .token(jwtToken).build();
     }
 
-    /*@Override
-    public String login(LoginDto loginDto) {
-       Authentication authentication =  authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-            loginDto.getEmail(),
-            loginDto.getPassword()
-        ));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+    @Override
+    public void updateResetPasswordToken(String token, String email) {
+        Korisnik korisnik = korisnikRepo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Korisnik not found"));
+        korisnik.setResetPasswordToken(token);
+        korisnikRepo.save(korisnik);
+    }
 
-        return "User logged-in successfully!";
-    }*/
+    @Override
+    public void updatePassword(Korisnik korisnik, String novaLozinka) {
+        String encodedPassword = passwordEncoder.encode(novaLozinka);
+
+        korisnik.setPassword(encodedPassword);
+        korisnik.setResetPasswordToken(null);
+        korisnikRepo.save(korisnik);
+    }
+
+
 }

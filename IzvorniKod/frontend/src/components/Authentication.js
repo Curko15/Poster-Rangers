@@ -5,7 +5,6 @@ import {
   getLoggedInUser,
   isLoggedInConference,
   saveLoggedInUser,
-  storeToken,
   saveAuthToken,
   getAuthToken,
 } from "../services/AuthService";
@@ -38,9 +37,6 @@ const Authentication = ({ viewType }) => {
         return;
       }
     }
-
-    const token = window.btoa(email + ":" + password);
-    storeToken(token);
 
     const requestData =
       viewType === "login"
