@@ -32,12 +32,12 @@ public class TeamsBackendApplication {
 
 	}
 
-/*	@EventListener(ApplicationReadyEvent.class)
+	/*@EventListener(ApplicationReadyEvent.class)
 	public void sendMail(){
 		senderService.sendEmail("curkovicm4@gmail.com", "This is Subject",
 				"This is Body of Email");
-	}*/
-
+	}
+*/
 	@Bean
 	public CommandLineRunner initializeRoles() {
 		return args -> {
@@ -45,7 +45,7 @@ public class TeamsBackendApplication {
 			initializeRole("ROLE_ADMIN");
 			initializeRole("ROLE_SUPERADMIN");
 
-			Korisnik superadmin = new Korisnik("superadmin@gmail.com", "1234567", "superadmin", "superprezime", null);
+			Korisnik superadmin = new Korisnik("superadmin@gmail.com", "1234567", "superadmin", "superprezime", null, null);
 			korisnikService.saveSuperAdmin(superadmin);
 		};
 	}

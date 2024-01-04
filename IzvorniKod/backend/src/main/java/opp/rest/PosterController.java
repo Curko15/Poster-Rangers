@@ -2,6 +2,7 @@ package opp.rest;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import opp.domain.*;
 import opp.service.KonferencijaService;
@@ -10,6 +11,8 @@ import opp.domain.Konferencija;
 import opp.service.KonferencijaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,20 +36,27 @@ import java.util.Map;
 @RestController
 @RequestMapping("/poster")
 @CrossOrigin(origins = "https://poster-rangers-fe.onrender.com")
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class PosterController {
     @Autowired
     PosterService posterService;
     @Autowired
     KonferencijaService konferencijaService;
 
+    private final ResourceLoader resourceLoader;
+
+
     @Autowired
     FileControllerJPA fileService;
+
+    public PosterController(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
 
     @PostMapping(value = "/{id}", consumes = { "multipart/form-data" })
     public ResponseEntity<String> addPoster(@ModelAttribute PosterDTO poster, @PathVariable Long id) throws IOException, SQLException {
         // Fetch the Konferencija based on id
+        System.out.println("Usao u kontroler poster");
         Konferencija konferencija = konferencijaService.findByKonfid(id);
 
         if (konferencija == null) {
@@ -80,6 +90,8 @@ public class PosterController {
         // Save the Poster
         // Assuming you have a service class to handle business logic, you can use it here
         posterService.save(posteric); // You need to implement this method
+
+        Resource staticFolder = resourceLoader.getResource("classpath:static/");
 
         return ResponseEntity.ok("Poster added successfully");
     }

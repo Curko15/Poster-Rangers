@@ -1,7 +1,7 @@
 import React from "react";
 import Header from ".././components/Header.js";
 import Footer from "../components/Footer";
-
+// import GalleryDisplay from "../components/GalleryDisplay";
 import "../css/main.css";
 
 const PosterScreen = () => {
@@ -11,6 +11,7 @@ const PosterScreen = () => {
       <div className="title">
         <h1>Pregled fotografija</h1>
       </div>
+      {/*<GalleryDisplay />*/}
       <Footer />
     </div>
   );

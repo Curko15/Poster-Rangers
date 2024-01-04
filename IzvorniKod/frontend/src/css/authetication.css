@@ -40,3 +40,7 @@ h2 {
     display: flex;
     justify-content: flex-end;
 }
+
+.newPassword:hover {
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
