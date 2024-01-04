@@ -1,49 +1,35 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import PosterData from "../services/PosterData";
 
 import "../css/posterDisplay.css";
 
 const PosterDisplay = () => {
-  //const backendURL = "http://localhost:8081/static/";
-  const [images, setImages] = useState([]);
+  const [isLoading, setLoader] = useState(true);
+  const posters = PosterData();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`/api/poster/getAll/21`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        setImages(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error:", error);
-        setImages([]);
-      }
-    };
-
-    fetchData();
-  }, []);
+  /*useEffect(() => {
+    if (isLoading) {
+    }
+  }, [posters]);*/
 
   return (
     <div className="posterDisplay">
-      {images.length === 0 ? (
+      {posters.length === 0 ? (
         <h1>Nema postera za prikazati!</h1>
       ) : (
-        images.map((image, index) => (
+        posters.map((poster, index) => (
           <div key={index}>
             <img
               className="poster"
-              src={encodeURIComponent(image.posterPath)}
+              src={`data:image/${poster.imageType};base64,${poster.imagebyte}`}
               alt={`poster-${index}`}
             />
             <div className="details">
-              <h3 className="title">Naziv: {image.nazivPoster}</h3>
+              <h3 className="title">Naziv: {poster.nazivPoster}</h3>
               <h3 className="author">
-                Autor: {`${image.imeAutor} ${image.prezimeAutor}`}
+                Autor: {`${poster.imeAutor} ${poster.prezimeAutor}`}
               </h3>
-              <h3 className="email">Email autora: {image.emailAutor}</h3>
+              <h3 className="email">Email autora: {poster.emailAutor}</h3>
             </div>
           </div>
         ))

@@ -21,13 +21,6 @@ import java.sql.SQLException;
 @Service
 public class FileControllerJPA {
     public byte[] uploadanje(MultipartFile datoteka, Long ID) throws IOException, SQLException {
-
-        //Ne zaboravi da je promjenjeno šta funkcija vraća
-
-//iNTELIJ RADI:
-    /*
-    public String uploadanje(MultipartFile datoteka, Long ID) throws IOException {
-
         Path trenutniDirektorij = Paths.get(System.getProperty("user.dir"));
         Path relativnaPutanja = trenutniDirektorij.resolve("IzvorniKod/backend/src/main/resources/static/images");
 
@@ -46,12 +39,9 @@ public class FileControllerJPA {
 
 
         return bytes;
-        //return builder.toString();
     }
-*/
-    //MAVEN RADI:
 
-    public String uploadanje(MultipartFile datoteka, Long ID) throws IOException {
+    /*public String uploadanje(MultipartFile datoteka, Long ID) throws IOException {
         System.out.println("Usao sam");
 
         Path trenutniDirektorij = Paths.get(System.getProperty("user.dir"));
@@ -85,16 +75,6 @@ public class FileControllerJPA {
             e.printStackTrace();
             System.out.println("Greška prilikom kopiranja datoteke");
         }
-
-
-
-
         return builder.toString();
-    }
-
-
-
-
-
-
+    }*/
 }

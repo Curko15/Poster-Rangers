@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination } from "swiper/modules";
-import { getConferenceId } from "../services/AuthService";
-import axios from "axios";
+import PosterData from "../services/PosterData";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";
@@ -10,46 +9,7 @@ import "swiper/css/pagination";
 import "../css/imageSlider.css";
 
 const ImageSlider = () => {
-  const [posters, setPosters] = useState([]);
-
-  useEffect(() => {
-    const conferenceId = getConferenceId();
-    const fetchPosters = async () => {
-      try {
-        const response = await axios.post(
-          "/api/konferencija/getKonfId",
-          {
-            password: conferenceId,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
-        );
-
-        if (response.status === 200) {
-          const conferenceData = response.data;
-          const posterResponse = await axios.get(
-            `/api/poster/getAll/${conferenceData}`,
-          );
-
-          if (posterResponse.status === 200) {
-            const posterData = posterResponse.data;
-            setPosters(posterData);
-          } else {
-            console.error("Error fetching posters:", posterResponse.statusText);
-          }
-        } else {
-          console.error("Error fetching conference data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    fetchPosters();
-  }, []);
+  const posters = PosterData();
 
   return (
     <>
