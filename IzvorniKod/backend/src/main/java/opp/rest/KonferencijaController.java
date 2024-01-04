@@ -97,6 +97,16 @@ public class KonferencijaController {
         }
     }
 
+    @GetMapping("/getLocation/{id}")
+    public ResponseEntity<?> getLocation(@PathVariable Long id){
+        Konferencija konferencija = konfService.findByKonfid(id);
+        if(konferencija != null){
+            return new ResponseEntity<>(konferencija.getMjesto(), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("Invalid credentials", HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @GetMapping("/getAllKonf")
     public ResponseEntity<List<Konferencija>> getAllKonf(){

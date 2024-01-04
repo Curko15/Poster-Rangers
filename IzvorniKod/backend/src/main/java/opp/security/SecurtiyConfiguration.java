@@ -29,6 +29,7 @@ public class SecurtiyConfiguration {
             "/konferencija/loginKonf",
             "/korisnici/registerAdmin",
             "/konferencija/getKonfId",
+            "/konferencija/getLocation/{id}",
             "/poster/getAll/**",
             "/poster/**",
             "glasanje/**",

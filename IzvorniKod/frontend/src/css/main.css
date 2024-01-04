@@ -90,3 +90,30 @@ input:focus {
     border-radius: 4px;
     background-color: rgba(255, 137, 137, 0.17);
 }
+
+.mapAndWeather {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.map {
+    width: 50%; /* Adjust as needed */
+}
+
+.weatherDisplay {
+    width: 50%; /* Adjust as needed */
+}
+.weatherContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30rem;
+}
+
+.weather{
+    width: 600px;
+    height: 100%;
+
+}
