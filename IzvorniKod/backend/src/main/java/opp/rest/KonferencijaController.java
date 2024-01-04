@@ -63,7 +63,8 @@ public class KonferencijaController {
 
     @PostMapping("/checkKonfCode")
     public ResponseEntity<Boolean> checkKonfCode(@RequestBody String code) {
-        Konferencija konf = konfService.findByPassword(code);
+        String pass = code.substring(0, code.length() - 1);
+        Konferencija konf = konfService.findByPassword(pass);
         if (konf != null) {
             return ResponseEntity.ok(Boolean.FALSE);
         } else {

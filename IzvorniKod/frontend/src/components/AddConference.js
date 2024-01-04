@@ -24,26 +24,23 @@ const AddConference = () => {
     setConferencePassword(code.toString());
   };
 
-  const codeCheckUp = (code) => {
-    const checkUp = async () => {
-      try {
-        const response = await axios.post(
-          "/api/konferencija/checkKonfCode",
-          code,
-          {
-            headers: {
-              Authorization: "Bearer " + getAuthToken().token,
-            },
+  const codeCheckUp = async (code) => {
+    try {
+      const response = await axios.post(
+        "/api/konferencija/checkKonfCode",
+        code,
+        {
+          headers: {
+            Authorization: "Bearer " + getAuthToken().token,
           },
-        );
-        console.log(response.data);
-        return response.data;
-      } catch (error) {
-        console.error("Error:", error.message);
-        return false;
-      }
-    };
-    checkUp();
+        },
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error:", error.message);
+      return false;
+    }
   };
 
   const handleTogglePassword = () => {
@@ -53,81 +50,88 @@ const AddConference = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!codeCheckUp(conferencePassword)) {
-      setErrorMessage(
-        "Konferencija s istim kodom već postoji. Generirajte novi kod.",
-      );
-      return;
-    }
-
-    const currentDate = new Date();
-    if (new Date(conferenceDateStart) < currentDate) {
-      setErrorMessage("Datum početka konferencije je prošao.");
-      return;
-    }
-
-    if (new Date(conferenceDateEnd) < currentDate) {
-      setErrorMessage("Datum završetka konferencije je prošao");
-      return;
-    }
-
-    if (new Date(conferenceDateEnd) < new Date(conferenceDateStart)) {
-      setErrorMessage("Datum završetka mora biti nakon datuma početka");
-      return;
-    }
-
-    if (
-      !conferenceName ||
-      !conferenceDateStart ||
-      !conferenceDateEnd ||
-      !conferencePassword ||
-      !conferenceLocation ||
-      !conferencePbr ||
-      !conferenceStreet ||
-      !conferenceStreetNumber
-    ) {
-      setErrorMessage("Molimo unesite sve podatke");
-      return;
-    }
-
-    const conference = {
-      ime: conferenceName,
-      startTime: conferenceDateStart,
-      endTime: conferenceDateEnd,
-      nazivMjesta: conferenceLocation,
-      password: conferencePassword,
-      pbr: conferencePbr,
-      ulica: conferenceStreet,
-      kucBroj: conferenceStreetNumber,
-    };
-
     try {
-      const response = await axios.post(
-        "/api/konferencija/addKonf",
-        conference,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + getAuthToken().token,
-          },
-        },
-      );
+      const isUnique = await codeCheckUp(conferencePassword);
 
-      if (response.status === 200) {
-        setConferenceName("");
-        setConferenceDateStart("");
-        setConferenceDateEnd("");
-        setConferencePassword("");
-        setConferenceLocation("");
-        setConferenceStreet("");
-        setConferenceStreetNumber("");
-        setConferencePbr("");
-        console.log("Conference submitted successfully");
-      } else {
-        console.error("Failed to submit conference");
+      if (!isUnique) {
+        setErrorMessage(
+          "Konferencija s istim kodom već postoji. Generirajte novi kod.",
+        );
+        return;
+      }
+
+      const currentDate = new Date();
+      if (new Date(conferenceDateStart) < currentDate) {
+        setErrorMessage("Datum početka konferencije je prošao.");
+        return;
+      }
+
+      if (new Date(conferenceDateEnd) < currentDate) {
+        setErrorMessage("Datum završetka konferencije je prošao");
+        return;
+      }
+
+      if (new Date(conferenceDateEnd) < new Date(conferenceDateStart)) {
+        setErrorMessage("Datum završetka mora biti nakon datuma početka");
+        return;
+      }
+
+      if (
+        !conferenceName ||
+        !conferenceDateStart ||
+        !conferenceDateEnd ||
+        !conferencePassword ||
+        !conferenceLocation ||
+        !conferencePbr ||
+        !conferenceStreet ||
+        !conferenceStreetNumber
+      ) {
+        setErrorMessage("Molimo unesite sve podatke");
+        return;
+      }
+
+      const conference = {
+        ime: conferenceName,
+        startTime: conferenceDateStart,
+        endTime: conferenceDateEnd,
+        nazivMjesta: conferenceLocation,
+        password: conferencePassword,
+        pbr: conferencePbr,
+        ulica: conferenceStreet,
+        kucBroj: conferenceStreetNumber,
+      };
+
+      try {
+        const response = await axios.post(
+          "/api/konferencija/addKonf",
+          conference,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + getAuthToken().token,
+            },
+          },
+        );
+
+        if (response.status === 200) {
+          setConferenceName("");
+          setConferenceDateStart("");
+          setConferenceDateEnd("");
+          setConferencePassword("");
+          setConferenceLocation("");
+          setConferenceStreet("");
+          setConferenceStreetNumber("");
+          setConferencePbr("");
+          setErrorMessage("");
+          console.log("Conference submitted successfully");
+        } else {
+          console.error("Failed to submit conference");
+        }
+      } catch (error) {
+        console.error("Error submitting conference:", error.message);
       }
     } catch (error) {
-      console.error("Error submitting conference:", error.message);
+      console.error("Error checking conference code:", error.message);
     }
   };
 
