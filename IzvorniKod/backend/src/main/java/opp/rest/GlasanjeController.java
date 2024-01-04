@@ -65,4 +65,13 @@ public class GlasanjeController {
         return new ResponseEntity<>("Glas dodan", HttpStatus.CREATED);
 
     }
+
+    @DeleteMapping("/removeGlas")
+    public void removeGlas(@RequestParam String email, @RequestParam Long konferencijaId){
+        //Možda bi valjalo dodati neke if-eve ili try catch blokove za projveru jel našao Konferenciju i Korisnika
+        Korisnik korisnik = korisnikService.findByEmail(email);
+        Konferencija konferencija = konferencijaService.findByKonfid(konferencijaId);
+
+        glasanjeService.deleteGlasanje(korisnik, konferencija);
+    }
 }

@@ -1,5 +1,6 @@
 package opp.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import opp.dao.GlasanjeRepo;
 import opp.dao.KonferencijaRepo;
@@ -19,9 +20,14 @@ public class GlasanjeServiceJPA implements GlasanjeService {
     @Autowired
     private GlasanjeRepo glasanjeRepo;
 
+
+
     @Override
-    public Glasanje save(Glasanje glas) {
-        return glasanjeRepo.save(glas);
+    public Glasanje save(Glasanje glas) {return glasanjeRepo.save(glas);}
+
+    @Transactional
+    public void deleteGlasanje(Korisnik korisnik, Konferencija konferencija) {
+        glasanjeRepo.deleteByKorisnikAndKonferencija(korisnik, konferencija);
     }
 
 
