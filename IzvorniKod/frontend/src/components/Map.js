@@ -1,9 +1,10 @@
-import "@tomtom-international/web-sdk-maps/dist/maps.css"; // Import the CSS styles for the maps
+import "@tomtom-international/web-sdk-maps/dist/maps.css";
 import { useState, useEffect, useRef } from "react";
-import tt from "@tomtom-international/web-sdk-maps"; // Import the TomTom Maps SDK
-import "../css/map.css";
+import tt from "@tomtom-international/web-sdk-maps";
 import { getConferenceId } from "../services/AuthService";
 import axios from "axios";
+
+import "../css/map.css";
 
 function Map({ calculateButton }) {
   const mapElement = useRef();

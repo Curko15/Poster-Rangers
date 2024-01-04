@@ -4,6 +4,7 @@ import { getConferenceId } from "./AuthService";
 
 const PosterData = () => {
   const [posters, setPosters] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchPosters = async () => {
@@ -38,13 +39,15 @@ const PosterData = () => {
         }
       } catch (error) {
         console.error("Error:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchPosters();
   }, []);
 
-  return posters;
+  return { posters, isLoading };
 };
 
 export default PosterData;

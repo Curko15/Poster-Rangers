@@ -3,8 +3,9 @@ import axios from "axios";
 import { getAuthToken } from "../services/AuthService";
 
 import "../css/addPoster.css";
+import { BounceLoader } from "react-spinners";
 
-const AddPoster = ({ onConferenceClick }) => {
+const AddPoster = () => {
   const [conferences, setConferences] = useState([]);
   const [selectedConference, setSelectedConference] = useState("");
   const [emailAuthor, setEmailAuthor] = useState("");
@@ -12,7 +13,9 @@ const AddPoster = ({ onConferenceClick }) => {
   const [authorName, setAuthorName] = useState("");
   const [authorLastName, setAuthorLastName] = useState("");
   const [fileName, setFileName] = useState("");
+
   const [selectedConferenceIndex, setSelectedConferenceIndex] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
   const dateTimeFormater = (dateTime) => {
@@ -44,6 +47,8 @@ const AddPoster = ({ onConferenceClick }) => {
         }
       } catch (error) {
         console.error("Error:", error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -107,110 +112,122 @@ const AddPoster = ({ onConferenceClick }) => {
   };
 
   return (
-    <div className="all-container">
-      <div className="conference-list-container">
-        <h2>Lista konferencija</h2>
-        <ul className="conference-list">
-          {conferences.map((conference, index) => (
-            <li
-              key={index}
-              className={`conference-item ${
-                index === selectedConferenceIndex ? "selected" : ""
-              }`}
-              onClick={() => handleConferenceClick(conference, index)}
-            >
-              <strong>{conference.ime}</strong>
-              <p>
-                Datum i vrijeme početka:{" "}
-                {dateTimeFormater(conference.startTime)}
-              </p>
-              <p>
-                Datum i vrijeme kraja: {dateTimeFormater(conference.endTime)}
-              </p>
-              <p>
-                Adresa: {conference.mjesto.ulica} {conference.mjesto.kucBroj},{" "}
-                {conference.mjesto.pbr} {conference.mjesto.nazivMjesta}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="poster-container">
-        <h2 className="subtitle">Odaberi konferenciju i dodaj novi poster</h2>
+    <>
+      {isLoading ? (
+        <div className="loader">
+          <BounceLoader color="#d63636" />
+        </div>
+      ) : (
+        <div className="all-container">
+          <div className="conference-list-container">
+            <h2>Lista konferencija</h2>
+            <ul className="conference-list">
+              {conferences.map((conference, index) => (
+                <li
+                  key={index}
+                  className={`conference-item ${
+                    index === selectedConferenceIndex ? "selected" : ""
+                  }`}
+                  onClick={() => handleConferenceClick(conference, index)}
+                >
+                  <strong>{conference.ime}</strong>
+                  <p>
+                    Datum i vrijeme početka:{" "}
+                    {dateTimeFormater(conference.startTime)}
+                  </p>
+                  <p>
+                    Datum i vrijeme kraja:{" "}
+                    {dateTimeFormater(conference.endTime)}
+                  </p>
+                  <p>
+                    Adresa: {conference.mjesto.ulica}{" "}
+                    {conference.mjesto.kucBroj}, {conference.mjesto.pbr}{" "}
+                    {conference.mjesto.nazivMjesta}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="poster-container">
+            <h2 className="subtitle">
+              Odaberi konferenciju i dodaj novi poster
+            </h2>
 
-        <div className="author-info">
-          <h3>Podaci o autoru</h3>
-          <label>
-            Ime:
-            <input
-              type="text"
-              name="authorName"
-              value={authorName}
-              onChange={(e) => setAuthorName(e.target.value)}
-              className="input-field"
-              required
-            />
-          </label>
-          <label>
-            Prezime:
-            <input
-              type="text"
-              name="authorLastName"
-              value={authorLastName}
-              onChange={(e) => setAuthorLastName(e.target.value)}
-              className="input-field"
-              required
-            />
-          </label>
-          <label>
-            Email:
-            <input
-              type="text"
-              name="emailAuthor"
-              value={emailAuthor}
-              onChange={(e) => setEmailAuthor(e.target.value)}
-              className="input-field"
-              required
-            />
-          </label>
-        </div>
+            <div className="author-info">
+              <h3>Podaci o autoru</h3>
+              <label>
+                Ime:
+                <input
+                  type="text"
+                  name="authorName"
+                  value={authorName}
+                  onChange={(e) => setAuthorName(e.target.value)}
+                  className="input-field"
+                  required
+                />
+              </label>
+              <label>
+                Prezime:
+                <input
+                  type="text"
+                  name="authorLastName"
+                  value={authorLastName}
+                  onChange={(e) => setAuthorLastName(e.target.value)}
+                  className="input-field"
+                  required
+                />
+              </label>
+              <label>
+                Email:
+                <input
+                  type="text"
+                  name="emailAuthor"
+                  value={emailAuthor}
+                  onChange={(e) => setEmailAuthor(e.target.value)}
+                  className="input-field"
+                  required
+                />
+              </label>
+            </div>
 
-        <div className="poster-info">
-          <h3>Podaci o posteru</h3>
-          <label>
-            Naziv:
-            <input
-              type="text"
-              name="posterName"
-              value={posterName}
-              onChange={(e) => setPosterName(e.target.value)}
-              className="input-field"
-              required
-            />
-          </label>
-          <label>
-            Slika:
-            <input
-              type="file"
-              name="file"
-              onChange={(e) => setFileName(e.target.files[0])}
-              className="input-field"
-              required
-            />
-          </label>
+            <div className="poster-info">
+              <h3>Podaci o posteru</h3>
+              <label>
+                Naziv:
+                <input
+                  type="text"
+                  name="posterName"
+                  value={posterName}
+                  onChange={(e) => setPosterName(e.target.value)}
+                  className="input-field"
+                  required
+                />
+              </label>
+              <label>
+                Slika:
+                <input
+                  type="file"
+                  name="file"
+                  onChange={(e) => setFileName(e.target.files[0])}
+                  className="input-field"
+                  required
+                />
+              </label>
+            </div>
+            <div className="button-container">
+              <button
+                type="submit"
+                className="submit-button"
+                onClick={handleSubmit}
+              >
+                Dodaj
+              </button>
+            </div>
+            {errorMessage && <h2 className="error-message">{errorMessage}</h2>}
+          </div>
         </div>
-        <div className="button-container">
-          <button
-            type="submit"
-            className="submit-button"
-            onClick={handleSubmit}
-          >
-            Dodaj
-          </button>
-        </div>
-        {errorMessage && <h2 className="error-message">{errorMessage}</h2>}
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

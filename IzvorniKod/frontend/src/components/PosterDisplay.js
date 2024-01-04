@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PosterData from "../services/PosterData";
+import { BounceLoader } from "react-spinners";
 
 import "../css/posterDisplay.css";
 
 const PosterDisplay = () => {
-  const [isLoading, setLoader] = useState(true);
-  const posters = PosterData();
-
-  /*useEffect(() => {
-    if (isLoading) {
-    }
-  }, [posters]);*/
+  const { posters, isLoading } = PosterData();
 
   return (
     <div className="posterDisplay">
-      {posters.length === 0 ? (
+      {isLoading ? (
+        <div className="loader">
+          <BounceLoader color="#d63636" />
+        </div>
+      ) : posters.length === 0 ? (
         <h1>Nema postera za prikazati!</h1>
       ) : (
         posters.map((poster, index) => (
