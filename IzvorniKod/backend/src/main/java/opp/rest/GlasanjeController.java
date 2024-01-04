@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Data
@@ -62,6 +63,9 @@ public class GlasanjeController {
 
 
         glasanjeService.save(glas);
+
+        Map<Long, Integer> glasovi = glasanjeService.MapPoredak(glasDTO.getKonfId());
+        System.out.println(glasovi);
         return new ResponseEntity<>("Glas dodan", HttpStatus.CREATED);
 
     }
