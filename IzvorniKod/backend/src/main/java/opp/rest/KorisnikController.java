@@ -108,8 +108,6 @@ public class KorisnikController {
         String passwordResetUrl = "";
         try {
             korisnikService.updateResetPasswordToken(token, email);
-            //generate password link
-            //send mail
             String s =  getFrontendOrigin(request);
             passwordResetUrl =  passwordResetEmailLink(email, applicationUrl(request), token);
 
@@ -147,13 +145,13 @@ public class KorisnikController {
     }
 
     private String passwordResetEmailLink(String email, String applicationUrl, String token) {
-        String url = applicationUrl+"/promjeniLozinku?token="+token;
+        String url = applicationUrl + "/promjeniLozinku?token=" + token;
         Korisnik korisnik = korisnikService.findByEmail(email);
-        String mailContent ="<p> Hi, "+ korisnik.getIme() + ", </p>"+
-                "<p><b>You recently requested to reset your password,</b>"+"" +
-                "Please, follow the link below to complete the action.</p>"+
-                "<a href=\"" +url+ "\">Reset password</a>"+
-                "<p> Users Registration Portal Service";
+        String mailContent ="<p> Hi, "+ korisnik.getIme() + ", </p>" +
+                "<p><b>You recently requested to reset your password.<br></b>" +
+                "Please, follow the link below to complete the action.</p>" +
+                "<a href=\"" + url + "\">Reset password</a>" +
+                "<p> Regards,<br>Users Registration Portal Service";
 
         String subject = "Password Reset Request Verification";
         emailSenderService.sendEmail(email, subject, mailContent);

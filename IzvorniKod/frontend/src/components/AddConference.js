@@ -13,6 +13,7 @@ const AddConference = () => {
   const [conferencePbr, setConferencePbr] = useState("");
   const [conferenceStreet, setConferenceStreet] = useState("");
   const [conferenceStreetNumber, setConferenceStreetNumber] = useState("");
+
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -23,12 +24,41 @@ const AddConference = () => {
     setConferencePassword(code.toString());
   };
 
+  const codeCheckUp = (code) => {
+    const checkUp = async () => {
+      try {
+        const response = await axios.post(
+          "/api/konferencija/checkKonfCode",
+          code,
+          {
+            headers: {
+              Authorization: "Bearer " + getAuthToken().token,
+            },
+          },
+        );
+        console.log(response.data);
+        return response.data;
+      } catch (error) {
+        console.error("Error:", error.message);
+        return false;
+      }
+    };
+    checkUp();
+  };
+
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!codeCheckUp(conferencePassword)) {
+      setErrorMessage(
+        "Konferencija s istim kodom već postoji. Generirajte novi kod.",
+      );
+      return;
+    }
 
     const currentDate = new Date();
     if (new Date(conferenceDateStart) < currentDate) {
@@ -160,10 +190,7 @@ const AddConference = () => {
               />
             </div>
           </label>
-          <img
-            src="resources/static/Slika.jpg"
-            alt="Description of the image"
-          />
+
           <label>
             Mjesto:
             <input
@@ -196,6 +223,7 @@ const AddConference = () => {
               value={conferenceStreetNumber}
               className="input-field"
               required
+              min={1}
               onChange={(e) => setConferenceStreetNumber(e.target.value)}
             />
           </label>
@@ -208,6 +236,7 @@ const AddConference = () => {
               value={conferencePbr}
               className="input-field"
               required
+              min={1}
               onChange={(e) => setConferencePbr(e.target.value)}
             />
           </label>

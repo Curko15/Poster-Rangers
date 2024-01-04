@@ -1,6 +1,7 @@
+require("dotenv").config();
+
 const express = require("express");
 const { createProxyMiddleware } = require("http-proxy-middleware");
-require("dotenv").config();
 const path = require("path");
 
 const app = express();
@@ -14,7 +15,7 @@ const HOST = process.env.HOST || "localhost";
 app.use(
   "/api",
   createProxyMiddleware({
-    target: "https://poster-rangers-be.onrender.com",
+    target: "https://poster-rangers-be-lh3y.onrender.com",
     changeOrigin: true,
   }),
 );

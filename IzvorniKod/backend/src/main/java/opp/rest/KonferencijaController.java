@@ -38,7 +38,6 @@ public class KonferencijaController {
     }
 
 
-
     @PostMapping("/addKonf")
     public ResponseEntity<String> addKonf(@RequestBody MjestoKonferencijaDTO mjestodto) {
 
@@ -54,19 +53,23 @@ public class KonferencijaController {
         konferencija.setEndTime(mjestodto.getEndTime());
         konferencija.setStartTime(mjestodto.getStartTime());
 
-
         mjestoService.save(gradic);
 
         konferencija.setMjesto(gradic);
-
         konfService.addKonferencija(konferencija);
 
-
         return ResponseEntity.ok("Konferencija i Mjesto uspješno dodani");
-
     }
 
-
+    @PostMapping("/checkKonfCode")
+    public ResponseEntity<Boolean> checkKonfCode(@RequestBody String code) {
+        Konferencija konf = konfService.findByPassword(code);
+        if (konf != null) {
+            return ResponseEntity.ok(Boolean.FALSE);
+        } else {
+            return ResponseEntity.ok(Boolean.TRUE);
+        }
+    }
 
     @PostMapping("/loginKonf")
     public ResponseEntity<?> loginKonf(@RequestBody String pass) throws JsonProcessingException {

@@ -3,13 +3,19 @@ import { getAuthToken } from "../services/AuthService";
 import axios from "axios";
 
 import "../css/addConference.css";
-
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function AddAdmin() {
   const [emailAdmin, setEmailAdmin] = useState("");
-  const [adminPassword, setAdminPassword] = useState(null);
+  const [adminPassword, setAdminPassword] = useState("");
   const [adminName, setAdminName] = useState("");
   const [adminLastName, setAdminLastName] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,15 +92,22 @@ function AddAdmin() {
 
           <label className="label">
             Lozinka:
-            <input
-              type="password"
-              name="password"
-              value={adminPassword}
-              onChange={(e) => setAdminPassword(e.target.value)}
-              className="input-field"
-              required
-              hidden={false}
-            />
+            <div className="input-with-button">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={adminPassword}
+                onChange={(e) => setAdminPassword(e.target.value)}
+                className="input-field"
+                required
+                hidden={false}
+              />
+              <FontAwesomeIcon
+                icon={showPassword ? faEyeSlash : faEye}
+                className="eye-icon"
+                onClick={handleTogglePassword}
+              />
+            </div>
           </label>
 
           <div className="button-container">
