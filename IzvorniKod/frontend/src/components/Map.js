@@ -66,7 +66,9 @@ function Map({ calculateButton }) {
 
           if (locationResponse.status === 200) {
             const posterData = locationResponse.data;
-            setStreetName(`${posterData.ulica} ${posterData.kucBroj}`);
+            setStreetName(
+              `${posterData.ulica} ${posterData.kucBroj} ${posterData.pbr}`,
+            );
 
             const coordinatesResponse = await axios.get(
               `https://api.tomtom.com/search/2/geocode/${encodeURIComponent(
@@ -76,6 +78,8 @@ function Map({ calculateButton }) {
 
             if (coordinatesResponse.status === 200) {
               const coordinates = coordinatesResponse.data.results[0].position;
+              console.log("ovo je izlazzzzz", coordinatesResponse.data);
+              console.log(streetName);
               setMapCoordinates({ lat: coordinates.lat, lon: coordinates.lon });
             } else {
               console.error(
