@@ -120,6 +120,23 @@ public class KorisnikController {
         return passwordResetUrl;
     }
 
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestBody Map<String, String> requestBody){
+        String oldPassword = requestBody.get("oldPassword");
+        String newPassword = requestBody.get("newPassword");
+        String email = requestBody.get("email");
+        Korisnik korisnik = korisnikService.findByEmail(email);
+        if(korisnik != null){
+            if(passwordEncoder.matches(oldPassword, korisnik.getPassword())){
+                korisnik.setPassword(passwordEncoder.encode(newPassword));
+                korisnikService.justSave(korisnik);
+                return new ResponseEntity<>("Lozinka je promijenjena", HttpStatus.OK);
+            }
+            return new ResponseEntity<>("Lozinka je nije promijenjena", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Korisnik ne postoji", HttpStatus.NOT_FOUND);
+    }
+
     @PostMapping("/reset-password")
     public String resetPassword(@RequestBody Map<String, String> requestBody, @RequestParam("token") String token) throws Exception {
         Korisnik korisnik = korisnikService.findByResetPasswordToken(token);
@@ -127,12 +144,6 @@ public class KorisnikController {
         if(korisnik == null) throw new Exception("Token nije valjan");
         korisnikService.updatePassword(korisnik, newPassword);
         return "Lozinka je uspješno promijenjena";
-    }
-
-    @GetMapping("/reset-password1")
-    public String resetPassword(@RequestParam("token") String token) throws Exception {
-        //Korisnik korisnik = korisnikService.findByResetPasswordToken(token)
-        return "dobro";
     }
 
     private String passwordResetEmailLink(String email, String applicationUrl, String token) {

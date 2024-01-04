@@ -105,6 +105,10 @@ const Header = ({ viewType }) => {
     navigate("/superAdmin");
   };
 
+  const handleChangePassword = () => {
+    navigate("/promijeniLozinku");
+  };
+
   const renderButtons = () => {
     return (
       <>
@@ -123,7 +127,9 @@ const Header = ({ viewType }) => {
             Dodaj admina
           </button>
         )}
-        {(viewType === "login" || viewType === "register") && (
+        {(viewType === "login" ||
+          viewType === "register" ||
+          viewType === "ChangePassword") && (
           <button id="backButton" onClick={handleBackClick}>
             Natrag
           </button>
@@ -143,6 +149,11 @@ const Header = ({ viewType }) => {
         {isUserLoggedIn() && (
           <button id="logOutButton" onClick={handleLogOutClick}>
             Odjava
+          </button>
+        )}
+        {isUserLoggedIn() && viewType !== "ChangePassword" && (
+          <button id="changePassword" onClick={handleChangePassword}>
+            Promijeni Lozinku
           </button>
         )}
         {(viewType === "homescreen" ||

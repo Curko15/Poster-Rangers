@@ -29,4 +29,5 @@ public interface KorisnikService {
     void updateResetPasswordToken(String token, String email);
 
     void updatePassword(Korisnik korisnik, String novaLozinka);
+    Korisnik justSave(Korisnik korisnik);
 }

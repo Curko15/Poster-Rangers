@@ -43,6 +43,10 @@ public class KorisnikServiceJpa implements KorisnikService {
         return korisnikRepo.save(korisnik);
     }
 
+    public Korisnik justSave(Korisnik korisnik){
+        return  korisnikRepo.save(korisnik);
+    }
+
 
 
     @Override
