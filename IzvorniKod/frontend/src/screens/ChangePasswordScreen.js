@@ -7,7 +7,7 @@ const ChangePasswordScreen = () => {
   return (
     <div>
       <Header viewType="ChangePassword" />
-      <h1 className="title">Change Password</h1>
+      <h1 className="title">Promijeni lozinku</h1>
       <ChangePassword />
       <Footer />
     </div>

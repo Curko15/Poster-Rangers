@@ -5,9 +5,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import opp.domain.Konferencija;
+import opp.domain.Korisnik;
 import opp.domain.Mjesto;
 import opp.domain.MjestoKonferencijaDTO;
 import com.fasterxml.jackson.databind.JsonNode;
+import opp.service.KorisnikService;
 import opp.service.MjestoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import opp.service.KonferencijaService;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Data
 @RestController
@@ -27,6 +31,9 @@ public class KonferencijaController {
 
     @Autowired
     private MjestoService mjestoService;
+
+    @Autowired
+    private KorisnikService korisnikService;
 
 
 
@@ -55,6 +62,9 @@ public class KonferencijaController {
 
         mjestoService.save(gradic);
 
+        //korisnik
+        Korisnik korisnik = korisnikService.findByEmail(mjestodto.getEmail());
+        konferencija.setKorisnik(korisnik);
         konferencija.setMjesto(gradic);
         konfService.addKonferencija(konferencija);
 
@@ -78,11 +88,13 @@ public class KonferencijaController {
         JsonNode jsonNode = mapper.readTree(pass);
         String password = jsonNode.get("password").asText();
         Konferencija existingOne = konfService.findByPassword(password);
+        System.out.println("front se izvodi u dretvi s ID-om: " + Thread.currentThread().getId());
         if (existingOne != null) {
             return new ResponseEntity<>(existingOne, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
         }
+
     }
 
     @PostMapping("/getKonfId")
@@ -113,5 +125,20 @@ public class KonferencijaController {
     public ResponseEntity<List<Konferencija>> getAllKonf(){
         System.out.println(konfService.listAll());
         return ResponseEntity.ok(konfService.listAll());
+    }
+
+    @PostMapping("/getKorisnikKonf")
+    public ResponseEntity<?> getAllKorisnikKonf(@RequestBody Map<String, String> requestBody){
+        String email = requestBody.get("email");
+        Korisnik korisnik = korisnikService.findByEmail(email);
+        if(korisnik == null){
+            return new ResponseEntity<>("Korisnik ne postoji", HttpStatus.NOT_FOUND);
+        }
+        List<Konferencija> konferencijaList = konfService.listAll();
+       konferencijaList =  konferencijaList.stream()
+                .filter(konferencija -> konferencija.getKorisnik().getEmail().equals(email))
+                .collect(Collectors.toList());
+
+       return new ResponseEntity<>(konferencijaList, HttpStatus.OK);
     }
 }

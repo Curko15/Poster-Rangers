@@ -5,6 +5,7 @@ import opp.domain.Konferencija;
 import opp.domain.User;
 import opp.service.KonferencijaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,14 @@ public class KonferencijaServiceJpa implements KonferencijaService {
     public boolean checkirajKonf(String kralj, Konferencija netko){
         return passwordEncoder.matches(kralj, netko.getPassword());
     }
+
+    // Metoda koja se poziva svakih 24 sata (86400000 milisekundi)
+//    @Scheduled(fixedRate = 10000)
+//    public void checkConferenceStatus() {
+//        // Implementacija logike za provjeru i označavanje završenih konferencija
+//        // Ovdje ćete provjeriti datume konferencija i označiti ih kao završene ako su prošle.
+//        System.out.println("Metoda checkConferenceStatus se izvodi u dretvi s ID-om: " + Thread.currentThread().getId());
+//    }
 
 
 
