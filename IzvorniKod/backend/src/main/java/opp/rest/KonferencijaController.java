@@ -1,6 +1,5 @@
 package opp.rest;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
@@ -36,14 +35,12 @@ public class KonferencijaController {
     private KorisnikService korisnikService;
 
 
-
     //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addKonfStari")
     public ResponseEntity<String> addKonfStari(@RequestBody Konferencija konf){
         konfService.addKonferencija(konf);
         return new ResponseEntity<>("Konferencija created successfully", HttpStatus.CREATED);
     }
-
 
     @PostMapping("/addKonf")
     public ResponseEntity<String> addKonf(@RequestBody MjestoKonferencijaDTO mjestodto) {
@@ -94,7 +91,6 @@ public class KonferencijaController {
         } else {
             return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
         }
-
     }
 
     @PostMapping("/getKonfId")
@@ -119,7 +115,6 @@ public class KonferencijaController {
             return new ResponseEntity<>("Invalid credentials", HttpStatus.NOT_FOUND);
         }
     }
-
 
     @GetMapping("/getAllKonf")
     public ResponseEntity<List<Konferencija>> getAllKonf(){

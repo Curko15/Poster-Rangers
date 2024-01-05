@@ -1,7 +1,6 @@
 package opp.service.impl;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import opp.dao.KorisnikRepo;
 import opp.dao.RoleRepo;
 import opp.domain.AuthenticationResponse;
@@ -12,15 +11,11 @@ import opp.security.JwtService;
 import opp.service.KorisnikService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -46,7 +41,6 @@ public class KorisnikServiceJpa implements KorisnikService {
     public Korisnik justSave(Korisnik korisnik){
         return  korisnikRepo.save(korisnik);
     }
-
 
 
     @Override
@@ -134,6 +128,4 @@ public class KorisnikServiceJpa implements KorisnikService {
         korisnik.setResetPasswordToken(null);
         korisnikRepo.save(korisnik);
     }
-
-
 }

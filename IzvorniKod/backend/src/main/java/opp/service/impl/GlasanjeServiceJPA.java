@@ -1,19 +1,13 @@
 package opp.service.impl;
 
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import opp.dao.GlasanjeRepo;
-import opp.dao.KonferencijaRepo;
-import opp.dao.KorisnikRepo;
 import opp.domain.Glasanje;
 import opp.domain.Konferencija;
 import opp.domain.Korisnik;
 import opp.service.GlasanjeService;
-import opp.service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,7 +16,6 @@ import java.util.stream.Collectors;
 public class GlasanjeServiceJPA implements GlasanjeService {
     @Autowired
     private GlasanjeRepo glasanjeRepo;
-
 
     @Override
     public Glasanje save(Glasanje glas) {return glasanjeRepo.save(glas);}
@@ -51,8 +44,6 @@ public class GlasanjeServiceJPA implements GlasanjeService {
                 } else {
                     poredak.put(glas.getPosterId(), poredak.get(glas.getPosterId()) + 1);
                 }
-
-
             }
 
         }
@@ -66,11 +57,6 @@ public class GlasanjeServiceJPA implements GlasanjeService {
                         (e1, e2) -> e1,
                         LinkedHashMap::new
                 ));
-
-
-
         return sortiraniPoredak;
     }
-
-
 }

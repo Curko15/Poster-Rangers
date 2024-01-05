@@ -43,7 +43,6 @@ public class SecurtiyConfiguration {
             "/resources/**"
     };
 
-
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
@@ -71,7 +70,5 @@ public class SecurtiyConfiguration {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-
     }
-
 }

@@ -1,25 +1,14 @@
 package opp.rest;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.databind.JsonNode;
+
 import lombok.Data;
 import opp.domain.*;
 import opp.service.GlasanjeService;
 import opp.service.KonferencijaService;
 import opp.service.KorisnikService;
-import opp.service.impl.UserServiceJPA;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-
-import java.util.List;
 import java.util.Map;
 
 @RestController

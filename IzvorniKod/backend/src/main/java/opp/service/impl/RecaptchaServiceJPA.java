@@ -15,8 +15,6 @@ public class RecaptchaServiceJPA implements RecaptchaService {
     public boolean verifyRecaptcha(String recaptchaResponse) {
         final String url = "https://www.google.com/recaptcha/api/siteverify?secret="+ recaptchaSecretKey + "&response=" + recaptchaResponse;
 
-        //System.out.println(url);
-
         RestTemplate restTemplate = new RestTemplate();
         RecaptchaResponse recaptchaApiResponse = restTemplate.postForObject(url, null, RecaptchaResponse.class, recaptchaSecretKey, recaptchaResponse);
 

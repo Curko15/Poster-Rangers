@@ -1,19 +1,13 @@
 package opp.service.impl;
 
-import opp.dao.KorisnikRepo;
 import opp.dao.MjestoRepo;
-import opp.dao.PosterRepo;
-import opp.domain.Konferencija;
 import opp.domain.Mjesto;
-import opp.domain.Poster;
 import opp.service.MjestoService;
-import opp.service.PosterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MjestoServiceJPA implements MjestoService {
-
     @Autowired
     private MjestoRepo mjestoRepo;
 
@@ -26,8 +20,4 @@ public class MjestoServiceJPA implements MjestoService {
     public void addKonferencija(Mjesto mjesto) {
         mjestoRepo.save(mjesto);
     }
-
-
-
-
 }

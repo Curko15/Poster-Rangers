@@ -4,8 +4,8 @@ import opp.domain.Konferencija;
 import java.util.*;
 
 public interface KonferencijaService {
-
     Konferencija findByKonfid(Long Konfid);
+
     Konferencija findByPassword (String pass);
 
     void addKonferencija(Konferencija konf);

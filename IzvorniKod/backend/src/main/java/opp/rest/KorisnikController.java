@@ -122,7 +122,6 @@ public class KorisnikController {
         }catch (Exception e) {
             throw new UsernameNotFoundException("Korisnik s emailom: " + email + " ne postoji");
         }
-
         return passwordResetUrl;
     }
 

@@ -1,6 +1,5 @@
 package opp.rest;
 
-import opp.domain.Konferencija;
 import opp.domain.Mjesto;
 import opp.service.MjestoService;
 import org.springframework.http.HttpStatus;
@@ -18,8 +17,6 @@ public class MjestoController {
     public MjestoController(MjestoService mjestoService) {
         this.mjestoService = mjestoService;
     }
-
-
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addMjesto")
