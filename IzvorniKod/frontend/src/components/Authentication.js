@@ -1,27 +1,34 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ReCAPTCHA from 'react-google-recaptcha';
+import axios from 'axios';
 import {
   getLoggedInUser,
   isLoggedInConference,
   saveLoggedInUser,
   saveAuthToken,
   getAuthToken,
-} from "../services/AuthService";
+} from '../services/AuthService';
 
-import "../css/authetication.css";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import '../css/authetication.css';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Authentication = ({ viewType }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [newPasswordReq, setNewPasswordReq] = useState(false);
-  const [newEmail, setNewEmail] = useState("");
+  const [newEmail, setNewEmail] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
+  const recaptcha = useRef();
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
+  const handleRecaptchaChange = (value) => {
+    setRecaptchaToken(value);
+  };
 
   const formContainerRef = useRef(null);
   const navigate = useNavigate();
@@ -33,97 +40,135 @@ const Authentication = ({ viewType }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (viewType === "login") {
+    let passedCaptcha = false;
+
+    const captchaValue = recaptcha.current.getValue();
+
+    if (!captchaValue) {
+      setErrorMessage('Molimo potvrdite reCAPTCHA');
+      return;
+    }
+
+    if (viewType === 'login') {
       if (!email || !password) {
-        setErrorMessage("Molimo unesite email i lozinku");
+        setErrorMessage('Molimo unesite email i lozinku');
         return;
       }
     } else {
       if (!email || !password || !name || !lastName) {
-        setErrorMessage("Molimo unesite sve podatke");
+        setErrorMessage('Molimo unesite sve podatke');
         return;
       }
     }
 
-    const requestData =
-      viewType === "login"
-        ? { email: email, password: password }
-        : { email: email, password: password, ime: name, prezime: lastName };
-
-    const url = `/api/korisnici/${
-      viewType === "login" ? "authenticatePP" : "registerPP"
-    }`;
-    let response;
     try {
-      response = await axios.post(url, requestData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const response = await axios.post('/api/korisnici/verifyRecaptcha', {
+        recaptchaToken,
       });
+
+      if (response.status === 200) {
+        passedCaptcha = true;
+      } else if (response.status === 400) {
+        passedCaptcha = false;
+        recaptcha.current.reset();
+        //Ovdje smo kada google misli da smo robot
+        alert('ReCAPTCHA nije uspiješno potvrđena');
+      }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Pogrešan email ili lozinka");
+      //Ovdje smo kada se dogodi nekakav error i odustajemo od login/registracije, ovo se ne bi nikada trebalo dogoditi (mozda jedino zbog krive konfiguracije secret key na backend)
+      passedCaptcha = false;
+      recaptcha.current.reset();
+      alert('Server error');
     }
-    if (response) {
-      const authToken = await response.data;
-      saveAuthToken(authToken);
 
-      saveLoggedInUser(email, password);
-      const getRoleData = {
-        email: getLoggedInUser().userEmail,
-        password: getLoggedInUser().userPass,
-      };
+    //Ako je captcha uspjesna, nastavlja login i getrole
+    if (passedCaptcha) {
+      const requestData =
+        viewType === 'login'
+          ? { email: email, password: password }
+          : { email: email, password: password, ime: name, prezime: lastName };
 
-      let responseRole;
+      const url = `/api/korisnici/${
+        viewType === 'login' ? 'authenticatePP' : 'registerPP'
+      }`;
+      let response;
       try {
-        responseRole = await axios.post("/api/korisnici/getRole", getRoleData, {
+        response = await axios.post(url, requestData, {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + getAuthToken().token,
+            'Content-Type': 'application/json',
           },
         });
       } catch (error) {
-        console.error("Error:", error);
+        console.error('Error:', error);
+        recaptcha.current.reset();
+        alert('Pogrešan email ili lozinka');
       }
+      if (response) {
+        const authToken = await response.data;
+        saveAuthToken(authToken);
 
-      let userRole = responseRole.data.find((role) => true)?.name;
+        saveLoggedInUser(email, password);
+        const getRoleData = {
+          email: getLoggedInUser().userEmail,
+          password: getLoggedInUser().userPass,
+        };
 
-      if (userRole === "ROLE_ADMIN") {
-        navigate("/admin");
-      } else if (userRole === "ROLE_SUPERADMIN") {
-        navigate("/superAdmin");
-      } else if (userRole === "ROLE_KORISNIK") {
-        if (isLoggedInConference()) {
-          navigate("/home");
-        } else {
-          navigate("/");
+        let responseRole;
+        try {
+          responseRole = await axios.post(
+            '/api/korisnici/getRole',
+            getRoleData,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + getAuthToken().token,
+              },
+            }
+          );
+        } catch (error) {
+          console.error('Error:', error);
+        }
+
+        let userRole = responseRole.data.find((role) => true)?.name;
+
+        if (userRole === 'ROLE_ADMIN') {
+          navigate('/admin');
+        } else if (userRole === 'ROLE_SUPERADMIN') {
+          navigate('/superAdmin');
+        } else if (userRole === 'ROLE_KORISNIK') {
+          if (isLoggedInConference()) {
+            navigate('/home');
+          } else {
+            navigate('/');
+          }
         }
       }
     }
   };
+
   const handleNewPasswordReq = async (e) => {
     e.preventDefault();
 
     if (!newEmail) {
-      setErrorMessage("Molimo unesite email");
+      setErrorMessage('Molimo unesite email');
       return;
     }
 
     const requestData = { email: newEmail };
 
-    const url = "/api/korisnici/password-reset-request";
+    const url = '/api/korisnici/password-reset-request';
 
     let response;
     try {
       response = await axios.post(url, requestData, {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
-      setNewEmail("");
+      setNewEmail('');
     } catch (error) {
-      console.error("Error:", error);
-      alert("Pogrešan email");
+      console.error('Error:', error);
+      alert('Pogrešan email');
     }
   };
 
@@ -145,9 +190,9 @@ const Authentication = ({ viewType }) => {
       <div ref={formContainerRef} className="form-container">
         {!newPasswordReq && (
           <>
-            <h2>{viewType === "login" ? "Login" : "Registracija"}</h2>
+            <h2>{viewType === 'login' ? 'Login' : 'Registracija'}</h2>
             <form onSubmit={handleSubmit}>
-              {viewType === "register" && (
+              {viewType === 'register' && (
                 <>
                   <label>
                     Ime:
@@ -185,7 +230,7 @@ const Authentication = ({ viewType }) => {
                 Lozinka:
                 <div className="input-with-button">
                   <input
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="input-field"
@@ -198,7 +243,13 @@ const Authentication = ({ viewType }) => {
                 </div>
               </label>
               <br />
-              {viewType === "login" && (
+              <ReCAPTCHA
+                ref={recaptcha}
+                sitekey="6LdL5UYpAAAAAAJZnzy2kao9wVvd1WNVbnNAUrUK"
+                onChange={handleRecaptchaChange}
+              />
+              <br />
+              {viewType === 'login' && (
                 <p
                   onClick={() => setNewPasswordReq(true)}
                   className="newPassword"
@@ -209,7 +260,7 @@ const Authentication = ({ viewType }) => {
 
               <div className="button-container">
                 <button type="submit" className="submit-button">
-                  {viewType === "login" ? "Login" : "Registracija"}
+                  {viewType === 'login' ? 'Login' : 'Registracija'}
                 </button>
               </div>
               {errorMessage && (

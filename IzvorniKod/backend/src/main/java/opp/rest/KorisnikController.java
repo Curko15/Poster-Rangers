@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import opp.domain.*;
 import opp.service.EmailSenderService;
 import opp.service.KorisnikService;
+import opp.service.RecaptchaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,10 +30,13 @@ public class KorisnikController {
 
     private EmailSenderService emailSenderService;
 
-    public KorisnikController(KorisnikService korisnikService, PasswordEncoder passwordEncoder, EmailSenderService emailSenderService) {
+    private RecaptchaService recaptchaService;
+
+    public KorisnikController(KorisnikService korisnikService, PasswordEncoder passwordEncoder, EmailSenderService emailSenderService, RecaptchaService recaptchaService) {
         this.korisnikService = korisnikService;
         this.passwordEncoder = passwordEncoder;
         this.emailSenderService = emailSenderService;
+        this.recaptchaService = recaptchaService;
     }
 
     @PostMapping("/register")
@@ -43,6 +47,16 @@ public class KorisnikController {
     }
 
     //TEST
+    @PostMapping("/verifyRecaptcha")
+    public ResponseEntity<String> verifyRecaptcha(@RequestBody Map<String, String> requestBody) {
+        String recaptchaResponse = requestBody.get("recaptchaToken");
+        System.out.println(recaptchaResponse);
+        if( recaptchaService.verifyRecaptcha(recaptchaResponse)){
+            return ResponseEntity.ok("OK");
+        }else{
+            return ResponseEntity.status(400).body("CAPTCHA verification failed");
+        }
+    }
 
     @PostMapping("/registerPP")
     public ResponseEntity<AuthenticationResponse> registerPP(@RequestBody Korisnik korisnik){
