@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
 import {
   getLoggedInUser,
@@ -23,6 +24,12 @@ const Authentication = ({ viewType }) => {
   const [newEmail, setNewEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const recaptcha = useRef();
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
+  const handleRecaptchaChange = (value) => {
+    setRecaptchaToken(value);
+  };
+
   const formContainerRef = useRef(null);
   const navigate = useNavigate();
 
@@ -32,6 +39,15 @@ const Authentication = ({ viewType }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    let passedCaptcha = false;
+
+    const captchaValue = recaptcha.current.getValue();
+
+    if (!captchaValue) {
+      setErrorMessage("Molimo potvrdite reCAPTCHA");
+      return;
+    }
 
     if (viewType === "login") {
       if (!email || !password) {
@@ -45,62 +61,91 @@ const Authentication = ({ viewType }) => {
       }
     }
 
-    const requestData =
-      viewType === "login"
-        ? { email: email, password: password }
-        : { email: email, password: password, ime: name, prezime: lastName };
-
-    const url = `/api/korisnici/${
-      viewType === "login" ? "authenticatePP" : "registerPP"
-    }`;
-    let response;
     try {
-      response = await axios.post(url, requestData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const response = await axios.post("/api/korisnici/verifyRecaptcha", {
+        recaptchaToken,
       });
+
+      if (response.status === 200) {
+        passedCaptcha = true;
+      } else if (response.status === 400) {
+        passedCaptcha = false;
+        recaptcha.current.reset();
+        //Ovdje smo kada google misli da smo robot
+        alert("ReCAPTCHA nije uspiješno potvrđena");
+      }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Pogrešan email ili lozinka");
+      //Ovdje smo kada se dogodi nekakav error i odustajemo od login/registracije, ovo se ne bi nikada trebalo dogoditi (mozda jedino zbog krive konfiguracije secret key na backend)
+      passedCaptcha = false;
+      recaptcha.current.reset();
+      alert("Server error");
     }
-    if (response) {
-      const authToken = await response.data;
-      saveAuthToken(authToken);
 
-      saveLoggedInUser(email, password);
-      const getRoleData = {
-        email: getLoggedInUser().userEmail,
-        password: getLoggedInUser().userPass,
-      };
+    //Ako je captcha uspjesna, nastavlja login i getrole
+    if (passedCaptcha) {
+      const requestData =
+        viewType === "login"
+          ? { email: email, password: password }
+          : { email: email, password: password, ime: name, prezime: lastName };
 
-      let responseRole;
+      const url = `/api/korisnici/${
+        viewType === "login" ? "authenticatePP" : "registerPP"
+      }`;
+      let response;
       try {
-        responseRole = await axios.post("/api/korisnici/getRole", getRoleData, {
+        response = await axios.post(url, requestData, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + getAuthToken().token,
           },
         });
       } catch (error) {
         console.error("Error:", error);
+        recaptcha.current.reset();
+        alert("Pogrešan email ili lozinka");
       }
+      if (response) {
+        const authToken = await response.data;
+        saveAuthToken(authToken);
 
-      let userRole = responseRole.data.find((role) => true)?.name;
+        saveLoggedInUser(email, password);
+        const getRoleData = {
+          email: getLoggedInUser().userEmail,
+          password: getLoggedInUser().userPass,
+        };
 
-      if (userRole === "ROLE_ADMIN") {
-        navigate("/admin");
-      } else if (userRole === "ROLE_SUPERADMIN") {
-        navigate("/superAdmin");
-      } else if (userRole === "ROLE_KORISNIK") {
-        if (isLoggedInConference()) {
-          navigate("/home");
-        } else {
-          navigate("/");
+        let responseRole;
+        try {
+          responseRole = await axios.post(
+            "/api/korisnici/getRole",
+            getRoleData,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + getAuthToken().token,
+              },
+            },
+          );
+        } catch (error) {
+          console.error("Error:", error);
+        }
+
+        let userRole = responseRole.data.find((role) => true)?.name;
+
+        if (userRole === "ROLE_ADMIN") {
+          navigate("/admin");
+        } else if (userRole === "ROLE_SUPERADMIN") {
+          navigate("/superAdmin");
+        } else if (userRole === "ROLE_KORISNIK") {
+          if (isLoggedInConference()) {
+            navigate("/home");
+          } else {
+            navigate("/");
+          }
         }
       }
     }
   };
+
   const handleNewPasswordReq = async (e) => {
     e.preventDefault();
 
@@ -111,11 +156,8 @@ const Authentication = ({ viewType }) => {
 
     const requestData = { email: newEmail };
 
-    const url = "/api/korisnici/password-reset-request";
-
-    let response;
     try {
-      response = await axios.post(url, requestData, {
+      await axios.post("/api/korisnici/password-reset-request", requestData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -198,12 +240,18 @@ const Authentication = ({ viewType }) => {
                 </div>
               </label>
               <br />
+              <ReCAPTCHA
+                ref={recaptcha}
+                sitekey="6LdL5UYpAAAAAAJZnzy2kao9wVvd1WNVbnNAUrUK"
+                onChange={handleRecaptchaChange}
+              />
+              <br />
               {viewType === "login" && (
                 <p
                   onClick={() => setNewPasswordReq(true)}
                   className="newPassword"
                 >
-                  Forgot Your Password?
+                  Zaboravili ste lozinku?
                 </p>
               )}
 
@@ -234,7 +282,7 @@ const Authentication = ({ viewType }) => {
               <br />
               <div className="button-container">
                 <button type="submit" className="submit-button">
-                  Request password reset
+                  Zatraži novu lozinku
                 </button>
               </div>
               <br />
@@ -243,7 +291,7 @@ const Authentication = ({ viewType }) => {
                   className="submit-button"
                   onClick={() => setNewPasswordReq(false)}
                 >
-                  Back to Login
+                  Povratak na Login
                 </button>
               </div>
 

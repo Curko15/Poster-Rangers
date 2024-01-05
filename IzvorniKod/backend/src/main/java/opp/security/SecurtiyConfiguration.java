@@ -21,6 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurtiyConfiguration {
     private static final String[] WHITE_LIST_URL = {
+            "/korisnici/verifyRecaptcha",
             "/korisnici/registerPP",
             "/korisnici/authenticatePP",
             "/korisnici/reset-password",

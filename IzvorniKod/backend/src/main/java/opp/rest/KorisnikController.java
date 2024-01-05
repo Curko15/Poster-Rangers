@@ -1,23 +1,20 @@
 package opp.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import opp.domain.*;
 import opp.service.EmailSenderService;
 import opp.service.KorisnikService;
+import opp.service.RecaptchaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "https://poster-rangers-fe.onrender.com")
@@ -29,10 +26,13 @@ public class KorisnikController {
 
     private EmailSenderService emailSenderService;
 
-    public KorisnikController(KorisnikService korisnikService, PasswordEncoder passwordEncoder, EmailSenderService emailSenderService) {
+    private RecaptchaService recaptchaService;
+
+    public KorisnikController(KorisnikService korisnikService, PasswordEncoder passwordEncoder, EmailSenderService emailSenderService, RecaptchaService recaptchaService) {
         this.korisnikService = korisnikService;
         this.passwordEncoder = passwordEncoder;
         this.emailSenderService = emailSenderService;
+        this.recaptchaService = recaptchaService;
     }
 
     @PostMapping("/register")
@@ -42,13 +42,21 @@ public class KorisnikController {
         return new ResponseEntity<>("Korisnik registered successfully", HttpStatus.CREATED);
     }
 
-    //TEST
+    @PostMapping("/verifyRecaptcha")
+    public ResponseEntity<String> verifyRecaptcha(@RequestBody Map<String, String> requestBody) {
+        String recaptchaResponse = requestBody.get("recaptchaToken");
+        System.out.println(recaptchaResponse);
+        if( recaptchaService.verifyRecaptcha(recaptchaResponse)){
+            return ResponseEntity.ok("OK");
+        }else{
+            return ResponseEntity.status(400).body("CAPTCHA verification failed");
+        }
+    }
 
     @PostMapping("/registerPP")
     public ResponseEntity<AuthenticationResponse> registerPP(@RequestBody Korisnik korisnik){
            return ResponseEntity.ok(korisnikService.register(korisnik));
     }
-
 
     @PostMapping("/authenticatePP")
     public ResponseEntity<AuthenticationResponse> registerPP(@RequestBody LoginDto loginDto){
@@ -89,8 +97,8 @@ public class KorisnikController {
 
     @PostMapping("/login2")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
-       //String response = korisnikService.login(loginDto);
-       // return new ResponseEntity<>(response,HttpStatus.OK);
+        //String response = korisnikService.login(loginDto);
+        //return new ResponseEntity<>(response,HttpStatus.OK);
         return null;
     }
 
@@ -158,7 +166,6 @@ public class KorisnikController {
         return url;
     }
 
-
     private String generateRandomString(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -181,12 +188,9 @@ public class KorisnikController {
     }
 
     private String getFrontendOrigin(HttpServletRequest request) {
-        // Get the Origin header from the request
         String originHeader = request.getHeader("Origin");
 
         // If the Origin header is present, return it; otherwise, return a default value
         return originHeader != null ? originHeader : "http://localhost:";
     }
-
 }
-
