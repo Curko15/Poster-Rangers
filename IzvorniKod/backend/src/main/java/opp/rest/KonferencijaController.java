@@ -88,11 +88,13 @@ public class KonferencijaController {
         JsonNode jsonNode = mapper.readTree(pass);
         String password = jsonNode.get("password").asText();
         Konferencija existingOne = konfService.findByPassword(password);
+        System.out.println("front se izvodi u dretvi s ID-om: " + Thread.currentThread().getId());
         if (existingOne != null) {
             return new ResponseEntity<>(existingOne, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
         }
+
     }
 
     @PostMapping("/getKonfId")
