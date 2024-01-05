@@ -1,8 +1,7 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
-import { getAuthToken } from "../services/AuthService";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { getAuthToken, getLoggedInUser } from "../services/AuthService";
+import PasswordInput from "./PaswordInput";
 
 const AddConference = () => {
   const [conferenceName, setConferenceName] = useState("");
@@ -15,9 +14,9 @@ const AddConference = () => {
   const [conferenceStreetNumber, setConferenceStreetNumber] = useState("");
 
   const [errorMessage, setErrorMessage] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
 
   const formContainerRef = useRef(null);
+  const userEmail = getLoggedInUser().userEmail;
 
   const generateCode = () => {
     const code = Math.floor(100000 + Math.random() * 900000);
@@ -41,10 +40,6 @@ const AddConference = () => {
       console.error("Error:", error.message);
       return false;
     }
-  };
-
-  const handleTogglePassword = () => {
-    setShowPassword(!showPassword);
   };
 
   const handleSubmit = async (e) => {
@@ -99,6 +94,7 @@ const AddConference = () => {
         pbr: conferencePbr,
         ulica: conferenceStreet,
         kucBroj: conferenceStreetNumber,
+        email: userEmail,
       };
 
       try {
@@ -176,24 +172,12 @@ const AddConference = () => {
             />
           </label>
 
-          <label className="password-input-container">
-            Pristupni kod:
-            <div className="input-with-button">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={conferencePassword}
-                className="input-field"
-                required
-                onChange={(e) => setConferencePassword(e.target.value)}
-              />
-              <FontAwesomeIcon
-                icon={showPassword ? faEyeSlash : faEye}
-                className="eye-icon"
-                onClick={handleTogglePassword}
-              />
-            </div>
-          </label>
+          <PasswordInput
+            id={"konfCode"}
+            label={"Pristupni kod: "}
+            value={conferencePassword}
+            onChange={(e) => setConferencePassword(e.target.value)}
+          />
 
           <label>
             Mjesto:

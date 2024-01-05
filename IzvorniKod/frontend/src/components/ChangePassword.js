@@ -1,29 +1,31 @@
 import React, { useState } from "react";
-import { getAuthToken, getLoggedInUser } from "../services/AuthService";
-import "../css/main.css";
 import axios from "axios";
+import { getAuthToken, getLoggedInUser } from "../services/AuthService";
+import PasswordInput from "./PaswordInput";
+
+import "../css/main.css";
+
 const ChangePassword = () => {
-  const [mail, setMail] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
 
+  const userEmail = getLoggedInUser().userEmail;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!mail || !currentPassword || !newPassword || !confirmPassword) {
+    if (!currentPassword || !newPassword || !confirmPassword) {
       setMessage("All fields are necessary!");
       return;
     }
-    // Check if the new password and confirm password match
+
     if (newPassword !== confirmPassword) {
       setMessage("Passwords do not match");
       return;
     }
 
-    // Here you can implement your logic to send the password change request
-    // For demonstration purposes, this just logs the data to the console
     console.log("Current Password:", currentPassword);
     console.log("New Password:", newPassword);
     console.log("Confirm Password:", confirmPassword);
@@ -33,7 +35,7 @@ const ChangePassword = () => {
     const changePasswordData = {
       oldPassword: currentPassword,
       newPassword: newPassword,
-      email: mail,
+      email: userEmail,
     };
 
     try {
@@ -48,11 +50,10 @@ const ChangePassword = () => {
         },
       );
 
-      // Reset the form after submission
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
-      setMessage("Password changed successfully");
+      setMessage("");
     } catch (error) {
       console.error("Error:", error.message);
     }
@@ -61,51 +62,29 @@ const ChangePassword = () => {
   return (
     <div className="center-container">
       <div className="form-container">
-        <h2>Change Password</h2>
+        <h2>Promijeni Lozinku</h2>
         {message && <p>{message}</p>}
         <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="Email">Email:</label>
-            <input
-              type="mail"
-              id="Email"
-              value={mail}
-              onChange={(e) => setMail(e.target.value)}
-              className="input-field"
-            />
-          </div>
-          <div>
-            <label htmlFor="currentPassword">Current Password:</label>
-            <input
-              type="password"
-              id="currentPassword"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              className="input-field"
-            />
-          </div>
-          <div>
-            <label htmlFor="newPassword">New Password:</label>
-            <input
-              type="password"
-              id="newPassword"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="input-field"
-            />
-          </div>
-          <div>
-            <label htmlFor="confirmPassword">Confirm Password:</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="input-field"
-            />
-          </div>
+          <PasswordInput
+            id={"currentPassword"}
+            label={"Trenutna lozinka: "}
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+          />
+          <PasswordInput
+            id={"newPassword"}
+            label={"Nova lozinka: "}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <PasswordInput
+            id={"confirmPassword"}
+            label={"Potvrda lozinke: "}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
           <div className="button-container">
-            <button type="submit">Change Password</button>
+            <button type="submit">Promijeni Lozinku</button>
           </div>
         </form>
       </div>
