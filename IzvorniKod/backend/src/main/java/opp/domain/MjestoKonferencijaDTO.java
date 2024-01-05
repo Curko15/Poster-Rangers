@@ -26,4 +26,7 @@ public class MjestoKonferencijaDTO {
     private String ulica;
 
     private Long kucBroj;
+
+    //Admin
+    private String email;
 }
