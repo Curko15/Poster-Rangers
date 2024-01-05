@@ -33,6 +33,7 @@ public class Korisnik implements UserDetails {
     @NotNull
     private String prezime;
 
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "korisnik_roles",
     joinColumns = @JoinColumn(name = "email", referencedColumnName = "email"),

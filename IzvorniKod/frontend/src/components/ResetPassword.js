@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import PasswordInput from "./PaswordInput";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
@@ -26,7 +27,6 @@ const ResetPassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Check if passwords match before sending the request
     if (password === confirmPassword && token) {
       axios
         .post(`/api/korisnici/reset-password?token=${token}`, {
@@ -49,27 +49,19 @@ const ResetPassword = () => {
     <div className="center-container">
       <div className="form-container">
         <form onSubmit={handleSubmit}>
-          <label>
-            New Password:
-            <input
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-              className="input-field"
-            />
-          </label>
-          <br />
-          <label>
-            Confirm Password:
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
-              className="input-field"
-            />
-          </label>
-          <br />
-          <button type="submit">Reset Password</button>
+          <PasswordInput
+            id={"newPassword"}
+            label={"Nova lozinka: "}
+            value={password}
+            onChange={handlePasswordChange}
+          />
+          <PasswordInput
+            id={"confirmPassword"}
+            label={"Potvrda lozinke: "}
+            value={confirmPassword}
+            onChange={handleConfirmPasswordChange}
+          />
+          <button type="submit">Resetiraj lozinku</button>
         </form>
       </div>
     </div>

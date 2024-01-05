@@ -40,6 +40,9 @@ public class Konferencija{
     @ManyToOne
     private Mjesto mjesto;
 
+    @ManyToOne
+    private Korisnik korisnik;
+
 
 
 }
