@@ -24,7 +24,6 @@ public class GlasanjeServiceJPA implements GlasanjeService {
     private GlasanjeRepo glasanjeRepo;
 
 
-
     @Override
     public Glasanje save(Glasanje glas) {return glasanjeRepo.save(glas);}
 
