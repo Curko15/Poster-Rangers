@@ -64,39 +64,40 @@ const Authentication = ({ viewType }) => {
       console.error("Error:", error);
       alert("Pogrešan email ili lozinka");
     }
+    if (response) {
+      const authToken = await response.data;
+      saveAuthToken(authToken);
 
-    const authToken = await response.data;
-    saveAuthToken(authToken);
+      saveLoggedInUser(email, password);
+      const getRoleData = {
+        email: getLoggedInUser().userEmail,
+        password: getLoggedInUser().userPass,
+      };
 
-    saveLoggedInUser(email, password);
-    const getRoleData = {
-      email: getLoggedInUser().userEmail,
-      password: getLoggedInUser().userPass,
-    };
+      let responseRole;
+      try {
+        responseRole = await axios.post("/api/korisnici/getRole", getRoleData, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + getAuthToken().token,
+          },
+        });
+      } catch (error) {
+        console.error("Error:", error);
+      }
 
-    let responseRole;
-    try {
-      responseRole = await axios.post("/api/korisnici/getRole", getRoleData, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + getAuthToken().token,
-        },
-      });
-    } catch (error) {
-      console.error("Error:", error);
-    }
+      let userRole = responseRole.data.find((role) => true)?.name;
 
-    let userRole = responseRole.data.find((role) => true)?.name;
-
-    if (userRole === "ROLE_ADMIN") {
-      navigate("/admin");
-    } else if (userRole === "ROLE_SUPERADMIN") {
-      navigate("/superAdmin");
-    } else if (userRole === "ROLE_KORISNIK") {
-      if (isLoggedInConference()) {
-        navigate("/home");
-      } else {
-        navigate("/");
+      if (userRole === "ROLE_ADMIN") {
+        navigate("/admin");
+      } else if (userRole === "ROLE_SUPERADMIN") {
+        navigate("/superAdmin");
+      } else if (userRole === "ROLE_KORISNIK") {
+        if (isLoggedInConference()) {
+          navigate("/home");
+        } else {
+          navigate("/");
+        }
       }
     }
   };
