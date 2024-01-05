@@ -9,13 +9,14 @@ const app = express();
 // Configuration
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || "localhost";
-//const API_BASE_URL = "https://poster-rangers-be.onrender.com";
+const API_BASE_URL =
+  process.env.API_BASE_URL || "https://poster-rangers-be.onrender.com";
 
 // Proxy
 app.use(
   "/api",
   createProxyMiddleware({
-    target: "https://poster-rangers-be-lh3y.onrender.com",
+    target: API_BASE_URL,
     changeOrigin: true,
   }),
 );

@@ -52,7 +52,7 @@ public class SecurtiyConfiguration {
                 .cors(cors -> {
                     CorsConfiguration corsConfig = new CorsConfiguration();
                     corsConfig.setAllowCredentials(true);
-                    corsConfig.addAllowedOriginPattern("https://poster-rangers-fe-b71q.onrender.com");
+                    corsConfig.addAllowedOriginPattern("https://poster-rangers-fe.onrender.com");
                     corsConfig.addAllowedOriginPattern("http://localhost:3000/");
                     corsConfig.addAllowedHeader("Authorization");
                     corsConfig.addAllowedHeader("Content-Type");
