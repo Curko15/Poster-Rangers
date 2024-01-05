@@ -127,7 +127,7 @@ public class KonferencijaController {
         return ResponseEntity.ok(konfService.listAll());
     }
 
-    @GetMapping("/getKorisnikKonf")
+    @PostMapping("/getKorisnikKonf")
     public ResponseEntity<?> getAllKorisnikKonf(@RequestBody Map<String, String> requestBody){
         String email = requestBody.get("email");
         Korisnik korisnik = korisnikService.findByEmail(email);

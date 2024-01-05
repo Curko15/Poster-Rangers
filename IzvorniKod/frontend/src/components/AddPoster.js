@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { getAuthToken } from "../services/AuthService";
+import { getAuthToken, getLoggedInUser } from "../services/AuthService";
 
 import "../css/addPoster.css";
 import { BounceLoader } from "react-spinners";
@@ -18,6 +18,8 @@ const AddPoster = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const userEmail = getLoggedInUser().userEmail;
+
   const dateTimeFormater = (dateTime) => {
     function padWithZero(number) {
       return number.toString().padStart(2, "0");
@@ -31,14 +33,22 @@ const AddPoster = () => {
     )}.${dateObj.getFullYear()}`;
   };
 
+  const params = {
+    email: userEmail,
+  };
+
   useEffect(() => {
     const fetchConferences = async () => {
       try {
-        const response = await axios.get("/api/konferencija/getAllKonf", {
-          headers: {
-            Authorization: "Bearer " + getAuthToken().token,
+        const response = await axios.post(
+          "/api/konferencija/getKorisnikKonf",
+          params,
+          {
+            headers: {
+              Authorization: "Bearer " + getAuthToken().token,
+            },
           },
-        });
+        );
 
         if (response.status === 200) {
           setConferences(response.data);
@@ -53,7 +63,7 @@ const AddPoster = () => {
     };
 
     fetchConferences();
-  }, []);
+  }, [params]);
 
   const handleConferenceClick = (conference, index) => {
     setSelectedConference(conference);
@@ -117,6 +127,8 @@ const AddPoster = () => {
         <div className="loader">
           <BounceLoader color="#d63636" />
         </div>
+      ) : conferences.length === 0 ? (
+        <h2>Prvo dodajte konferenciju da biste joj mogli pridružiti poster!</h2>
       ) : (
         <div className="all-container">
           <div className="conference-list-container">
