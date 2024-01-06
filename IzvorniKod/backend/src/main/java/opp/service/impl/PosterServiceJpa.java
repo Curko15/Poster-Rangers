@@ -18,7 +18,9 @@ public class PosterServiceJpa implements PosterService {
     }
 
     @Override
-    public Poster viewById(long id) {
-        return posterRepo.findById(id).get();
+    public Poster findByPosterId(Long posterId) {
+        return posterRepo.findByPosterId(posterId);
     }
+
+
 }

@@ -5,6 +5,7 @@ import opp.domain.*;
 import opp.service.GlasanjeService;
 import opp.service.KonferencijaService;
 import opp.service.KorisnikService;
+import opp.service.PosterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,9 @@ public class GlasanjeController {
     @Autowired
     private KonferencijaService konferencijaService;
 
+    @Autowired
+    private PosterService posterService;
+
     public GlasanjeController(GlasanjeService glasanjeService) {
         this.glasanjeService = glasanjeService;
     }
@@ -41,13 +45,30 @@ public class GlasanjeController {
 
         Glasanje glas = new Glasanje();
         glas.setId(glasid);
+
+
+        Poster poster = posterService.findByPosterId(glasDTO.getPosterId());
+        if(poster == null){
+            return new ResponseEntity<>("Poster nije pronađen", HttpStatus.BAD_REQUEST);
+        }
         glas.setPosterId(glasDTO.getPosterId());
 
 
-        Korisnik korisnik = korisnikService.findByEmail(glas.getId().getEmail());
-        glas.setKorisnik(korisnik);
+        try {
+            Korisnik korisnik = korisnikService.findByEmail(glasDTO.getEmail());
+            if (korisnik == null) {
+                return new ResponseEntity<>("Korisnik nije pronađen", HttpStatus.BAD_REQUEST);
+            }
+            glas.setKorisnik(korisnik);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Došlo je do greške prilikom pretrage korisnika. Vjerojatno korisnik ne postoji.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
-        Konferencija konferencija = konferencijaService.findByKonfid(glas.getId().getKonfId());
+        Konferencija konferencija = konferencijaService.findByKonfid(glasDTO.getKonfId());
+        if(konferencija == null){
+            return new ResponseEntity<>("Konferencija nije pronađena", HttpStatus.BAD_REQUEST);
+        }
         glas.setKonferencija(konferencija);
 
 
@@ -60,11 +81,32 @@ public class GlasanjeController {
     }
 
     @DeleteMapping("/removeGlas")
-    public void removeGlas(@RequestParam String email, @RequestParam Long konferencijaId){
-        //Možda bi valjalo dodati neke if-eve ili try catch blokove za projveru jel našao Konferenciju i Korisnika
-        Korisnik korisnik = korisnikService.findByEmail(email);
-        Konferencija konferencija = konferencijaService.findByKonfid(konferencijaId);
+    public ResponseEntity<String> removeGlas(@RequestParam String email, @RequestParam Long konferencijaId){
 
-        glasanjeService.deleteGlasanje(korisnik, konferencija);
+
+
+
+        try {
+            Korisnik korisnik = korisnikService.findByEmail(email);
+            if (korisnik == null) {
+                return new ResponseEntity<>("Korisnik nije pronađen", HttpStatus.BAD_REQUEST);
+            }
+
+            Konferencija konferencija = konferencijaService.findByKonfid(konferencijaId);
+            if(konferencija == null){
+                return new ResponseEntity<>("Konferencija nije pronađena", HttpStatus.BAD_REQUEST);
+            }
+
+            glasanjeService.deleteGlasanje(korisnik, konferencija);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Došlo je do greške prilikom pretrage korisnika. Vjerojatno korisnik ne postoji.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+
+        return new ResponseEntity<>("Glas obrisan", HttpStatus.OK);
+
     }
 }
