@@ -32,8 +32,8 @@ public class FotoMaterijalController {
 
     @PostMapping(value = "/{id}", consumes = { "multipart/form-data" })
     public ResponseEntity<String> addFoto(@ModelAttribute FotoMaterijalDTO fotoDTO, @PathVariable Long id) throws IOException, SQLException {
-        // Fetch the Konferencija based on id
         System.out.println("Usao u kontroler foto");
+
         Konferencija konferencija = konferencijaService.findByKonfid(id);
 
         if (konferencija == null) {
@@ -45,7 +45,6 @@ public class FotoMaterijalController {
         fotka.setKonferencija(konferencija);
 
 
-        //Blob:
         byte[] bl = fileService.uploadanje(fotoDTO.getFile(), id);
 
         MediaType mediaType = MediaType.parseMediaType(fotoDTO.getFile().getContentType());
@@ -54,18 +53,18 @@ public class FotoMaterijalController {
 
         fotka.setFotobyte(bl);
 
-        //Stock:////////////////////////////////////////////
-        //String path = fileService.uploadanje(poster.getFile(), id);
-        //System.out.println("Konferencija: " + path);
-        //posteric.setPosterPath(path);
-        //////////////////////////////////////////////////////////////////
-
-        // Save the Poster
-        // Assuming you have a service class to handle business logic, you can use it here
-        fotoMaterijalService.save(fotka); // You need to implement this method
+        //Stock:
+        /*
+        String path = fileService.uploadanje(poster.getFile(), id);
+        System.out.println("Konferencija: " + path);
+        posteric.setPosterPath(path);
+        */
 
 
-        return ResponseEntity.ok("Poster added successfully");
+        fotoMaterijalService.save(fotka);
+
+
+        return ResponseEntity.ok("Fotografija uspješno dodana");
     }
 
 

@@ -1,8 +1,10 @@
 package opp.domain;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 public class PromoMaterijal {
 
     @Id
@@ -17,5 +19,10 @@ public class PromoMaterijal {
 
     @ManyToOne
     private Konferencija konferencija;
+
+    @Column(columnDefinition = "bytea")
+    private byte[] promobyte;
+
+    private String promoType;
 
 }
