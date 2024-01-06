@@ -97,6 +97,10 @@ const Header = ({ viewType }) => {
     navigate("/dodajPoster");
   };
 
+  const handleAddPromoClick = () => {
+    navigate("/dodajPromo");
+  };
+
   const handleAddConferenceClick = () => {
     navigate("/admin");
   };
@@ -115,6 +119,11 @@ const Header = ({ viewType }) => {
         {userRoleName === "ROLE_ADMIN" && (
           <button id="addPosterButton" onClick={handleAddPosterClick}>
             Dodaj poster
+          </button>
+        )}
+        {userRoleName === "ROLE_ADMIN" && (
+          <button id="addPosterButton" onClick={handleAddPromoClick}>
+            Dodaj promo
           </button>
         )}
         {userRoleName === "ROLE_ADMIN" && (

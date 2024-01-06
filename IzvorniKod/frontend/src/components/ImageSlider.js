@@ -1,7 +1,7 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination } from "swiper/modules";
-import PosterData from "../services/PosterData";
+import { PosterData } from "../services/DataService";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";

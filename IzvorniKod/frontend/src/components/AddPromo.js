@@ -6,20 +6,18 @@ import ConferenceList from "./ConferenceList";
 
 import "../css/addPoster.css";
 
-const AddPoster = () => {
+const AddPromo = () => {
+  const [promoName, setPromoName] = useState("");
+  const [companyURL, setCompanyURL] = useState("");
+  const [fileName, setFileName] = useState("");
+
   const [conferences, setConferences] = useState([]);
   const [selectedConference, setSelectedConference] = useState("");
-  const [emailAuthor, setEmailAuthor] = useState("");
-  const [posterName, setPosterName] = useState("");
-  const [authorName, setAuthorName] = useState("");
-  const [authorLastName, setAuthorLastName] = useState("");
-  const [fileName, setFileName] = useState("");
+  const [resetSelectedConferenceIndex, setResetSelectedConferenceIndex] =
+    useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-
-  const [resetSelectedConferenceIndex, setResetSelectedConferenceIndex] =
-    useState(false);
 
   const handleSelectConference = (conference) => {
     setSelectedConference(conference);
@@ -59,26 +57,18 @@ const AddPoster = () => {
 
   const handleSubmit = async () => {
     if (selectedConference) {
-      if (
-        !authorName ||
-        !authorLastName ||
-        !emailAuthor ||
-        !posterName ||
-        !fileName
-      ) {
+      if (!promoName || !fileName) {
         setErrorMessage("Sva polja su obavezna!");
         return;
       }
       const formData = new FormData();
-      formData.append("nazivPoster", posterName);
-      formData.append("imeAutor", authorName);
-      formData.append("prezimeAutor", authorLastName);
-      formData.append("emailAutor", emailAuthor);
+      formData.append("nazivPromo", promoName);
+      formData.append("url", companyURL);
       formData.append("file", fileName);
 
       try {
         const posterResponse = await axios.post(
-          `/api/poster/${selectedConference.konfid}`,
+          `/api/promomaterijal/${selectedConference.konfid}`,
           formData,
           {
             headers: {
@@ -89,15 +79,14 @@ const AddPoster = () => {
         );
 
         if (posterResponse.status === 200) {
-          setAuthorName("");
-          setAuthorLastName("");
-          setEmailAuthor("");
-          setPosterName("");
+          setPromoName("");
+          setCompanyURL("");
           setFileName("");
+          setSelectedConference("");
           setResetSelectedConferenceIndex(true);
-          console.log("Poster uploaded");
+          console.log("Promo uploaded");
         } else {
-          console.error("Error fetching posters:", posterResponse.statusText);
+          console.error("Error fetching promos:", posterResponse.statusText);
         }
       } catch (error) {
         console.error("Error:", error.message);
@@ -114,7 +103,10 @@ const AddPoster = () => {
           <BounceLoader color="#d63636" />
         </div>
       ) : conferences.length === 0 ? (
-        <h2>Prvo dodajte konferenciju da biste joj mogli pridružiti poster!</h2>
+        <h2>
+          Prvo dodajte konferenciju da biste joj mogli pridružiti promotivni
+          materijal!
+        </h2>
       ) : (
         <div className="all-container">
           <ConferenceList
@@ -125,57 +117,35 @@ const AddPoster = () => {
               setResetSelectedConferenceIndex(false)
             }
           />
-          <div className="poster-container">
+          <div className="promo-container">
             <h2 className="subtitle">
-              Odaberi konferenciju i dodaj novi poster
+              Odaberi konferenciju i pridruži joj njen promotivni materijal
             </h2>
 
-            <div className="author-info">
-              <h3>Podaci o autoru</h3>
+            <div className="company-info">
+              <h3>Podaci o promotoru</h3>
               <label>
-                Ime:
+                URL tvrtke:
                 <input
                   type="text"
-                  name="authorName"
-                  value={authorName}
-                  onChange={(e) => setAuthorName(e.target.value)}
-                  className="input-field"
-                  required
-                />
-              </label>
-              <label>
-                Prezime:
-                <input
-                  type="text"
-                  name="authorLastName"
-                  value={authorLastName}
-                  onChange={(e) => setAuthorLastName(e.target.value)}
-                  className="input-field"
-                  required
-                />
-              </label>
-              <label>
-                Email:
-                <input
-                  type="text"
-                  name="emailAuthor"
-                  value={emailAuthor}
-                  onChange={(e) => setEmailAuthor(e.target.value)}
+                  name="companyURL"
+                  value={companyURL}
+                  onChange={(e) => setCompanyURL(e.target.value)}
                   className="input-field"
                   required
                 />
               </label>
             </div>
 
-            <div className="poster-info">
-              <h3>Podaci o posteru</h3>
+            <div className="promo-info">
+              <h3>Podaci o promotivnom materijalu</h3>
               <label>
                 Naziv:
                 <input
                   type="text"
-                  name="posterName"
-                  value={posterName}
-                  onChange={(e) => setPosterName(e.target.value)}
+                  name="promoName"
+                  value={promoName}
+                  onChange={(e) => setPromoName(e.target.value)}
                   className="input-field"
                   required
                 />
@@ -208,4 +178,4 @@ const AddPoster = () => {
   );
 };
 
-export default AddPoster;
+export default AddPromo;

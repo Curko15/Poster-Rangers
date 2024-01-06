@@ -1,8 +1,21 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { getConferenceId } from "./AuthService";
+import { getAuthToken, getConferenceId } from "./AuthService";
 
-const PosterData = () => {
+export const postRequest = async (route, params) => {
+  try {
+    return await axios.post(`/api/${route}`, params, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + getAuthToken().token,
+      },
+    });
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
+export const PosterData = () => {
   const [posters, setPosters] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -49,5 +62,3 @@ const PosterData = () => {
 
   return { posters, isLoading };
 };
-
-export default PosterData;

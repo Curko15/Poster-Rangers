@@ -1,5 +1,5 @@
 import React from "react";
-import PosterData from "../services/PosterData";
+import { PosterData } from "../services/DataService";
 import { BounceLoader } from "react-spinners";
 
 import "../css/posterDisplay.css";
