@@ -8,6 +8,7 @@ import opp.domain.Korisnik;
 import opp.domain.Mjesto;
 import opp.domain.MjestoKonferencijaDTO;
 import com.fasterxml.jackson.databind.JsonNode;
+import opp.service.EmailSenderService;
 import opp.service.KorisnikService;
 import opp.service.MjestoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class KonferencijaController {
 
     @Autowired
     private KorisnikService korisnikService;
+
 
 
     //@PreAuthorize("hasRole('ADMIN')")
@@ -63,6 +65,7 @@ public class KonferencijaController {
         Korisnik korisnik = korisnikService.findByEmail(mjestodto.getEmail());
         konferencija.setKorisnik(korisnik);
         konferencija.setMjesto(gradic);
+        konferencija.setAktivna(true);
         konfService.addKonferencija(konferencija);
 
         return ResponseEntity.ok("Konferencija i Mjesto uspješno dodani");
