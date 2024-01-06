@@ -35,6 +35,11 @@ public class GlasanjeController {
         this.glasanjeService = glasanjeService;
     }
 
+    @GetMapping("/poredak")
+    public Map<Long, Integer> poredak(@RequestParam Long konferencijaId){
+        return glasanjeService.MapPoredak(konferencijaId);
+    }
+
     @PostMapping("/addGlas")
     public ResponseEntity<String> addGlas(@RequestBody GlasanjeDTO glasDTO){
         System.out.println(glasDTO);
