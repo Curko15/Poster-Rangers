@@ -1,5 +1,6 @@
 package opp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -29,12 +30,15 @@ public class Konferencija{
 
     private boolean aktivna;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "konferencija")
     private List<FotoMaterijal> fotke;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "konferencija")
     private List<PromoMaterijal> promo;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "konferencija")
     private List<Poster> posteri;
 
