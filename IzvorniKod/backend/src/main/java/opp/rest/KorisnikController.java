@@ -152,7 +152,7 @@ public class KorisnikController {
     }
 
     private String passwordResetEmailLink(String email, String applicationUrl, String token) {
-        String url = applicationUrl + "/promijeniLozinku?token=" + token;
+        String url = applicationUrl + "/resetirajLozinku?token=" + token;
         Korisnik korisnik = korisnikService.findByEmail(email);
         String mailContent ="<p> Hi, "+ korisnik.getIme() + ", </p>" +
                 "<p><b>You recently requested to reset your password.<br></b>" +
