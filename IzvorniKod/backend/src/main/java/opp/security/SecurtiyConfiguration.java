@@ -36,11 +36,6 @@ public class SecurtiyConfiguration {
             "glasanje/**",
             "glasanje/*",
             "glasanje/addGlas",
-            "/images/**",
-            "/static/images/**",
-            "/api/images/**",
-            "/static/**",
-            "/resources/**"
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;

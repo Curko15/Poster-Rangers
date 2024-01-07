@@ -116,7 +116,7 @@ public class KonferencijaServiceJpa implements KonferencijaService {
     }
 
     private void slanjeSudionicima(int i, Long idPostera, Integer brojGlasova, Konferencija konferencija) {
-        Poster poster = posterService.viewById(idPostera);
+        Poster poster = posterService.findByPosterId(idPostera);
         LocalDateTime vrijeme = konferencija.getEndTime().plusWeeks(2);
         String mailContent = "Poštovani " + poster.getImeAutor() + " " + poster.getPrezimeAutor() + ",\n\n" +
                 "S velikim zadovoljstvom Vas obavještavamo da ste osvojili "+ (i+1) + ". mjesto sa "+ brojGlasova + "glasova na našoj nedavno održanoj konferenciji. Vaše izuzetno izlaganje istaknulo se među ostalim sudionicima, te smo uvjereni da ste zaslužili ovo priznanje.\n\n" +
@@ -130,7 +130,7 @@ public class KonferencijaServiceJpa implements KonferencijaService {
     }
 
     private void slanjeMailPrvojTrojici(int i, Long idPostera, Integer brojGlasova, Konferencija konferencija) {
-        Poster poster = posterService.viewById(idPostera);
+        Poster poster = posterService.findByPosterId(idPostera);
         LocalDateTime vrijeme = konferencija.getEndTime().plusWeeks(2);
         String mailContent = "Poštovani " + poster.getImeAutor() + " " + poster.getPrezimeAutor() + ",\n\n" +
                 "S velikim zadovoljstvom Vas obavještavamo da ste završili na  "+ (i+1) + ". mjestu sa "+ brojGlasova + "glasova na našoj nedavno održanoj konferenciji. Zahvaljujemo Vam se na sudjelovanju, te smo uvjereni da će te se ponovo prijaviti.\n\n" +
