@@ -36,7 +36,7 @@ const Authentication = ({ viewType }) => {
 
   const formContainerRef = useRef(null);
   const navigate = useNavigate();
-  const [redirect, setRedirect] = useState(false); // New state for redirection
+  const [redirect, setRedirect] = useState(false);
 
 
   const validatePassword = (value, isRegistration) => {
@@ -59,14 +59,12 @@ const Authentication = ({ viewType }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    // Check reCAPTCHA
     const captchaValue = recaptcha.current.getValue();
     if (!captchaValue) {
       setErrorMessage("Molimo potvrdite reCAPTCHA");
       return;
     }
   
-    // Validate input fields
     if (viewType === "login") {
       if (!email || !password) {
         setErrorMessage("Molimo unesite email i lozinku");
@@ -99,17 +97,16 @@ const Authentication = ({ viewType }) => {
         passedCaptcha = false;
         recaptcha.current.reset();
         alert("ReCAPTCHA nije uspješno potvrđena");
-        return; // Added return to exit the function
+        return; 
       }
     } catch (error) {
       passedCaptcha = false;
       recaptcha.current.reset();
       alert("Server error");
       console.error("Error during reCAPTCHA verification:", error);
-      return; // Added return to exit the function
+      return; 
     }
   
-    // Continue with authentication
     try {
       const requestData =
         viewType === "login"
@@ -168,7 +165,7 @@ const Authentication = ({ viewType }) => {
   
 
    const handlePasswordBlur = () => {
-    // Validate the password onBlur
+    // Provjeri valjanost lozinke onBlur
     const isPasswordValid = validatePassword(password, viewType === "register");
     
     if (!isPasswordValid) {
@@ -176,7 +173,7 @@ const Authentication = ({ viewType }) => {
         "Lozinka mora imati barem 8 znakova, najmanje jedno veliko slovo, najmanje jedan broj i najmanje jedan simbol."
       );
     } else {
-      // If the password is valid, reset the error message
+      // Ako je lozinka valjana, resetiraj poruku o pogrešci
       setPasswordError("");
     }
   };
@@ -193,8 +190,7 @@ const Authentication = ({ viewType }) => {
     }
   };
   
-
-  const handelReturn = () => {
+  const handleReturn = () => {
     setNewPasswordReq(false);
     setErrorMessage("");
   };
@@ -315,7 +311,6 @@ const Authentication = ({ viewType }) => {
                   Zaboravili ste lozinku?
                 </p>
               )}
-
               <div className="button-container">
                 <button type="submit" className="submit-button">
                   {viewType === "login" ? "Login" : "Registracija"}
@@ -329,7 +324,10 @@ const Authentication = ({ viewType }) => {
         )}
         {newPasswordReq && (
           <>
-            <h2>Forgot Your Password?</h2>
+            <h2>Zaboravljena lozinka</h2>
+            {errorMessage && (
+                <h2 className="error-message">{errorMessage}</h2>
+              )}
             <form onSubmit={handleNewPasswordReq}>
               <label>
                 Email:
@@ -342,20 +340,16 @@ const Authentication = ({ viewType }) => {
               </label>
               <br />
               <div className="button-container">
-                <button type="submit" className="submit-button">
+                <button type="submit" className="submit-button2">
                   Zatraži novu lozinku
                 </button>
               </div>
               <br />
               <div className="button-container">
-                <button className="submit-button" onClick={handelReturn}>
+                <button className="submit-button2" onClick={handleReturn}>
                   Povratak na Login
                 </button>
               </div>
-
-              {errorMessage && (
-                <h2 className="error-message">{errorMessage}</h2>
-              )}
             </form>
           </>
         )}

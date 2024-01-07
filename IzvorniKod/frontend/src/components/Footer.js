@@ -11,8 +11,8 @@ const Footer = () => {
 
   return (
     <footer className="footerTrack">
+      <p className="date">{date}</p>
       <div className="mapAndWeather">
-        <p className="date">{date}</p>
         <div className="map">
           <Map />
         </div>

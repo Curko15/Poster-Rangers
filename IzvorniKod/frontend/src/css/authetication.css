@@ -36,9 +36,20 @@ h2 {
     margin-right: 0;
 }
 
+.submit-button2 {
+    display: block;
+    margin: auto;
+    font-size: 18px;
+}
+
 .button-container {
     display: flex;
     justify-content: flex-end;
+}
+
+.newPassword {
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .newPassword:hover {
