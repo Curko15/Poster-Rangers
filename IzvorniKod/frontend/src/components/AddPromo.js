@@ -4,7 +4,7 @@ import { getAuthToken, getLoggedInUser } from "../services/AuthService";
 import { BounceLoader } from "react-spinners";
 import ConferenceList from "./ConferenceList";
 
-import "../css/addPoster.css";
+import "../css/addPromo.css";
 
 const AddPromo = () => {
   const [promoName, setPromoName] = useState("");
@@ -175,6 +175,7 @@ const AddPromo = () => {
         </div>
       )}
     </>
+
   );
 };
 

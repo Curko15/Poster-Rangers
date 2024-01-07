@@ -3,6 +3,7 @@ import Header from ".././components/Header.js";
 import Footer from "../components/Footer";
 
 import "../css/main.css";
+import PromoDisplay from "../components/PromoDisplay";
 
 const PromoScreen = () => {
   return (
@@ -12,6 +13,7 @@ const PromoScreen = () => {
         <h1>Promotivni materijali</h1>
         <h2>Pogledaj što ti sve naši sponzori nude</h2>
       </div>
+        <PromoDisplay />
       <Footer />
     </div>
   );

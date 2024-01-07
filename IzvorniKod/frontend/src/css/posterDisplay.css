@@ -6,14 +6,12 @@
 }
 
 .poster, .details {
-    width: 23%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 3px solid rgba(85, 85, 85, 0.82);
     box-shadow: 0 5px 10px #212020;
-    border-radius: 5px;
-    margin: 15px;
+    border-radius: 0px 0px 5px 5px;
     padding: 0.5px;
     perspective: 1000px;
 }
@@ -42,4 +40,26 @@
     width: 100%;
     display: flex;
     justify-content: left;
+}
+
+.postersContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.posterItem {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.posterImage {
+    width: 100%; /* Adjust the size as per your preference */
+    height: 200px; /* Adjust the size as per your preference */
+    aspect-ratio: unset;
+    object-fit: cover;
+    border-radius: 5px 5px 0px 0px;
 }
