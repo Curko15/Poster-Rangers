@@ -194,6 +194,11 @@ const Authentication = ({ viewType }) => {
   };
   
 
+  const handelReturn = () => {
+    setNewPasswordReq(false);
+    setErrorMessage("");
+  };
+
   const handleNewPasswordReq = async (e) => {
     e.preventDefault();
 
@@ -343,10 +348,7 @@ const Authentication = ({ viewType }) => {
               </div>
               <br />
               <div className="button-container">
-                <button
-                  className="submit-button"
-                  onClick={() => setNewPasswordReq(false)}
-                >
+                <button className="submit-button" onClick={handelReturn}>
                   Povratak na Login
                 </button>
               </div>

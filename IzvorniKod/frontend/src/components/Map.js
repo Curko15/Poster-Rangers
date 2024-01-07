@@ -6,7 +6,7 @@ import axios from "axios";
 
 import "../css/map.css";
 
-function Map({ calculateButton }) {
+const Map = () => {
   const mapElement = useRef();
   const [map, setMap] = useState(null);
 
@@ -46,7 +46,7 @@ function Map({ calculateButton }) {
         map.remove();
       }
     };
-  }, [mapCoordinates]);
+  }, [map, mapCoordinates]);
 
   useEffect(() => {
     const fetchMapData = async () => {
@@ -129,6 +129,6 @@ function Map({ calculateButton }) {
       </div>
     </>
   );
-}
+};
 
 export default Map;

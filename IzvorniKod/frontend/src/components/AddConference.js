@@ -30,6 +30,7 @@ const AddConference = () => {
         code,
         {
           headers: {
+            "Content-Type": "application/json",
             Authorization: "Bearer " + getAuthToken().token,
           },
         },
