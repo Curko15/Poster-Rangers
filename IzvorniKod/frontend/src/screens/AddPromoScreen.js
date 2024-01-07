@@ -1,20 +1,21 @@
 import React from "react";
 import Header from ".././components/Header.js";
 import Footer from "../components/Footer";
-// import GalleryDisplay from "../components/GalleryDisplay";
+import AddPromo from "../components/AddPromo";
+
 import "../css/main.css";
 
-const PosterScreen = () => {
+const AddPromoScreen = () => {
   return (
     <div>
-      <Header viewType="photo" />
+      <Header viewType="admin" />
       <div className="title">
-        <h1>Pregled fotografija</h1>
+        <h1>Dodavanje novog promotivnog materijala</h1>
       </div>
-      {/*<GalleryDisplay />*/}
+      <AddPromo />
       <Footer />
     </div>
   );
 };
 
-export default PosterScreen;
+export default AddPromoScreen;

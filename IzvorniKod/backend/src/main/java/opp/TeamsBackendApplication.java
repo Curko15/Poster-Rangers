@@ -1,6 +1,5 @@
 package opp;
 
-
 import opp.dao.RoleRepo;
 import opp.domain.Korisnik;
 import opp.domain.Role;
@@ -10,12 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 public class TeamsBackendApplication {
 
 	@Autowired
@@ -25,19 +23,17 @@ public class TeamsBackendApplication {
 	@Autowired
 	private RoleRepo roleRepo;
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(TeamsBackendApplication.class, args);
 		//inicilizaijraj();
-
 	}
 
 	/*@EventListener(ApplicationReadyEvent.class)
 	public void sendMail(){
 		senderService.sendEmail("curkovicm4@gmail.com", "This is Subject",
 				"This is Body of Email");
-	}
-*/
+	}*/
+
 	@Bean
 	public CommandLineRunner initializeRoles() {
 		return args -> {

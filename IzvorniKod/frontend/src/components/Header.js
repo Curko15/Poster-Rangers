@@ -126,6 +126,10 @@ const Header = ({ viewType }) => {
     navigate("/dodajPoster");
   };
 
+  const handleAddPromoClick = () => {
+    navigate("/dodajPromo");
+  };
+
   const handleAddConferenceClick = () => {
     navigate("/admin");
   };
@@ -134,12 +138,21 @@ const Header = ({ viewType }) => {
     navigate("/superAdmin");
   };
 
+  const handleChangePassword = () => {
+    navigate("/promijeniLozinku");
+  };
+
   const renderButtons = () => {
     return (
       <>
         {userRoleName === "ROLE_ADMIN" && (
           <button id="addPosterButton" onClick={handleAddPosterClick}>
             Dodaj poster
+          </button>
+        )}
+        {userRoleName === "ROLE_ADMIN" && (
+          <button id="addPosterButton" onClick={handleAddPromoClick}>
+            Dodaj promo
           </button>
         )}
         {userRoleName === "ROLE_ADMIN" && (
@@ -152,7 +165,9 @@ const Header = ({ viewType }) => {
             Dodaj admina
           </button>
         )}
-        {(viewType === "login" || viewType === "register") && (
+        {(viewType === "login" ||
+          viewType === "register" ||
+          viewType === "ChangePassword") && (
           <button id="backButton" onClick={handleBackClick}>
             Natrag
           </button>
@@ -172,6 +187,11 @@ const Header = ({ viewType }) => {
         {isUserLoggedIn() && (
           <button id="logOutButton" onClick={handleLogOutClick}>
             Odjava
+          </button>
+        )}
+        {isUserLoggedIn() && viewType !== "ChangePassword" && (
+          <button id="changePassword" onClick={handleChangePassword}>
+            Promijeni Lozinku
           </button>
         )}
         {(viewType === "homescreen" ||

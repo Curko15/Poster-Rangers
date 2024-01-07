@@ -21,6 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurtiyConfiguration {
     private static final String[] WHITE_LIST_URL = {
+            "/korisnici/verifyRecaptcha",
             "/korisnici/registerPP",
             "/korisnici/authenticatePP",
             "/korisnici/reset-password",
@@ -29,13 +30,18 @@ public class SecurtiyConfiguration {
             "/konferencija/loginKonf",
             "/korisnici/registerAdmin",
             "/konferencija/getKonfId",
+            "/konferencija/getLocation/{id}",
             "/poster/getAll/**",
             "/poster/**",
-            "/glasanje/**",
-            "/glasanje/*",
-            "/glasanje/addGlas"
+            "glasanje/**",
+            "glasanje/*",
+            "glasanje/addGlas",
+            "/images/**",
+            "/static/images/**",
+            "/api/images/**",
+            "/static/**",
+            "/resources/**"
     };
-
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -64,7 +70,5 @@ public class SecurtiyConfiguration {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-
     }
-
 }

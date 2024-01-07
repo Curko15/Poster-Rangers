@@ -12,7 +12,6 @@ import java.util.List;
 
 @Data
 @Entity
-
 @Table(name = "Konferencija")
 public class Konferencija{
 
@@ -28,6 +27,8 @@ public class Konferencija{
     @NotNull
     private LocalDateTime endTime;
 
+    private boolean aktivna;
+
     @OneToMany(mappedBy = "konferencija")
     private List<FotoMaterijal> fotke;
 
@@ -39,6 +40,9 @@ public class Konferencija{
 
     @ManyToOne
     private Mjesto mjesto;
+
+    @ManyToOne
+    private Korisnik korisnik;
 
 
 

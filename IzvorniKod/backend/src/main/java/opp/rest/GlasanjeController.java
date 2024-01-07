@@ -1,25 +1,16 @@
 package opp.rest;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.databind.JsonNode;
+
 import lombok.Data;
 import opp.domain.*;
 import opp.service.GlasanjeService;
 import opp.service.KonferencijaService;
 import opp.service.KorisnikService;
-import opp.service.impl.UserServiceJPA;
+import opp.service.PosterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-
-import java.util.List;
+import java.util.Map;
 
 @RestController
 @Data
@@ -37,8 +28,16 @@ public class GlasanjeController {
     @Autowired
     private KonferencijaService konferencijaService;
 
+    @Autowired
+    private PosterService posterService;
+
     public GlasanjeController(GlasanjeService glasanjeService) {
         this.glasanjeService = glasanjeService;
+    }
+
+    @GetMapping("/poredak")
+    public Map<Long, Integer> poredak(@RequestParam Long konferencijaId){
+        return glasanjeService.MapPoredak(konferencijaId);
     }
 
     @PostMapping("/addGlas")
@@ -51,18 +50,68 @@ public class GlasanjeController {
 
         Glasanje glas = new Glasanje();
         glas.setId(glasid);
+
+
+        Poster poster = posterService.findByPosterId(glasDTO.getPosterId());
+        if(poster == null){
+            return new ResponseEntity<>("Poster nije pronađen", HttpStatus.BAD_REQUEST);
+        }
         glas.setPosterId(glasDTO.getPosterId());
 
 
-        Korisnik korisnik = korisnikService.findByEmail(glas.getId().getEmail());
-        glas.setKorisnik(korisnik);
+        try {
+            Korisnik korisnik = korisnikService.findByEmail(glasDTO.getEmail());
+            if (korisnik == null) {
+                return new ResponseEntity<>("Korisnik nije pronađen", HttpStatus.BAD_REQUEST);
+            }
+            glas.setKorisnik(korisnik);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Došlo je do greške prilikom pretrage korisnika. Vjerojatno korisnik ne postoji.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
-        Konferencija konferencija = konferencijaService.findByKonfid(glas.getId().getKonfId());
+        Konferencija konferencija = konferencijaService.findByKonfid(glasDTO.getKonfId());
+        if(konferencija == null){
+            return new ResponseEntity<>("Konferencija nije pronađena", HttpStatus.BAD_REQUEST);
+        }
         glas.setKonferencija(konferencija);
 
 
         glasanjeService.save(glas);
+
+        Map<Long, Integer> glasovi = glasanjeService.MapPoredak(glasDTO.getKonfId());
+        System.out.println(glasovi);
         return new ResponseEntity<>("Glas dodan", HttpStatus.CREATED);
+
+    }
+
+    @DeleteMapping("/removeGlas")
+    public ResponseEntity<String> removeGlas(@RequestParam String email, @RequestParam Long konferencijaId){
+
+
+
+
+        try {
+            Korisnik korisnik = korisnikService.findByEmail(email);
+            if (korisnik == null) {
+                return new ResponseEntity<>("Korisnik nije pronađen", HttpStatus.BAD_REQUEST);
+            }
+
+            Konferencija konferencija = konferencijaService.findByKonfid(konferencijaId);
+            if(konferencija == null){
+                return new ResponseEntity<>("Konferencija nije pronađena", HttpStatus.BAD_REQUEST);
+            }
+
+            glasanjeService.deleteGlasanje(korisnik, konferencija);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Došlo je do greške prilikom pretrage korisnika. Vjerojatno korisnik ne postoji.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+
+        return new ResponseEntity<>("Glas obrisan", HttpStatus.OK);
 
     }
 }

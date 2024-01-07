@@ -7,7 +7,6 @@ import opp.domain.LoginDto;
 import java.util.List;
 
 public interface KorisnikService {
-
     Korisnik save(Korisnik korisnik);
 
     AuthenticationResponse saveAdmin(Korisnik korisnik);
@@ -29,4 +28,6 @@ public interface KorisnikService {
     void updateResetPasswordToken(String token, String email);
 
     void updatePassword(Korisnik korisnik, String novaLozinka);
+
+    Korisnik justSave(Korisnik korisnik);
 }

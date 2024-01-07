@@ -1,45 +1,39 @@
 package opp.rest;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 import opp.domain.*;
 import opp.service.KonferencijaService;
 import opp.service.PosterService;
 import opp.domain.Konferencija;
-import opp.service.KonferencijaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import opp.service.impl.FileControllerJPA;
-
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/poster")
 @CrossOrigin(origins = "https://poster-rangers-fe.onrender.com")
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class PosterController {
     @Autowired
     PosterService posterService;
     @Autowired
     KonferencijaService konferencijaService;
-
     @Autowired
     FileControllerJPA fileService;
 
     @PostMapping(value = "/{id}", consumes = { "multipart/form-data" })
-    public ResponseEntity<String> addPoster(@ModelAttribute PosterDTO poster, @PathVariable Long id) throws IOException {
-        // Fetch the Konferencija based on id
+    public ResponseEntity<String> addPoster(@ModelAttribute PosterDTO poster, @PathVariable Long id) throws IOException, SQLException {
+        System.out.println("Usao u kontroler poster");
+
         Konferencija konferencija = konferencijaService.findByKonfid(id);
 
         if (konferencija == null) {
@@ -51,21 +45,28 @@ public class PosterController {
         posteric.setImeAutor(poster.getImeAutor());
         posteric.setPrezimeAutor(poster.getPrezimeAutor());
         posteric.setEmailAutor(poster.getEmailAutor());
-        // Associate the Poster with the Konferencija
         posteric.setKonferencija(konferencija);
 
+
+        byte[] bl = fileService.uploadanje(poster.getFile(), id);
+
+        MediaType mediaType = MediaType.parseMediaType(poster.getFile().getContentType());
+        String fileType = mediaType.getSubtype();
+        posteric.setImageType(fileType);
+
+        posteric.setImagebyte(bl);
+
+        //Stock:
+        /*
         String path = fileService.uploadanje(poster.getFile(), id);
         System.out.println("Konferencija: " + path);
         posteric.setPosterPath(path);
+        */
 
-        // Save the Poster
-        // Assuming you have a service class to handle business logic, you can use it here
-        posterService.save(posteric); // You need to implement this method
+        posterService.save(posteric);
 
-        return ResponseEntity.ok("Poster added successfully");
+        return ResponseEntity.ok("Poster uspješno dodan");
     }
-
-
 
     @GetMapping("getAll/{id}")
     public ResponseEntity<List<Poster>> getAllPosters(@PathVariable Long id){
@@ -78,5 +79,4 @@ public class PosterController {
         System.out.println(posteri);
         return ResponseEntity.ok(posteri);
     }
-
 }

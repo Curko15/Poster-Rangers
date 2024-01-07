@@ -1,23 +1,20 @@
 package opp.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import opp.domain.*;
 import opp.service.EmailSenderService;
 import opp.service.KorisnikService;
+import opp.service.RecaptchaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "https://poster-rangers-fe.onrender.com")
@@ -29,10 +26,13 @@ public class KorisnikController {
 
     private EmailSenderService emailSenderService;
 
-    public KorisnikController(KorisnikService korisnikService, PasswordEncoder passwordEncoder, EmailSenderService emailSenderService) {
+    private RecaptchaService recaptchaService;
+
+    public KorisnikController(KorisnikService korisnikService, PasswordEncoder passwordEncoder, EmailSenderService emailSenderService, RecaptchaService recaptchaService) {
         this.korisnikService = korisnikService;
         this.passwordEncoder = passwordEncoder;
         this.emailSenderService = emailSenderService;
+        this.recaptchaService = recaptchaService;
     }
 
     @PostMapping("/register")
@@ -42,13 +42,21 @@ public class KorisnikController {
         return new ResponseEntity<>("Korisnik registered successfully", HttpStatus.CREATED);
     }
 
-    //TEST
+    @PostMapping("/verifyRecaptcha")
+    public ResponseEntity<String> verifyRecaptcha(@RequestBody Map<String, String> requestBody) {
+        String recaptchaResponse = requestBody.get("recaptchaToken");
+        System.out.println(recaptchaResponse);
+        if( recaptchaService.verifyRecaptcha(recaptchaResponse)){
+            return ResponseEntity.ok("OK");
+        }else{
+            return ResponseEntity.status(400).body("CAPTCHA verification failed");
+        }
+    }
 
     @PostMapping("/registerPP")
     public ResponseEntity<AuthenticationResponse> registerPP(@RequestBody Korisnik korisnik){
            return ResponseEntity.ok(korisnikService.register(korisnik));
     }
-
 
     @PostMapping("/authenticatePP")
     public ResponseEntity<AuthenticationResponse> registerPP(@RequestBody LoginDto loginDto){
@@ -89,8 +97,8 @@ public class KorisnikController {
 
     @PostMapping("/login2")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
-       //String response = korisnikService.login(loginDto);
-       // return new ResponseEntity<>(response,HttpStatus.OK);
+        //String response = korisnikService.login(loginDto);
+        //return new ResponseEntity<>(response,HttpStatus.OK);
         return null;
     }
 
@@ -108,16 +116,30 @@ public class KorisnikController {
         String passwordResetUrl = "";
         try {
             korisnikService.updateResetPasswordToken(token, email);
-            //generate password link
-            //send mail
             String s =  getFrontendOrigin(request);
             passwordResetUrl =  passwordResetEmailLink(email, applicationUrl(request), token);
 
         }catch (Exception e) {
             throw new UsernameNotFoundException("Korisnik s emailom: " + email + " ne postoji");
         }
-
         return passwordResetUrl;
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestBody Map<String, String> requestBody){
+        String oldPassword = requestBody.get("oldPassword");
+        String newPassword = requestBody.get("newPassword");
+        String email = requestBody.get("email");
+        Korisnik korisnik = korisnikService.findByEmail(email);
+        if(korisnik != null){
+            if(passwordEncoder.matches(oldPassword, korisnik.getPassword())){
+                korisnik.setPassword(passwordEncoder.encode(newPassword));
+                korisnikService.justSave(korisnik);
+                return new ResponseEntity<>("Lozinka je promijenjena", HttpStatus.OK);
+            }
+            return new ResponseEntity<>("Lozinka je nije promijenjena", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Korisnik ne postoji", HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/reset-password")
@@ -129,26 +151,19 @@ public class KorisnikController {
         return "Lozinka je uspješno promijenjena";
     }
 
-    @GetMapping("/reset-password1")
-    public String resetPassword(@RequestParam("token") String token) throws Exception {
-        //Korisnik korisnik = korisnikService.findByResetPasswordToken(token)
-        return "dobro";
-    }
-
     private String passwordResetEmailLink(String email, String applicationUrl, String token) {
-        String url = applicationUrl+"/promjeniLozinku?token="+token;
+        String url = applicationUrl + "/promijeniLozinku?token=" + token;
         Korisnik korisnik = korisnikService.findByEmail(email);
-        String mailContent ="<p> Hi, "+ korisnik.getIme() + ", </p>"+
-                "<p><b>You recently requested to reset your password,</b>"+"" +
-                "Please, follow the link below to complete the action.</p>"+
-                "<a href=\"" +url+ "\">Reset password</a>"+
-                "<p> Users Registration Portal Service";
+        String mailContent ="<p> Hi, "+ korisnik.getIme() + ", </p>" +
+                "<p><b>You recently requested to reset your password.<br></b>" +
+                "Please, follow the link below to complete the action.</p>" +
+                "<a href=\"" + url + "\">Reset password</a>" +
+                "<p> Regards,<br>Users Registration Portal Service";
 
         String subject = "Password Reset Request Verification";
         emailSenderService.sendEmail(email, subject, mailContent);
         return url;
     }
-
 
     private String generateRandomString(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -172,12 +187,9 @@ public class KorisnikController {
     }
 
     private String getFrontendOrigin(HttpServletRequest request) {
-        // Get the Origin header from the request
         String originHeader = request.getHeader("Origin");
 
         // If the Origin header is present, return it; otherwise, return a default value
         return originHeader != null ? originHeader : "http://localhost:";
     }
-
 }
-

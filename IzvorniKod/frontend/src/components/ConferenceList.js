@@ -1,55 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/conferenceList.css";
 
-//UNUSED
-function ConferenceList({ conferences, onDeleteConference }) {
-  const [deleteConfirmation, setDeleteConfirmation] = useState(null);
+const ConferenceList = ({
+  conferences,
+  onSelectConference,
+  resetSelectedConferenceIndex,
+  onResetSelectedConferenceIndex,
+}) => {
+  const [selectedConferenceIndex, setSelectedConferenceIndex] = useState(null);
 
-  const handleDelete = (index) => {
-    setDeleteConfirmation(index);
+  useEffect(() => {
+    if (resetSelectedConferenceIndex) {
+      setSelectedConferenceIndex(null);
+      onResetSelectedConferenceIndex();
+    }
+  }, [resetSelectedConferenceIndex, onResetSelectedConferenceIndex]);
+
+  const dateTimeFormater = (dateTime) => {
+    function padWithZero(number) {
+      return number.toString().padStart(2, "0");
+    }
+
+    const dateObj = new Date(dateTime);
+    return `${padWithZero(dateObj.getHours())}:${padWithZero(
+      dateObj.getMinutes(),
+    )} ${padWithZero(dateObj.getDate())}.${padWithZero(
+      dateObj.getMonth() + 1,
+    )}.${dateObj.getFullYear()}`;
   };
 
-  const confirmDelete = (index) => {
-    onDeleteConference(index);
-    setDeleteConfirmation(null);
-  };
-
-  const cancelDelete = () => {
-    setDeleteConfirmation(null);
+  const handleConferenceClick = (conference, index) => {
+    setSelectedConferenceIndex(index);
+    onSelectConference(conference);
   };
 
   return (
-    <div>
-      <h2>Popis konferencija</h2>
-      <ul className="list-container">
+    <div className="conference-list-container">
+      <h2>Lista konferencija</h2>
+      <ul className="conference-list">
         {conferences.map((conference, index) => (
-          <li key={index}>
-            Naziv konferencije: {conference.name}
-            <br />
-            Datum i vrijeme početka: {conference.start}
-            <br />
-            Datum i vrijeme završetka: {conference.end}
-            <br />
-            Lokacija: {conference.location}
-            <br />
-            <button>Dodaj fotografije</button>
-            <button>Dodaj postere</button>
-            <button>Dodaj promo materijal</button>
-            <button onClick={() => handleDelete(index)}>Obriši</button>
-            {deleteConfirmation === index && (
-              <div>
-                <p className="confirmation-text">
-                  Želite li stvarno obrisati ovu konferenciju?
-                </p>
-                <button onClick={() => confirmDelete(index)}>Da</button>
-                <button onClick={cancelDelete}>Ne</button>
-              </div>
-            )}
+          <li
+            key={index}
+            className={`conference-item ${
+              index === selectedConferenceIndex ? "selected" : ""
+            }`}
+            onClick={() => handleConferenceClick(conference, index)}
+          >
+            <strong>{conference.ime}</strong>
+            <p>
+              Datum i vrijeme početka: {dateTimeFormater(conference.startTime)}
+            </p>
+            <p>Datum i vrijeme kraja: {dateTimeFormater(conference.endTime)}</p>
+            <p>
+              Adresa: {conference.mjesto.ulica} {conference.mjesto.kucBroj},{" "}
+              {conference.mjesto.pbr} {conference.mjesto.nazivMjesta}
+            </p>
           </li>
         ))}
       </ul>
     </div>
   );
-}
+};
 
 export default ConferenceList;

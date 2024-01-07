@@ -1,15 +1,17 @@
-import "@tomtom-international/web-sdk-maps/dist/maps.css"; // Import the CSS styles for the maps
+import "@tomtom-international/web-sdk-maps/dist/maps.css";
 import { useState, useEffect, useRef } from "react";
-import tt from "@tomtom-international/web-sdk-maps"; // Import the TomTom Maps SDK
-import "../css/map.css";
+import tt from "@tomtom-international/web-sdk-maps";
 import { getConferenceId } from "../services/AuthService";
 import axios from "axios";
 
+import "../css/map.css";
+
 function Map({ calculateButton }) {
   const mapElement = useRef();
-  const [mapLongitude, setMapLongitude] = useState(-74.006 || 0); // Providing a default value of 0 if null is encountered
-  const [mapLatitude, setMapLatitude] = useState(40.7128 || 0); // Providing a default value of 0 if null is encountered
   const [map, setMap] = useState(null);
+
+  const [streetName, setStreetName] = useState("");
+  const [mapCoordinates, setMapCoordinates] = useState({ lat: 0, lon: 0 });
 
   useEffect(() => {
     const initializeMap = async () => {
@@ -18,7 +20,7 @@ function Map({ calculateButton }) {
         const mapInstance = tt.map({
           key: "aLgQNoPtQzJe5nGzbNocRvlSyQEjlOF4",
           container: mapElement.current,
-          center: [mapLongitude, mapLatitude],
+          center: [mapCoordinates.lon, mapCoordinates.lat],
           zoom: 15,
         });
 
@@ -44,50 +46,74 @@ function Map({ calculateButton }) {
         map.remove();
       }
     };
-  }, [mapLongitude, mapLatitude]);
+  }, [mapCoordinates]);
 
   useEffect(() => {
-    const conferenceId = getConferenceId();
-    const fetchPosters = async () => {
+    const fetchMapData = async () => {
       try {
-        const response = await axios.post(
+        const conferenceId = getConferenceId();
+        const conferenceResponse = await axios.post(
           "/api/konferencija/getKonfId",
           {
             password: conferenceId,
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
         );
-        //Ovdje moram popraviti cijeli response
-        if (response.status === 200) {
-          const conferenceData = response.data;
-          const posterResponse = await axios.get(
-            `/api/poster/getAll/${conferenceData}`,
+
+        if (conferenceResponse.status === 200) {
+          const conferenceData = conferenceResponse.data;
+          const locationResponse = await axios.get(
+            `/api/konferencija/getLocation/${conferenceData}`,
           );
 
-          if (posterResponse.status === 200) {
-            const posterData = posterResponse.data;
-            setMapLongitude(posterData);
-            setMapLatitude(posterData);
+          if (locationResponse.status === 200) {
+            const posterData = locationResponse.data;
+            setStreetName(
+              `${posterData.ulica} ${posterData.kucBroj} ${posterData.pbr}`,
+            );
+
+            const coordinatesResponse = await axios.get(
+              `https://api.tomtom.com/search/2/geocode/${encodeURIComponent(
+                streetName,
+              )}.json?key=aLgQNoPtQzJe5nGzbNocRvlSyQEjlOF4`,
+            );
+
+            if (coordinatesResponse.status === 200) {
+              const coordinates = coordinatesResponse.data.results[0].position;
+              console.log("ovo je izlazzzzz", coordinatesResponse.data);
+              console.log(streetName);
+              setMapCoordinates({ lat: coordinates.lat, lon: coordinates.lon });
+            } else {
+              console.error(
+                "Error fetching coordinates:",
+                coordinatesResponse.statusText,
+              );
+            }
           } else {
-            console.error("Error fetching posters:", posterResponse.statusText);
+            console.error(
+              "Error fetching location data:",
+              locationResponse.statusText,
+            );
           }
         } else {
-          console.error("Error fetching conference data:", response.statusText);
+          console.error(
+            "Error fetching conference data:",
+            conferenceResponse.statusText,
+          );
         }
       } catch (error) {
         console.error("Error:", error);
       }
     };
-    addMarkerToLocation(map, mapLatitude, mapLongitude);
-  }, []);
+
+    fetchMapData();
+  }, [streetName]);
+
+  useEffect(() => {
+    addMarkerToLocation(map, mapCoordinates.lat, mapCoordinates.lon);
+  }, [map, mapCoordinates]);
 
   function addMarkerToLocation(map, latitude, longitude) {
     if (!map || isNaN(latitude) || isNaN(longitude)) {
-      // Check if the map exists and if latitude/longitude are valid numbers
       return;
     }
 
@@ -99,11 +125,7 @@ function Map({ calculateButton }) {
   return (
     <>
       <div className="mapContainer">
-        <div className="map">
-          <div className="mapInner">
-            <div ref={mapElement} className="mapDiv"></div>
-          </div>
-        </div>
+        <div className="mapDiv" ref={mapElement}></div>
       </div>
     </>
   );
