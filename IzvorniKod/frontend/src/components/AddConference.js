@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import { getAuthToken, getLoggedInUser } from "../services/AuthService";
-import PasswordInput from "./PaswordInput";
+import PasswordInput from "./PasswordInput";
 
 const AddConference = () => {
   const [conferenceName, setConferenceName] = useState("");

@@ -10,7 +10,7 @@ import {
   saveAuthToken,
   getAuthToken,
 } from "../services/AuthService";
-import PasswordInput from "./PaswordInput";
+import PasswordInput from "./PasswordInput";
 
 import "../css/authetication.css";
 
@@ -58,16 +58,15 @@ const Authentication = ({ viewType }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    let passedCaptcha = false;
-
+  
+    // Check reCAPTCHA
     const captchaValue = recaptcha.current.getValue();
-
     if (!captchaValue) {
       setErrorMessage("Molimo potvrdite reCAPTCHA");
       return;
     }
-
+  
+    // Validate input fields
     if (viewType === "login") {
       if (!email || !password) {
         setErrorMessage("Molimo unesite email i lozinku");
@@ -75,23 +74,50 @@ const Authentication = ({ viewType }) => {
       }
     } else {
       if (!email || !password || !name || !lastName) {
-        setErrorMessage("Molimo unesite sve podatke");
+        setErrorMessage("Molimo ispunite sva polja");
         return;
       }
-      
+  
+      // Validate password match
       if (password !== confirmPassword) {
         setConfirmPasswordError("Lozinke se ne podudaraju");
         return;
       }
     }
   
-    const requestData =
-      viewType === "login"
-        ? { email: email, password: password }
-        : { email: email, password: password, ime: name, prezime: lastName };
+    let passedCaptcha = false;
   
-    const url = `/api/korisnici/${viewType === "login" ? "authenticatePP" : "registerPP"}`;
     try {
+      // Verify reCAPTCHA
+      const response = await axios.post("/api/korisnici/verifyRecaptcha", {
+        recaptchaToken: captchaValue,
+      });
+  
+      if (response.status === 200) {
+        passedCaptcha = true;
+      } else if (response.status === 400) {
+        passedCaptcha = false;
+        recaptcha.current.reset();
+        alert("ReCAPTCHA nije uspješno potvrđena");
+        return; // Added return to exit the function
+      }
+    } catch (error) {
+      passedCaptcha = false;
+      recaptcha.current.reset();
+      alert("Server error");
+      console.error("Error during reCAPTCHA verification:", error);
+      return; // Added return to exit the function
+    }
+  
+    // Continue with authentication
+    try {
+      const requestData =
+        viewType === "login"
+          ? { email: email, password: password }
+          : { email: email, password: password, ime: name, prezime: lastName };
+  
+      const url = `/api/korisnici/${viewType === "login" ? "authenticatePP" : "registerPP"}`;
+  
       const response = await axios.post(url, requestData, {
         headers: {
           "Content-Type": "application/json",
@@ -100,41 +126,35 @@ const Authentication = ({ viewType }) => {
   
       const authToken = await response.data;
       saveAuthToken(authToken);
-  
       saveLoggedInUser(email, password);
+  
       const getRoleData = {
         email: getLoggedInUser().userEmail,
         password: getLoggedInUser().userPass,
       };
   
-      try {
-        const responseRole = await axios.post("/api/korisnici/getRole", getRoleData, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + getAuthToken().token,
-          },
-        });
+      const responseRole = await axios.post("/api/korisnici/getRole", getRoleData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + getAuthToken().token,
+        },
+      });
   
-        const userRole = responseRole.data.find((role) => true)?.name;
+      const userRole = responseRole.data.find((role) => true)?.name;
   
-        if (userRole === "ROLE_ADMIN") {
-          navigate("/admin");
-        } else if (userRole === "ROLE_SUPERADMIN") {
-          navigate("/superAdmin");
-        } else if (userRole === "ROLE_KORISNIK") {
-          if (isLoggedInConference()) {
-            navigate("/home");
-          } else {
-            navigate("/");
-          }
+      if (userRole === "ROLE_ADMIN") {
+        navigate("/admin");
+      } else if (userRole === "ROLE_SUPERADMIN") {
+        navigate("/superAdmin");
+      } else if (userRole === "ROLE_KORISNIK") {
+        if (isLoggedInConference()) {
+          navigate("/home");
+        } else {
+          navigate("/");
         }
-      } catch (error) {
-        console.error("Error:", error);
-        setErrorMessage("Došlo je do pogreške pri dohvaćanju uloge korisnika.");
       }
-  
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error during authentication:", error);
   
       if (error.response && (error.response.status === 401 || error.response.status === 403)) {
         setErrorMessage("Pogrešan email ili lozinka");
@@ -142,92 +162,10 @@ const Authentication = ({ viewType }) => {
         console.error("Error during authentication:", error);
         setErrorMessage("Došlo je do pogreške pri prijavi. Molimo pokušajte ponovno.");
       }
-
-    try {
-      const response = await axios.post("/api/korisnici/verifyRecaptcha", {
-        recaptchaToken,
-      });
-
-      if (response.status === 200) {
-        passedCaptcha = true;
-      } else if (response.status === 400) {
-        passedCaptcha = false;
-        recaptcha.current.reset();
-        //Ovdje smo kada google misli da smo robot
-        alert("ReCAPTCHA nije uspiješno potvrđena");
-      }
-    } catch (error) {
-      //Ovdje smo kada se dogodi nekakav error i odustajemo od login/registracije, ovo se ne bi nikada trebalo dogoditi (mozda jedino zbog krive konfiguracije secret key na backend)
-      passedCaptcha = false;
-      recaptcha.current.reset();
-      alert("Server error");
-    }
-
-    //Ako je captcha uspjesna, nastavlja login i getrole
-    if (passedCaptcha) {
-      const requestData =
-        viewType === "login"
-          ? { email: email, password: password }
-          : { email: email, password: password, ime: name, prezime: lastName };
-
-      const url = `/api/korisnici/${
-        viewType === "login" ? "authenticatePP" : "registerPP"
-      }`;
-      let response;
-      try {
-        response = await axios.post(url, requestData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-      } catch (error) {
-        console.error("Error:", error);
-        recaptcha.current.reset();
-        alert("Pogrešan email ili lozinka");
-      }
-      if (response) {
-        const authToken = await response.data;
-
-        saveAuthToken(authToken);
-        saveLoggedInUser(email, password);
-
-        const getRoleData = {
-          email: getLoggedInUser().userEmail,
-          password: getLoggedInUser().userPass,
-        };
-
-        let responseRole; //= postRequest("korisnici/getRole", getRoleData);
-        try {
-          responseRole = await axios.post(
-            "/api/korisnici/getRole",
-            getRoleData,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + getAuthToken().token,
-              },
-            },
-          );
-        } catch (error) {
-          console.error("Error:", error);
-        }
-
-        let userRole = responseRole.data.find((role) => true)?.name;
-
-        if (userRole === "ROLE_ADMIN") {
-          navigate("/admin");
-        } else if (userRole === "ROLE_SUPERADMIN") {
-          navigate("/superAdmin");
-        } else if (userRole === "ROLE_KORISNIK") {
-          if (isLoggedInConference()) {
-            navigate("/home");
-          } else {
-            navigate("/");
-          }
-        }
-      }
     }
   };
+  
+  
 
    const handlePasswordBlur = () => {
     // Validate the password onBlur
@@ -343,29 +281,27 @@ const Authentication = ({ viewType }) => {
               />
               {passwordError && viewType==="register" && <p className="error-message">{passwordError}</p>}
               <br />
+              {viewType === "register" && (
+              <>
+                <PasswordInput
+            id={"confirmPassword"}
+            label={"Potvrda lozinke: "}
+            value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    onBlur={handleConfirmPasswordChange}
+                  />
+                  {confirmPasswordError && (
+                    <p className="error-message">{confirmPasswordError}</p>
+                  )}
+                <br />
+              </>
+              )}
               <ReCAPTCHA
                 ref={recaptcha}
                 sitekey="6LdL5UYpAAAAAAJZnzy2kao9wVvd1WNVbnNAUrUK"
                 onChange={handleRecaptchaChange}
               />
               <br />
-              {viewType === "register" && (
-              <>
-                <label>
-                  Potvrdi lozinku:
-                  <input
-                    type="password"
-                    value={confirmPassword}
-                    onChange={handleConfirmPasswordChange}
-                    className="input-field"
-                  />
-                  {confirmPasswordError && (
-                    <p className="error-message">{confirmPasswordError}</p>
-                  )}
-                </label>
-                <br />
-              </>
-            )}
               {viewType === "login" && (
                 <p
                   onClick={() => setNewPasswordReq(true)}

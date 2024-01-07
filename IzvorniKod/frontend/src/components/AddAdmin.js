@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { getAuthToken } from "../services/AuthService";
-import PasswordInput from "./PaswordInput";
+import PasswordInput from "./PasswordInput";
 import axios from "axios";
 
 import "../css/addConference.css";
