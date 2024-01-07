@@ -4,8 +4,6 @@ import Header from ".././components/Header.js";
 import Footer from "../components/Footer";
 import ImageSlider from "../components/ImageSlider";
 import LiveVideo from "../components/LiveVideo";
-import Map from "../components/Map";
-import WeatherDisplay from "../components/WeatherDisplay";
 
 import "../css/main.css";
 
@@ -26,14 +24,6 @@ const HomeScreen = () => {
       <LiveVideo />
       <div className="viewAll">
         <button onClick={() => navigate("/live")}>Gledaj live prijenos</button>
-      </div>
-      <div className="mapAndWeather">
-        <div className="map">
-          <Map />
-        </div>
-        <div className="weatherDisplay">
-          <WeatherDisplay />
-        </div>
       </div>
       <Footer />
     </div>
