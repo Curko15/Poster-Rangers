@@ -1,36 +1,98 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { getAuthToken, getLoggedInUser } from "../services/AuthService";
-import PasswordInput from "./PaswordInput";
+import PasswordInput from "./PasswordInput";
+import validator from 'validator';
 
-import "../css/main.css";
+import "../css/authetication.css";
 
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [currentPasswordError, setCurrentPasswordError] = useState("");
+  const [newPasswordError, setNewPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [message, setMessage] = useState("");
 
   const userEmail = getLoggedInUser().userEmail;
 
+  const validatePassword = (value) => {
+    return validator.isStrongPassword(value, {
+      minLength: 8,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 1,
+    });
+  };
+
+  const handlePasswordBlur = () => {
+    // Validate the password onBlur
+    const isPasswordValid = validatePassword(newPassword);
+
+    if (!isPasswordValid) {
+      setNewPasswordError(
+        "Lozinka mora imati barem 8 znakova, najmanje jedno veliko slovo, najmanje jedan broj i najmanje jedan simbol."
+      );
+    } else {
+      // If the password is valid, reset the error message
+      setNewPasswordError("");
+    }
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const confirmPasswordValue = e.target.value;
+
+    setConfirmPassword(confirmPasswordValue);
+
+    if (confirmPasswordValue !== newPassword) {
+      setConfirmPasswordError("Lozinke se ne podudaraju");
+    } else {
+      setConfirmPasswordError("");
+    }
+  };
+
+  const comparePasswords = () => {
+    if (newPassword === currentPassword) {
+      setCurrentPasswordError("Nova lozinka ne smije biti ista kao trenutna lozinka");
+    } else {
+      setCurrentPasswordError("");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Reset error messages
+    setCurrentPasswordError("");
+    setNewPasswordError("");
+    setConfirmPasswordError("");
+    setMessage("");
+    setErrorMessage("");
+
     if (!currentPassword || !newPassword || !confirmPassword) {
-      setMessage("All fields are necessary!");
+      setMessage("Molimo ispunite sva polja");
+      return;
+    }
+
+    if (newPassword === currentPassword) {
+      setCurrentPasswordError("Nova lozinka ne smije biti ista kao trenutna lozinka");
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      setMessage("Passwords do not match");
+      setConfirmPasswordError("Lozinke se ne podudaraju");
       return;
     }
 
-    console.log("Current Password:", currentPassword);
-    console.log("New Password:", newPassword);
-    console.log("Confirm Password:", confirmPassword);
-    const t = getAuthToken().token;
-    console.log(t);
+    if (!validatePassword(newPassword)) {
+      setNewPasswordError(
+        "Lozinka mora imati barem 8 znakova, najmanje jedno veliko slovo, najmanje jedan broj i najmanje jedan simbol."
+      );
+      return;
+    }
 
     const changePasswordData = {
       oldPassword: currentPassword,
@@ -53,38 +115,53 @@ const ChangePassword = () => {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
-      setMessage("");
+      setMessage("Lozinka uspješno promijenjena!");
+      setErrorMessage("");
+
     } catch (error) {
       console.error("Error:", error.message);
+      setMessage("Promjena lozinke nije uspjela. Molimo pokušajte ponovno.");
+      return; 
     }
   };
 
   return (
     <div className="center-container">
       <div className="form-container">
-        <h2>Promijeni Lozinku</h2>
-        {message && <p>{message}</p>}
-        <form onSubmit={handleSubmit}>
+        <h2>Promijeni lozinku</h2>
+        {message && <p className={`message ${message.startsWith('Lozinka uspješno') ? 'success' : 'error'}`}>{message}</p>}        <form onSubmit={handleSubmit}>
           <PasswordInput
             id={"currentPassword"}
             label={"Trenutna lozinka: "}
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
+            onBlur={comparePasswords}
           />
+          {currentPasswordError && (
+            <p className="error-message">{currentPasswordError}</p>
+          )}
           <PasswordInput
             id={"newPassword"}
             label={"Nova lozinka: "}
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
+            onBlur={handlePasswordBlur}
           />
+          {newPasswordError && (
+            <p className="error-message">{newPasswordError}</p>
+          )}
           <PasswordInput
             id={"confirmPassword"}
-            label={"Potvrda lozinke: "}
+            label={"Potvrdi lozinku: "}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            onBlur={handleConfirmPasswordChange}
           />
+          {confirmPasswordError && (
+            <p className="error-message">{confirmPasswordError}</p>
+          )}
           <div className="button-container">
-            <button type="submit">Promijeni Lozinku</button>
+            <button type="submit">Promijeni lozinku</button>
           </div>
         </form>
       </div>

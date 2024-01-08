@@ -9,7 +9,6 @@ const ResetPasswordScreen = () => {
   return (
     <div className="root-container">
       <Header viewType="ResetPasswordScreen" />
-      <h1 className="title">Reset Password</h1>
       <ResetPassword />
       <Footer />
     </div>

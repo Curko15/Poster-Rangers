@@ -3,6 +3,7 @@ import ReactWeather, { useWeatherBit } from "react-open-weather";
 import axios from "axios";
 import { getConferenceId } from "../services/AuthService";
 import "../css/main.css";
+import "../css/weather.css";
 
 const App = () => {
   const [coordinates, setCoordinates] = useState(null);

@@ -15,7 +15,7 @@ const HomeScreen = () => {
       <Header viewType="homescreen" />
       <div className="title">
         <h1>Dobrodošli!</h1>
-        <h2>Neki od postera u natjecanju!</h2>
+        <h2>Neki od postera u natjecanju:</h2>
       </div>
       <ImageSlider />
       <div className="viewAll">
