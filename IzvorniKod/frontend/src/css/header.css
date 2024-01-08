@@ -3,8 +3,6 @@
     justify-content: flex-start;
     align-items: center;
     padding: 1rem;
-    background-color: var(--header-bcg);
-    box-shadow:  0 8px 20px rgba(33, 32, 32, 0.47);
     color: white;
     box-sizing: border-box;
 }
@@ -13,10 +11,8 @@
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, auto);
-  /* justify-content: space-between; */
   align-items: center;
   justify-items: center;
-  background-color: var(--header-bcg);
 }
 
 .navList button {

@@ -17,6 +17,7 @@ const AddPoster = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [resetSelectedConferenceIndex, setResetSelectedConferenceIndex] =
     useState(false);
@@ -94,6 +95,8 @@ const AddPoster = () => {
           setPosterName("");
           setFileName("");
           setResetSelectedConferenceIndex(true);
+          setErrorMessage("");
+          setSuccessMessage("Uspješno dodan novi poster!");
           console.log("Poster uploaded");
         } else {
           console.error("Error fetching posters:", posterResponse.statusText);
@@ -128,7 +131,9 @@ const AddPoster = () => {
             <h2 className="subtitle">
               Odaberi konferenciju i dodaj novi poster
             </h2>
-
+            {successMessage && (
+              <h2 className="success-message">{successMessage}</h2>
+            )}
             <div className="author-info">
               <h3>Podaci o autoru</h3>
               <label>

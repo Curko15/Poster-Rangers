@@ -14,6 +14,7 @@ const AddConference = () => {
   const [conferenceStreetNumber, setConferenceStreetNumber] = useState("");
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const formContainerRef = useRef(null);
   const userEmail = getLoggedInUser().userEmail;
@@ -120,6 +121,7 @@ const AddConference = () => {
           setConferenceStreetNumber("");
           setConferencePbr("");
           setErrorMessage("");
+          setSuccessMessage("Uspješno dodana nova konferencija!");
           console.log("Conference submitted successfully");
         } else {
           console.error("Failed to submit conference");
@@ -137,6 +139,9 @@ const AddConference = () => {
       <div ref={formContainerRef} className="form-container">
         <h2>Dodaj konferenciju</h2>
         <form onSubmit={handleSubmit}>
+          {successMessage && (
+            <h2 className="success-message">{successMessage}</h2>
+          )}
           <label>
             Ime:
             <input

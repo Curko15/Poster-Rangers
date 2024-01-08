@@ -13,11 +13,13 @@ const AddPromo = () => {
 
   const [conferences, setConferences] = useState([]);
   const [selectedConference, setSelectedConference] = useState("");
-  const [resetSelectedConferenceIndex, setResetSelectedConferenceIndex] =
-    useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const [resetSelectedConferenceIndex, setResetSelectedConferenceIndex] =
+    useState(false);
 
   const handleSelectConference = (conference) => {
     setSelectedConference(conference);
@@ -84,6 +86,8 @@ const AddPromo = () => {
           setFileName("");
           setSelectedConference("");
           setResetSelectedConferenceIndex(true);
+          setErrorMessage("");
+          setSuccessMessage("Uspješno dodan novi promotivni materijal!");
           console.log("Promo uploaded");
         } else {
           console.error("Error fetching promos:", posterResponse.statusText);
@@ -121,7 +125,9 @@ const AddPromo = () => {
             <h2 className="subtitle">
               Odaberi konferenciju i pridruži joj njen promotivni materijal
             </h2>
-
+            {successMessage && (
+              <h2 className="success-message">{successMessage}</h2>
+            )}
             <div className="company-info">
               <h3>Podaci o promotoru</h3>
               <label>
@@ -175,7 +181,6 @@ const AddPromo = () => {
         </div>
       )}
     </>
-
   );
 };
 

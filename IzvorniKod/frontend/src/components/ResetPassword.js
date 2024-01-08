@@ -8,6 +8,9 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const location = useLocation();
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const token = new URLSearchParams(location.search).get("token");
 
   useEffect(() => {
@@ -40,7 +43,10 @@ const ResetPassword = () => {
         });
       setPassword("");
       setConfirmPassword("");
+      setErrorMessage("");
+      setSuccessMessage("Uspješno resetirana lozinka!");
     } else {
+      setErrorMessage("Lozinke nisu jednake ili nedostaje token!");
       console.log("Passwords don't match or token is missing");
     }
   };
@@ -49,6 +55,9 @@ const ResetPassword = () => {
     <div className="center-container">
       <div className="form-container">
         <form onSubmit={handleSubmit}>
+          {successMessage && (
+            <h2 className="success-message">{successMessage}</h2>
+          )}
           <PasswordInput
             id={"newPassword"}
             label={"Nova lozinka: "}
@@ -63,6 +72,7 @@ const ResetPassword = () => {
           />
           <button type="submit">Resetiraj lozinku</button>
         </form>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
     </div>
   );

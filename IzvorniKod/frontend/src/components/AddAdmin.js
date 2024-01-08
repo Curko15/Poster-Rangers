@@ -11,8 +11,16 @@ function AddAdmin() {
   const [adminName, setAdminName] = useState("");
   const [adminLastName, setAdminLastName] = useState("");
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!adminName || !adminLastName || !adminPassword || !emailAdmin) {
+      setErrorMessage("Molimo unseite sve podatke!");
+      return;
+    }
 
     const admin = {
       ime: adminName,
@@ -35,6 +43,8 @@ function AddAdmin() {
         setAdminLastName("");
         setEmailAdmin("");
         setAdminPassword("");
+        setErrorMessage("");
+        setSuccessMessage("Uspješno dodan novi admin!");
       } else {
         console.error("Failed to submit new admin");
       }
@@ -48,6 +58,9 @@ function AddAdmin() {
       <div className="form-container">
         <h2>Dodaj novog admina</h2>
         <form onSubmit={handleSubmit}>
+          {successMessage && (
+            <h2 className="success-message">{successMessage}</h2>
+          )}
           <label className="label">
             Ime:
             <input
@@ -101,6 +114,7 @@ function AddAdmin() {
             </button>
           </div>
         </form>
+        {errorMessage && <h2 className="error-message">{errorMessage}</h2>}
       </div>
     </div>
   );
