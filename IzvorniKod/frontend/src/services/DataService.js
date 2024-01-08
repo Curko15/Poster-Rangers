@@ -72,32 +72,32 @@ export const PromoData = () => {
       try {
         const conferenceId = getConferenceId();
         const response = await axios.post(
-            "/api/konferencija/getKonfId",
-            {
-              password: conferenceId,
+          "/api/konferencija/getKonfId",
+          {
+            password: conferenceId,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
             },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            },
+          },
         );
-        console.log(response.data)
+        console.log(response.data);
         if (response.status === 200) {
           const conferenceData = response.data;
           const posterResponse = await axios.get(
-              `/api/promomaterijal/getAll/${conferenceData}`,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: "Bearer " + getAuthToken().token,
-                },
-              }
+            `/api/promomaterijal/getAll/${conferenceData}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + getAuthToken().token,
+              },
+            },
           );
 
           if (posterResponse.status === 200) {
             const posterData = posterResponse.data;
-            console.log(posterData)
+            console.log(posterData);
             setPromo(posterData);
           } else {
             console.error("Error fetching posters:", posterResponse.statusText);
@@ -118,3 +118,57 @@ export const PromoData = () => {
   return { promo, isLoading };
 };
 
+export const GalleryData = () => {
+  const [photos, setPhotos] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPhotos = async () => {
+      try {
+        const conferenceId = getConferenceId();
+        const response = await axios.post(
+          "/api/konferencija/getKonfId",
+          {
+            password: conferenceId,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        );
+        console.log(response.data);
+        if (response.status === 200) {
+          const conferenceData = response.data;
+          const photoResponse = await axios.get(
+            `/api/fotomaterijal/getAll/${conferenceData}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + getAuthToken().token,
+              },
+            },
+          );
+
+          if (photoResponse.status === 200) {
+            const photoData = photoResponse.data;
+            console.log(photoData);
+            setPhotos(photoData);
+          } else {
+            console.error("Error fetching photos:", photoResponse.statusText);
+          }
+        } else {
+          console.error("Error fetching conference data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPhotos();
+  }, []);
+
+  return { photos, isLoading };
+};

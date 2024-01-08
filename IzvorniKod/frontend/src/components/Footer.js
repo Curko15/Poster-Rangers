@@ -13,9 +13,7 @@ const Footer = () => {
     <footer className="footerTrack">
       <p className="date">{date}</p>
       <div className="mapAndWeather">
-        <div className="map">
-          <Map />
-        </div>
+        <div className="map"></div>
         <div className="weatherDisplay">
           <WeatherDisplay />
         </div>
