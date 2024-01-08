@@ -25,12 +25,11 @@ const AddPoster = () => {
     setSelectedConference(conference);
   };
 
-  const params = {
-    email: getLoggedInUser().userEmail,
-  };
-
   useEffect(() => {
     const fetchConferences = async () => {
+      const params = {
+        email: getLoggedInUser().userEmail,
+      };
       try {
         const response = await axios.post(
           "/api/konferencija/getKorisnikKonf",
@@ -55,7 +54,7 @@ const AddPoster = () => {
     };
 
     fetchConferences();
-  }, [params]);
+  }, []);
 
   const handleSubmit = async () => {
     if (selectedConference) {

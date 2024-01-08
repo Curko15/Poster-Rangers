@@ -1,15 +1,12 @@
 .headerTrack {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  background-color: var(--header-bcg);
-  box-shadow: 0 8px 20px rgba(33, 32, 32, 0.47);
-  color: white;
-  box-sizing: border-box;
-  position: relative; /* Ensure relative positioning for absolute positioning of Burger when navList is open */
-  width: 100%;
-  flex-direction: row-reverse;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--header-bcg);
+    box-shadow:  0 8px 20px rgba(33, 32, 32, 0.47);
+    color: white;
+    box-sizing: border-box;
 }
 
 .navList {
@@ -154,4 +151,50 @@
     font-size: 1.5rem;
     transition: color 0.3s ease-in-out;
   }
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    width: 60px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 20px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 200px; /* Adjust the width of the dropdown menu */
+    background-color: #333;
+    padding-top: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu.open {
+    z-index: 2;
+    display: block;
+}
+
+.dropdown-menu button {
+    margin-bottom: 15px;
+    width: 80%;
+    padding: 10px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    text-align: left;
+}
+
+/* Add styles for dropdown menu items */
+.dropdown-menu button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }

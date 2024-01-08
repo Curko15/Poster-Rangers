@@ -1,11 +1,11 @@
 import React from "react";
-import { PosterData } from "../services/DataService";
+import { PromoData } from "../services/DataService";
 import { BounceLoader } from "react-spinners";
 
 import "../css/posterDisplay.css";
 
-const PosterDisplay = () => {
-    const { posters, isLoading } = PosterData();
+const PromoDisplay = () => {
+    const { promo, isLoading } = PromoData();
 
     return (
         <div className="posterDisplay">
@@ -13,13 +13,13 @@ const PosterDisplay = () => {
                 <div className="loader">
                     <BounceLoader color="#d63636" />
                 </div>
-            ) : posters.length === 0 ? (
+            ) : promo.length === 0 ? (
                 <div className="noPosters">
                     <h1>Nema postera za prikazati!</h1>
                 </div>
             ) : (
                 <div className="postersContainer">
-                    {posters.map((poster, index) => (
+                    {promo.map((poster, index) => (
                         <div key={index} className="posterItem">
                             <img
                                 className="posterImage"
@@ -41,4 +41,4 @@ const PosterDisplay = () => {
     );
 };
 
-export default PosterDisplay;
+export default PromoDisplay;

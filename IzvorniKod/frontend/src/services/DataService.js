@@ -62,3 +62,59 @@ export const PosterData = () => {
 
   return { posters, isLoading };
 };
+
+export const PromoData = () => {
+  const [promo, setPromo] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPosters = async () => {
+      try {
+        const conferenceId = getConferenceId();
+        const response = await axios.post(
+            "/api/konferencija/getKonfId",
+            {
+              password: conferenceId,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            },
+        );
+        console.log(response.data)
+        if (response.status === 200) {
+          const conferenceData = response.data;
+          const posterResponse = await axios.get(
+              `/api/promomaterijal/getAll/${conferenceData}`,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + getAuthToken().token,
+                },
+              }
+          );
+
+          if (posterResponse.status === 200) {
+            const posterData = posterResponse.data;
+            console.log(posterData)
+            setPromo(posterData);
+          } else {
+            console.error("Error fetching posters:", posterResponse.statusText);
+          }
+        } else {
+          console.error("Error fetching conference data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPosters();
+  }, []);
+
+  return { promo, isLoading };
+};
+
