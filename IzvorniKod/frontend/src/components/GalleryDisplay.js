@@ -40,17 +40,17 @@ const GalleryDisplay = () => {
                 <div className="pics" key={index}>
                   <img
                     className="photos"
-                    src={`data:image/${item.imageType};base64,${item.imagebyte}`}
+                    src={`data:image/${item.fotoType};base64,${item.fotobyte}`}
                     alt={`poster-${item.nazivFoto}`}
                     onClick={() =>
                       getImg(
-                        `data:image/${item.imageType};base64,${item.imagebyte}`,
+                        `data:image/${item.fotoType};base64,${item.fotobyte}`,
                       )
                     }
                   />
                   <span className="download">
                     <a
-                      href={`data:image/${item.imageType};base64,${item.imagebyte}`}
+                      href={`data:image/${item.fotoType};base64,${item.fotobyte}`}
                       download={`image_${index}`}
                       className="down"
                     >
