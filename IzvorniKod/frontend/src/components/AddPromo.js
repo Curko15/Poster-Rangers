@@ -25,11 +25,12 @@ const AddPromo = () => {
     setSelectedConference(conference);
   };
 
-  const params = {
-    email: getLoggedInUser().userEmail,
-  };
+
 
   useEffect(() => {
+    const params = {
+      email: getLoggedInUser().userEmail,
+    };
     const fetchConferences = async () => {
       try {
         const response = await axios.post(
@@ -55,7 +56,7 @@ const AddPromo = () => {
     };
 
     fetchConferences();
-  }, [params]);
+  }, []);
 
   const handleSubmit = async () => {
     if (selectedConference) {
