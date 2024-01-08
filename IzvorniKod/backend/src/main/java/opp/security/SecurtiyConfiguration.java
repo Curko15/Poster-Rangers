@@ -33,6 +33,8 @@ public class SecurtiyConfiguration {
             "/konferencija/getLocation/{id}",
             "/poster/getAll/**",
             "/poster/**",
+            "/fotomaterijal/getAll/**",
+            "/promomaterijal/getAll/**",
             "glasanje/**",
             "glasanje/*",
             "glasanje/addGlas",
