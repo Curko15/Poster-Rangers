@@ -58,6 +58,7 @@ public class KonferencijaController {
         konferencija.setPassword(mjestodto.getPassword());
         konferencija.setEndTime(mjestodto.getEndTime());
         konferencija.setStartTime(mjestodto.getStartTime());
+        konferencija.setLive(mjestodto.getLive());
 
         mjestoService.save(gradic);
 

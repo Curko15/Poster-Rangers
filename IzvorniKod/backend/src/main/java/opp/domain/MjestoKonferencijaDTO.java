@@ -11,6 +11,8 @@ public class MjestoKonferencijaDTO {
 
     private String password;
 
+    private String live;
+
     private String ime;
 
     private LocalDateTime startTime;

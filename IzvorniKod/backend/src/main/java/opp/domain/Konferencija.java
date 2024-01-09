@@ -22,6 +22,8 @@ public class Konferencija{
     @NotNull
     private String password;
     @NotNull
+    private String live;
+    @NotNull
     private String ime;
     @NotNull
     private LocalDateTime startTime;
@@ -47,7 +49,4 @@ public class Konferencija{
 
     @ManyToOne
     private Korisnik korisnik;
-
-
-
 }

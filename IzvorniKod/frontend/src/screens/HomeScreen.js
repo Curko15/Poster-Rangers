@@ -6,15 +6,17 @@ import ImageSlider from "../components/ImageSlider";
 import LiveVideo from "../components/LiveVideo";
 
 import "../css/main.css";
+import { getConferenceData } from "../services/AuthService";
 
 const HomeScreen = () => {
   const navigate = useNavigate();
+  const conference = JSON.parse(getConferenceData());
 
   return (
     <div>
       <Header viewType="homescreen" />
       <div className="title">
-        <h1>Dobrodošli!</h1>
+        <h1>{conference.ime}</h1>
         <h2>Neki od postera u natjecanju:</h2>
       </div>
       <ImageSlider />

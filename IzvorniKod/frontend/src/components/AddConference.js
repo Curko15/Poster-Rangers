@@ -9,6 +9,7 @@ const AddConference = () => {
   const [conferenceDateEnd, setConferenceDateEnd] = useState("");
   const [conferenceLocation, setConferenceLocation] = useState("");
   const [conferencePassword, setConferencePassword] = useState("");
+  const [conferenceLive, setConferenceLive] = useState("");
   const [conferencePbr, setConferencePbr] = useState("");
   const [conferenceStreet, setConferenceStreet] = useState("");
   const [conferenceStreetNumber, setConferenceStreetNumber] = useState("");
@@ -79,6 +80,7 @@ const AddConference = () => {
         !conferenceDateStart ||
         !conferenceDateEnd ||
         !conferencePassword ||
+        !conferenceLive ||
         !conferenceLocation ||
         !conferencePbr ||
         !conferenceStreet ||
@@ -94,6 +96,7 @@ const AddConference = () => {
         endTime: conferenceDateEnd,
         nazivMjesta: conferenceLocation,
         password: conferencePassword,
+        live: conferenceLive,
         pbr: conferencePbr,
         ulica: conferenceStreet,
         kucBroj: conferenceStreetNumber,
@@ -117,6 +120,7 @@ const AddConference = () => {
           setConferenceDateStart("");
           setConferenceDateEnd("");
           setConferencePassword("");
+          setConferenceLive("");
           setConferenceLocation("");
           setConferenceStreet("");
           setConferenceStreetNumber("");
@@ -185,6 +189,18 @@ const AddConference = () => {
             value={conferencePassword}
             onChange={(e) => setConferencePassword(e.target.value)}
           />
+
+          <label>
+            Link za Live prijenos:
+            <input
+              type="text"
+              name="liveLink"
+              value={conferenceLive}
+              className="input-field"
+              required
+              onChange={(e) => setConferenceLive(e.target.value)}
+            />
+          </label>
 
           <label>
             Mjesto:
