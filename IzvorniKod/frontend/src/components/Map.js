@@ -1,18 +1,14 @@
-import "@tomtom-international/web-sdk-maps/dist/maps.css";
+import "@tomtom-international/web-sdk-maps/dist/maps.css"; // Import the CSS styles for the maps
 import { useState, useEffect, useRef } from "react";
-import tt from "@tomtom-international/web-sdk-maps";
+import tt from "@tomtom-international/web-sdk-maps"; // Import the TomTom Maps SDK
+import "../css/map.css";
 import { getConferenceId } from "../services/AuthService";
 import axios from "axios";
-
-import "../css/map.css";
-
 const Map = () => {
   const mapElement = useRef();
   const [map, setMap] = useState(null);
-
   const [streetName, setStreetName] = useState("");
   const [mapCoordinates, setMapCoordinates] = useState({ lat: 0, lon: 0 });
-
   useEffect(() => {
     const initializeMap = async () => {
       try {
@@ -23,7 +19,6 @@ const Map = () => {
           center: [mapCoordinates.lon, mapCoordinates.lat],
           zoom: 15,
         });
-
         if (mapInstance) {
           console.log("Map instance created:", mapInstance);
           setMap(mapInstance);
@@ -34,20 +29,17 @@ const Map = () => {
         console.error("Map initialization error:", error);
       }
     };
-
     if (mapElement.current) {
       initializeMap();
     } else {
       console.warn("Map element not found");
     }
-
     return () => {
       if (map) {
         map.remove();
       }
     };
-  }, [map, mapCoordinates]);
-
+  }, [mapCoordinates]);
   useEffect(() => {
     const fetchMapData = async () => {
       try {
@@ -58,7 +50,6 @@ const Map = () => {
             password: conferenceId,
           },
         );
-
         if (conferenceResponse.status === 200) {
           const conferenceData = conferenceResponse.data;
           const locationResponse = await axios.get(
@@ -67,6 +58,7 @@ const Map = () => {
 
           if (locationResponse.status === 200) {
             const posterData = locationResponse.data;
+
             setStreetName(
               `${posterData.ulica} ${posterData.kucBroj} ${posterData.pbr}`,
             );
@@ -104,24 +96,19 @@ const Map = () => {
         console.error("Error:", error);
       }
     };
-
     fetchMapData();
   }, [streetName]);
-
   useEffect(() => {
     addMarkerToLocation(map, mapCoordinates.lat, mapCoordinates.lon);
   }, [map, mapCoordinates]);
-
   function addMarkerToLocation(map, latitude, longitude) {
     if (!map || isNaN(latitude) || isNaN(longitude)) {
       return;
     }
-
     const newMarker = new tt.Marker()
       .setLngLat([longitude, latitude])
       .addTo(map);
   }
-
   return (
     <>
       <div className="mapContainer">
@@ -130,5 +117,4 @@ const Map = () => {
     </>
   );
 };
-
 export default Map;
