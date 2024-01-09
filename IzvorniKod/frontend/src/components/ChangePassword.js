@@ -106,7 +106,7 @@ const ChangePassword = () => {
       setMessage("Lozinka uspješno promijenjena!");
     } catch (error) {
       console.error("Error:", error.message);
-      setMessage("Promjena lozinke nije uspjela. Molimo pokušajte ponovno.");
+      setMessage("Promjena lozinke nije uspjela. Molimo provjerite trenutnu lozinku i pokušajte ponovno.");
     }
   };
 
