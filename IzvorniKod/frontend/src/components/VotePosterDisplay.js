@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { PosterData } from "../services/DataService";
 import axios from "axios";
 import {
+  getAuthToken,
   getConferenceData,
-  getConferenceId,
   getLoggedInUser,
 } from "../services/AuthService";
 import { BounceLoader } from "react-spinners";
@@ -11,29 +11,29 @@ import { BounceLoader } from "react-spinners";
 import "../css/posterDisplay.css";
 
 const VotePosterDisplay = () => {
-  const [selectedPoster, setSelectedPoster] = useState("");
-
   const [isBtnDisabled, setIsBtnDisabled] = useState(false);
 
   const { posters, isLoading } = PosterData();
   const email = getLoggedInUser().userEmail;
-  const end = getConferenceData().endTime;
+  const conference = JSON.parse(getConferenceData());
+  const end = conference.endTime;
 
   useEffect(() => {
     const today = new Date();
     if (end && today < end) setIsBtnDisabled(true);
   }, [end]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (posterId) => {
     const formData = new FormData();
-    formData.append("posterId", selectedPoster);
-    formData.append("konfId", getConferenceId());
+    formData.append("posterId", posterId);
+    formData.append("konfId", conference.konfid);
     formData.append("email", email);
 
     try {
       const response = await axios.post(`/api/glasanje/addGlas`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + getAuthToken().token,
         },
       });
 
@@ -58,11 +58,11 @@ const VotePosterDisplay = () => {
         <h2>Konferencija nema postere za koje možete glasati!</h2>
       ) : (
         <div className="posterDisplay">
-          {posters.map((image, index) => (
+          {posters.map((poster, index) => (
             <div className="posterVote">
               <img
                 className="poster"
-                src={`data:image/${image.imageType};base64,${image.imagebyte}`}
+                src={`data:image/${poster.imageType};base64,${poster.imagebyte}`}
                 alt={`poster-${index}`}
               />
               <div className="vote">
@@ -70,7 +70,7 @@ const VotePosterDisplay = () => {
                   type="submit"
                   className="submit-button"
                   disabled={isBtnDisabled}
-                  onClick={handleSubmit}
+                  onClick={() => handleSubmit(poster.posterId)}
                 >
                   Glasaj
                 </button>

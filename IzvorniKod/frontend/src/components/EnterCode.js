@@ -23,10 +23,10 @@ const EnterCode = () => {
       });
 
       setConferenceId(userCode);
-      setConferenceData(response.data);
 
       if (response.status === 200) {
         console.log("Login successful");
+        setConferenceData(JSON.stringify(response.data));
         navigate("/home");
       } else {
         console.error("Login failed");

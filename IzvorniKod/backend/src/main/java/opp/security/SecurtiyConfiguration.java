@@ -35,9 +35,6 @@ public class SecurtiyConfiguration {
             "/poster/**",
             "/fotomaterijal/getAll/**",
             "/promomaterijal/getAll/**",
-            "glasanje/**",
-            "glasanje/*",
-            "glasanje/addGlas",
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;

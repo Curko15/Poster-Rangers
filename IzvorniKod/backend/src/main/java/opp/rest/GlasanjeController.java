@@ -46,8 +46,6 @@ public class GlasanjeController {
 
         glasanjeId glasid = new glasanjeId(glasDTO.getKonfId(), glasDTO.getEmail());
 
-        //Glasanje glasanje2 = glasanjeService.findByEmail(glasDTO.getEmail());
-
         Glasanje glas = new Glasanje();
         glas.setId(glasid);
 
@@ -57,7 +55,6 @@ public class GlasanjeController {
             return new ResponseEntity<>("Poster nije pronađen", HttpStatus.BAD_REQUEST);
         }
         glas.setPosterId(glasDTO.getPosterId());
-
 
         try {
             Korisnik korisnik = korisnikService.findByEmail(glasDTO.getEmail());
@@ -76,21 +73,15 @@ public class GlasanjeController {
         }
         glas.setKonferencija(konferencija);
 
-
         glasanjeService.save(glas);
 
         Map<Long, Integer> glasovi = glasanjeService.MapPoredak(glasDTO.getKonfId());
         System.out.println(glasovi);
         return new ResponseEntity<>("Glas dodan", HttpStatus.CREATED);
-
     }
 
     @DeleteMapping("/removeGlas")
     public ResponseEntity<String> removeGlas(@RequestParam String email, @RequestParam Long konferencijaId){
-
-
-
-
         try {
             Korisnik korisnik = korisnikService.findByEmail(email);
             if (korisnik == null) {
@@ -108,10 +99,6 @@ public class GlasanjeController {
             e.printStackTrace();
             return new ResponseEntity<>("Došlo je do greške prilikom pretrage korisnika. Vjerojatno korisnik ne postoji.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-
-
         return new ResponseEntity<>("Glas obrisan", HttpStatus.OK);
-
     }
 }

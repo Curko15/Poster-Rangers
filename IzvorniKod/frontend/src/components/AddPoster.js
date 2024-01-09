@@ -3,9 +3,9 @@ import axios from "axios";
 import { getAuthToken } from "../services/AuthService";
 import { BounceLoader } from "react-spinners";
 import ConferenceList from "./ConferenceList";
+import { KonfKorisnikData } from "../services/DataService";
 
 import "../css/addPoster.css";
-import { KonfKorisnikData } from "../services/DataService";
 
 const AddPoster = () => {
   const [conferences, setConferences] = useState([]);
