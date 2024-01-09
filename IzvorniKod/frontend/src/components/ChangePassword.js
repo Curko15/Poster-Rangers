@@ -30,21 +30,22 @@ const ChangePassword = () => {
 
   const handlePasswordBlur = () => {
     const isPasswordValid = validatePassword(newPassword);
-
+  
     if (!isPasswordValid) {
       setNewPasswordError(
         "Lozinka mora imati barem 8 znakova, najmanje jedno veliko slovo, najmanje jedan broj i najmanje jedan simbol.",
       );
     } else {
+      setNewPasswordError("");
+  
       if (newPassword === currentPassword) {
         setNewPasswordError(
           "Nova lozinka ne smije biti ista kao trenutna lozinka!",
         );
-        return;
       }
-      setNewPasswordError("");
     }
   };
+  
 
   const handleConfirmPasswordBlur = () => {
     if (confirmPassword !== newPassword) {
@@ -67,8 +68,22 @@ const ChangePassword = () => {
       return;
     }
 
+    if (newPassword === currentPassword) {
+      setNewPasswordError("Nova lozinka ne smije biti ista kao trenutna lozinka!");
+      return;
+    }
+
     if (newPassword !== confirmPassword) {
       setConfirmPasswordError("Lozinke se ne podudaraju.");
+      return;
+    }
+
+    const isPasswordValid = validatePassword(newPassword);
+
+    if (!isPasswordValid) {
+      setNewPasswordError(
+        "Lozinka mora imati barem 8 znakova, najmanje jedno veliko slovo, najmanje jedan broj i najmanje jedan simbol.",
+      );
       return;
     }
 
@@ -91,7 +106,7 @@ const ChangePassword = () => {
       setMessage("Lozinka uspješno promijenjena!");
     } catch (error) {
       console.error("Error:", error.message);
-      setMessage("Promjena lozinke nije uspjela. Molimo pokušajte ponovno.");
+      setMessage("Promjena lozinke nije uspjela. Molimo provjerite trenutnu lozinku i pokušajte ponovno.");
     }
   };
 

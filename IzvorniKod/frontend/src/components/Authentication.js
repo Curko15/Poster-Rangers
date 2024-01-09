@@ -77,6 +77,14 @@ const Authentication = ({ viewType }) => {
         setConfirmPasswordError("Lozinke se ne podudaraju");
         return;
       }
+
+      const isPasswordValid = validatePassword(password, true);
+      if (!isPasswordValid) {
+        setPasswordError(
+          "Lozinka mora imati barem 8 znakova, najmanje jedno veliko slovo, najmanje jedan broj i najmanje jedan simbol."
+        );
+        return;
+      }
     }
 
     let passedCaptcha = false;
