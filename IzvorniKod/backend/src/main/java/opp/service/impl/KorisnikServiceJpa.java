@@ -73,7 +73,7 @@ public class KorisnikServiceJpa implements KorisnikService {
 
     @Override
     public Korisnik findByEmail(String email) {
-        return korisnikRepo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Korisnik not found"));
+        return korisnikRepo.findByEmail(email).orElseThrow(() -> null);
     }
 
     @Override

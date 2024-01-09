@@ -162,9 +162,7 @@ const Authentication = ({ viewType }) => {
         setErrorMessage("Pogrešan email ili lozinka");
       } else {
         console.error("Error during authentication:", error);
-        setErrorMessage(
-          "Došlo je do pogreške pri prijavi. Molimo pokušajte ponovno.",
-        );
+        setErrorMessage("Korisnik s unesenim emailom već postoji.");
       }
     }
   };

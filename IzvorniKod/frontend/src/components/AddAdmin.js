@@ -50,6 +50,7 @@ function AddAdmin() {
       }
     } catch (error) {
       console.error("Error submitting admin:", error.message);
+      setErrorMessage("Korisnik s unesenim mailom već postoji!");
     }
   };
 
