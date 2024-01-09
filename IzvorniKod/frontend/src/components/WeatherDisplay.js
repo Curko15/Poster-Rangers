@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactWeather, { useWeatherBit } from "react-open-weather";
 import axios from "axios";
 import { getConferenceId } from "../services/AuthService";
+
 import "../css/main.css";
 import "../css/weather.css";
 
@@ -10,15 +11,15 @@ const App = () => {
   const [locationName, setLocationName] = useState("Split"); // Default location
 
   async function fetchCoordinates(locationName, apiKey) {
-    apiKey = "41dfdc986e957806fd8639e81870f7dd"; // Replace with your actual API key
+    apiKey = "41dfdc986e957806fd8639e81870f7dd";
     try {
       const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${locationName}&limit=5&appid=${apiKey}`;
       const response = await fetch(apiUrl);
-      // Process the data received from the API
+
       return await response.json();
     } catch (error) {
       console.error("Error fetching coordinates:", error);
-      throw error; // Propagate the error to handle it further if needed
+      throw error;
     }
   }
 
@@ -60,7 +61,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    const conferenceId = getConferenceId(); // Replace with your logic to get conference ID
+    const conferenceId = getConferenceId();
     fetchLocationName(conferenceId);
   }, []);
 
@@ -68,7 +69,7 @@ const App = () => {
     const fetchData = async () => {
       try {
         const coords = await fetchCoordinates(locationName);
-        setCoordinates(coords[0]); // Assuming you want the first result as coordinates
+        setCoordinates(coords[0]);
       } catch (error) {
         console.error("Error fetching coordinates:", error);
       }
@@ -82,7 +83,7 @@ const App = () => {
     lat: coordinates?.lat || "48.137154",
     lon: coordinates?.lon || "11.576124",
     lang: "en",
-    unit: "M", // values are (M,S,I)
+    unit: "M",
   });
 
   return (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { setConferenceId } from "../services/AuthService";
+import { setConferenceData, setConferenceId } from "../services/AuthService";
 import "../screens/HomeScreen";
 
 import "../css/enterCode.css";
@@ -23,6 +23,7 @@ const EnterCode = () => {
       });
 
       setConferenceId(userCode);
+      setConferenceData(response.data);
 
       if (response.status === 200) {
         console.log("Login successful");

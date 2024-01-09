@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { getAuthToken, getLoggedInUser } from "../services/AuthService";
+import { getAuthToken } from "../services/AuthService";
 import { BounceLoader } from "react-spinners";
 import ConferenceList from "./ConferenceList";
 
 import "../css/addPoster.css";
+import { KonfKorisnikData } from "../services/DataService";
 
 const AddPoster = () => {
   const [conferences, setConferences] = useState([]);
@@ -26,38 +27,10 @@ const AddPoster = () => {
     setSelectedConference(conference);
   };
 
-  useEffect(() => {
-    const fetchConferences = async () => {
-      const params = {
-        email: getLoggedInUser().userEmail,
-      };
-      try {
-        const response = await axios.post(
-          "/api/konferencija/getKorisnikKonf",
-          params,
-          {
-            headers: {
-              Authorization: "Bearer " + getAuthToken().token,
-            },
-          },
-        );
-
-        if (response.status === 200) {
-          setConferences(response.data);
-        } else {
-          console.error("Error fetching conferences:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error:", error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchConferences();
-  }, []);
+  KonfKorisnikData(setConferences, setIsLoading);
 
   const handleSubmit = async () => {
+    setSuccessMessage("");
     if (selectedConference) {
       if (
         !authorName ||
@@ -105,7 +78,7 @@ const AddPoster = () => {
         console.error("Error:", error.message);
       }
     } else {
-      alert("Odaberite konferenciju");
+      setErrorMessage("Odaberite konferenciju");
     }
   };
 

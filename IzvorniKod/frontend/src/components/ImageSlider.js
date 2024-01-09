@@ -35,7 +35,7 @@ const ImageSlider = () => {
           modules={[EffectCoverflow, Pagination]}
           className="mySwiper"
         >
-          {posters.map((poster, index) => (
+          {posters.slice(0, 5).map((poster, index) => (
             <SwiperSlide key={poster.posterId}>
               <img
                 src={`data:image/${poster.imageType};base64,${poster.imagebyte}`}

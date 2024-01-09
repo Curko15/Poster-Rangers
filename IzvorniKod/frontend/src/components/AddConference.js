@@ -47,6 +47,7 @@ const AddConference = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setSuccessMessage("");
     try {
       const isUnique = await codeCheckUp(conferencePassword);
 

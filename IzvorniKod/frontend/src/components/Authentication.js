@@ -92,7 +92,7 @@ const Authentication = ({ viewType }) => {
       } else if (response.status === 400) {
         passedCaptcha = false;
         recaptcha.current.reset();
-        alert("ReCAPTCHA nije uspješno potvrđena");
+        setErrorMessage("ReCAPTCHA nije uspješno potvrđena");
         return;
       }
     } catch (error) {
@@ -217,7 +217,7 @@ const Authentication = ({ viewType }) => {
       setNewEmail("");
     } catch (error) {
       console.error("Error:", error);
-      alert("Pogrešan email");
+      setErrorMessage("Pogrešan email");
     }
   };
 

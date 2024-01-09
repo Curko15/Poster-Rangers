@@ -15,7 +15,7 @@ const PromoDisplay = () => {
         </div>
       ) : promo.length === 0 ? (
         <div className="noPosters">
-          <h1>Trenutno nema promotivnog materijala za prikaz!</h1>
+          <h2>Trenutno nema promotivnog materijala za prikaz!</h2>
         </div>
       ) : (
         <div className="postersContainer">

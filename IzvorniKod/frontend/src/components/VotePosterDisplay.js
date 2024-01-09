@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PosterData } from "../services/DataService";
 import axios from "axios";
 import {
-  getAuthToken,
+  getConferenceData,
   getConferenceId,
   getLoggedInUser,
 } from "../services/AuthService";
@@ -12,65 +12,36 @@ import "../css/posterDisplay.css";
 
 const VotePosterDisplay = () => {
   const [selectedPoster, setSelectedPoster] = useState("");
-  const [conference, setConference] = useState("");
 
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const posters = PosterData();
+  const [isBtnDisabled, setIsBtnDisabled] = useState(false);
 
+  const { posters, isLoading } = PosterData();
   const email = getLoggedInUser().userEmail;
+  const end = getConferenceData().endTime;
 
-  useEffect(async () => {
-    try {
-      const conferenceId = getConferenceId();
-      const response = await axios.post(
-        "/api/konferencija/loginKonf",
-        {
-          password: conferenceId,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-
-      if (response.status === 200) {
-        const conferenceData = response.data;
-        setConference(conferenceData.konfId);
-
-        const endTime = conferenceData.endTime;
-        const currentTime = new Date();
-        if (endTime < currentTime) setIsDisabled(true);
-      } else {
-        console.error("Error fetching conference data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  useEffect(() => {
+    const today = new Date();
+    if (end && today < end) setIsBtnDisabled(true);
+  }, [end]);
 
   const handleSubmit = async () => {
     const formData = new FormData();
     formData.append("posterId", selectedPoster);
-    formData.append("konfId", conference);
+    formData.append("konfId", getConferenceId());
     formData.append("email", email);
 
     try {
       const response = await axios.post(`/api/glasanje/addGlas`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: "Bearer " + getAuthToken().token,
         },
       });
 
       if (response.status === 200) {
         console.log("Vote given");
-        setIsDisabled(true);
+        setIsBtnDisabled(true);
       } else {
-        console.error("Error fetching posters:", response.statusText);
+        console.error("Error voting:", response.statusText);
       }
     } catch (error) {
       console.error("Error:", error.message);
@@ -89,12 +60,16 @@ const VotePosterDisplay = () => {
         <div className="posterDisplay">
           {posters.map((image, index) => (
             <div className="posterVote">
-              <img className="poster" src={image} alt={`poster-${index}`} />
+              <img
+                className="poster"
+                src={`data:image/${image.imageType};base64,${image.imagebyte}`}
+                alt={`poster-${index}`}
+              />
               <div className="vote">
                 <button
                   type="submit"
                   className="submit-button"
-                  disabled={isDisabled}
+                  disabled={isBtnDisabled}
                   onClick={handleSubmit}
                 >
                   Glasaj

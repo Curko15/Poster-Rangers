@@ -1,18 +1,38 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { getAuthToken, getConferenceId } from "./AuthService";
+import { getAuthToken, getConferenceId, getLoggedInUser } from "./AuthService";
 
-export const postRequest = async (route, params) => {
-  try {
-    return await axios.post(`/api/${route}`, params, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + getAuthToken().token,
-      },
-    });
-  } catch (error) {
-    console.error("Error:", error);
-  }
+export const KonfKorisnikData = (setConferences, setIsLoading) => {
+  useEffect(() => {
+    const fetchConferences = async () => {
+      const params = {
+        email: getLoggedInUser().userEmail,
+      };
+      try {
+        const response = await axios.post(
+          "/api/konferencija/getKorisnikKonf",
+          params,
+          {
+            headers: {
+              Authorization: "Bearer " + getAuthToken().token,
+            },
+          },
+        );
+
+        if (response.status === 200) {
+          setConferences(response.data);
+        } else {
+          console.error("Error fetching conferences:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchConferences();
+  }, [setConferences, setIsLoading]);
 };
 
 export const PosterData = () => {
@@ -68,7 +88,7 @@ export const PromoData = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPosters = async () => {
+    const fetchPromos = async () => {
       try {
         const conferenceId = getConferenceId();
         const response = await axios.post(
@@ -112,7 +132,7 @@ export const PromoData = () => {
       }
     };
 
-    fetchPosters();
+    fetchPromos();
   }, []);
 
   return { promo, isLoading };

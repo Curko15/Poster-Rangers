@@ -25,8 +25,6 @@ const AddPromo = () => {
     setSelectedConference(conference);
   };
 
-
-
   useEffect(() => {
     const params = {
       email: getLoggedInUser().userEmail,
@@ -59,6 +57,7 @@ const AddPromo = () => {
   }, []);
 
   const handleSubmit = async () => {
+    setSuccessMessage("");
     if (selectedConference) {
       if (!promoName || !fileName) {
         setErrorMessage("Sva polja su obavezna!");
@@ -97,7 +96,7 @@ const AddPromo = () => {
         console.error("Error:", error.message);
       }
     } else {
-      alert("Odaberite konferenciju");
+      setErrorMessage("Odaberite konferenciju");
     }
   };
 

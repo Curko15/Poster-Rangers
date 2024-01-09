@@ -26,7 +26,7 @@ const GalleryDisplay = () => {
         </div>
       ) : photos.length === 0 ? (
         <div className="noPosters">
-          <h1>Nema fotografija za prikazati!</h1>
+          <h2>Nema fotografija za prikazati!</h2>
         </div>
       ) : (
         <>

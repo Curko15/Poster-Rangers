@@ -56,6 +56,7 @@ const AddGalleryPhotos = () => {
   }, []);
 
   const handleSubmit = async () => {
+    setSuccessMessage("");
     if (selectedConference) {
       if (!photoName || !fileName) {
         setErrorMessage("Sva polja su obavezna!");
@@ -82,16 +83,16 @@ const AddGalleryPhotos = () => {
           setFileName("");
           setResetSelectedConferenceIndex(true);
           setErrorMessage("");
-          setSuccessMessage("Uspješno dodan novi poster!");
-          console.log("Poster uploaded");
+          setSuccessMessage("Uspješno dodana nova fotografija!");
+          console.log("Photo uploaded");
         } else {
-          console.error("Error fetching posters:", posterResponse.statusText);
+          console.error("Error fetching photos:", posterResponse.statusText);
         }
       } catch (error) {
         console.error("Error:", error.message);
       }
     } else {
-      alert("Odaberite konferenciju");
+      setErrorMessage("Odaberite konferenciju");
     }
   };
 
@@ -124,7 +125,7 @@ const AddGalleryPhotos = () => {
             )}
 
             <div className="photo-info">
-              <h3>Podaci o posteru</h3>
+              <h3>Podaci o fotografiji</h3>
               <label>
                 Naziv:
                 <input
