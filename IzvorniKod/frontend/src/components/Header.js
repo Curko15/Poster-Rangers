@@ -231,6 +231,14 @@ const Header = ({ viewType }) => {
             Dodaj promo
           </button>
         )}
+        {userRoleName === "ROLE_ADMIN" && (
+          <button
+            id="addGalleryPhotoButton"
+            onClick={() => handleNavigation("/dodajFoto")}
+          >
+            Dodaj foto
+          </button>
+        )}
 
         {userRoleName === "ROLE_ADMIN" && (
           <button
