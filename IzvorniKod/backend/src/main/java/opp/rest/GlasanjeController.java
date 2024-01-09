@@ -77,7 +77,7 @@ public class GlasanjeController {
 
         Map<Long, Integer> glasovi = glasanjeService.MapPoredak(glasDTO.getKonfId());
         System.out.println(glasovi);
-        return new ResponseEntity<>("Glas dodan", HttpStatus.CREATED);
+        return new ResponseEntity<>("Glas dodan", HttpStatus.OK);
     }
 
     @DeleteMapping("/removeGlas")

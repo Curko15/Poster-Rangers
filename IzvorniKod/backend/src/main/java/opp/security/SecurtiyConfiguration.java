@@ -52,6 +52,7 @@ public class SecurtiyConfiguration {
                     corsConfig.addAllowedHeader("Content-Type");
                     corsConfig.addAllowedMethod(HttpMethod.GET);
                     corsConfig.addAllowedMethod(HttpMethod.POST);
+                    corsConfig.addAllowedMethod(HttpMethod.DELETE);
 
                     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
                     source.registerCorsConfiguration("/**", corsConfig);

@@ -24,15 +24,16 @@ const VotePosterDisplay = () => {
   }, [end]);
 
   const handleSubmit = async (posterId) => {
-    const formData = new FormData();
-    formData.append("posterId", posterId);
-    formData.append("konfId", conference.konfid);
-    formData.append("email", email);
+    const formData = {
+      posterId: posterId,
+      konfId: conference.konfid,
+      email: email,
+    };
 
     try {
       const response = await axios.post(`/api/glasanje/addGlas`, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: "Bearer " + getAuthToken().token,
         },
       });
