@@ -23,7 +23,7 @@ const PromoDisplay = () => {
             <div key={index} className="posterItem">
               <img
                 className="posterImage"
-                src={`data:image/${poster.imageType};base64,${poster.imagebyte}`}
+                src={`data:image/${poster.promoType};base64,${poster.promobyte}`}
                 alt={`poster-${index}`}
               />
               <div className="details">
