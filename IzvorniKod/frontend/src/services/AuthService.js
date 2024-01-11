@@ -2,6 +2,12 @@ export const storeToken = (token) => localStorage.setItem("token", token);
 
 export const getToken = () => localStorage.getItem("token");
 
+export const setVote = (posterId) => localStorage.setItem("vote", posterId);
+
+export const getVote = () => localStorage.getItem("vote");
+
+export const removeVote = () => localStorage.removeItem("vote");
+
 export const saveLoggedInUser = (email, password) => {
   sessionStorage.setItem("email", email);
   sessionStorage.setItem("password", password);
@@ -14,7 +20,7 @@ export const isUserLoggedIn = () => {
 export const setConferenceId = (id) => sessionStorage.setItem("id", id);
 
 export const setConferenceData = (conf) =>
-  sessionStorage.setItem("conference", conf);
+  sessionStorage.setItem("conference", JSON.stringify(conf));
 
 export const isLoggedInConference = () => {
   return sessionStorage.getItem("id") !== null;
@@ -29,7 +35,7 @@ export const getConferenceId = () => {
 };
 
 export const getConferenceData = () => {
-  return sessionStorage.getItem("conference");
+  return JSON.parse(sessionStorage.getItem("conference"));
 };
 
 export const userLogOut = () => {

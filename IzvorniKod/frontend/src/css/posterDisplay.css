@@ -63,3 +63,19 @@
     object-fit: cover;
     border-radius: 5px 5px 0px 0px;
 }
+
+.submit-button-disabled {
+    background-color: #333333;
+    color: #555555;
+    cursor: unset;
+    border: var(--btn-border) 1px solid;
+    box-shadow: 0 4px 4px var(--btn-shadow);
+}
+
+.submit-button-disabled:hover {
+    background-color: #333333;
+    color: #555555;
+    cursor: unset;
+    border: var(--btn-border) 1px solid;
+    box-shadow: 0 4px 4px var(--btn-shadow);
+}

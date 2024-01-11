@@ -23,11 +23,11 @@ const AddPoster = () => {
   const [resetSelectedConferenceIndex, setResetSelectedConferenceIndex] =
     useState(false);
 
+  KonfKorisnikData(setConferences, setIsLoading);
+
   const handleSelectConference = (conference) => {
     setSelectedConference(conference);
   };
-
-  KonfKorisnikData(setConferences, setIsLoading);
 
   const handleSubmit = async () => {
     setSuccessMessage("");

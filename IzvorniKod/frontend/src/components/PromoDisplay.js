@@ -19,19 +19,17 @@ const PromoDisplay = () => {
         </div>
       ) : (
         <div className="postersContainer">
-          {promo.map((poster, index) => (
+          {promo.map((promo, index) => (
             <div key={index} className="posterItem">
-              <img
-                className="posterImage"
-                src={`data:image/${poster.promoType};base64,${poster.promobyte}`}
-                alt={`poster-${index}`}
-              />
+              <a href={promo.url}>
+                <img
+                  className="posterImage"
+                  src={`data:image/${promo.promoType};base64,${promo.promobyte}`}
+                  alt={`promo-${index}`}
+                />
+              </a>
               <div className="details">
-                <h3 className="title">Naziv: {poster.nazivPoster}</h3>
-                <h3 className="author">
-                  Autor: {`${poster.imeAutor} ${poster.prezimeAutor}`}
-                </h3>
-                <h3 className="email">Email autora: {poster.emailAutor}</h3>
+                <h3 className="title">Tvrtka: {promo.nazivPromo}</h3>
               </div>
             </div>
           ))}

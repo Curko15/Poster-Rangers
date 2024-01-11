@@ -3,7 +3,7 @@ import YouTube from "react-youtube";
 import { getConferenceData } from "../services/AuthService";
 
 const LiveVideo = () => {
-  const youtubeUrl = JSON.parse(getConferenceData()).live;
+  const youtubeUrl = getConferenceData().live;
   const [videoId, setVideoId] = useState("");
 
   useEffect(() => {

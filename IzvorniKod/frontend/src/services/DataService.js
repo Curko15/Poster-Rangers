@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { getAuthToken, getConferenceId, getLoggedInUser } from "./AuthService";
+import {
+  getAuthToken,
+  getConferenceData,
+  getConferenceId,
+  getLoggedInUser,
+} from "./AuthService";
 
 export const KonfKorisnikData = (setConferences, setIsLoading) => {
   useEffect(() => {
@@ -191,4 +196,41 @@ export const GalleryData = () => {
   }, []);
 
   return { photos, isLoading };
+};
+
+export const RankData = () => {
+  const [rank, setRank] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRank = async () => {
+      try {
+        const conference = getConferenceData();
+        const response = await axios.get(
+          `/api/glasanje/poredak?konferencijaId=${conference.konfid}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + getAuthToken().token,
+            },
+          },
+        );
+
+        if (response.status === 200) {
+          const rankData = JSON.stringify(response.data);
+          setRank(rankData);
+        } else {
+          console.error("Error fetching rank data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchRank();
+  }, []);
+
+  return { rank, isLoading };
 };

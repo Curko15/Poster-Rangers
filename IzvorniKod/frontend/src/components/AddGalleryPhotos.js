@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { getAuthToken, getLoggedInUser } from "../services/AuthService";
+import { getAuthToken } from "../services/AuthService";
 import { BounceLoader } from "react-spinners";
 import ConferenceList from "./ConferenceList";
+import { KonfKorisnikData } from "../services/DataService";
 
 import "../css/addPhoto.css";
 
@@ -20,40 +21,11 @@ const AddGalleryPhotos = () => {
   const [resetSelectedConferenceIndex, setResetSelectedConferenceIndex] =
     useState(false);
 
+  KonfKorisnikData(setConferences, setIsLoading);
+
   const handleSelectConference = (conference) => {
     setSelectedConference(conference);
   };
-
-  useEffect(() => {
-    const fetchConferences = async () => {
-      const params = {
-        email: getLoggedInUser().userEmail,
-      };
-      try {
-        const response = await axios.post(
-          "/api/konferencija/getKorisnikKonf",
-          params,
-          {
-            headers: {
-              Authorization: "Bearer " + getAuthToken().token,
-            },
-          },
-        );
-
-        if (response.status === 200) {
-          setConferences(response.data);
-        } else {
-          console.error("Error fetching conferences:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error:", error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchConferences();
-  }, []);
 
   const handleSubmit = async () => {
     setSuccessMessage("");

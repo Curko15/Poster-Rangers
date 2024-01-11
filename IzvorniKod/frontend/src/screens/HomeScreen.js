@@ -10,7 +10,7 @@ import { getConferenceData, isUserLoggedIn } from "../services/AuthService";
 
 const HomeScreen = () => {
   const navigate = useNavigate();
-  const conference = JSON.parse(getConferenceData());
+  const conference = getConferenceData();
 
   return (
     <div>

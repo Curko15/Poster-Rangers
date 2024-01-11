@@ -98,13 +98,13 @@ public class KonferencijaServiceJpa implements KonferencijaService {
     }
 
     private void sendMails(Long konfid) {
-        Map<Long,Integer> mapa = glasanjeService.MapPoredak(konfid);
-        List<Map.Entry<Long, Integer>> entryList = new ArrayList<>(mapa.entrySet());
+        Map<Poster, Integer> mapa = glasanjeService.MapPoredak(konfid);
+        List<Map.Entry<Poster, Integer>> entryList = new ArrayList<>(mapa.entrySet());
         Konferencija konferencija = konfRepository.findByKonfid(konfid);
 
         for (int i = 0; i < entryList.size(); i++) {
-            Map.Entry<Long, Integer> entry = entryList.get(i);
-            Long idPostera = entry.getKey();
+            Map.Entry<Poster, Integer> entry = entryList.get(i);
+            Long idPostera = entry.getKey().getPosterId();
             Integer brojGlasova = entry.getValue();
 
             if(i < 3){
