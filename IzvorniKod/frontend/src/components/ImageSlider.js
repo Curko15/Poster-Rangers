@@ -1,17 +1,25 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination } from "swiper/modules";
-import { PosterData } from "../services/DataService";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "../css/imageSlider.css";
 import { BounceLoader } from "react-spinners";
+import { PosterData } from "../services/DataService";
+import { PromoData } from "../services/DataService";
 
-const ImageSlider = () => {
-  const { posters, isLoading } = PosterData();
+const ImageSlider = ({ view }) => {
+  let isLoading;
+  let posters;
 
+  if (view === "poster") {
+    ({ posters, isLoading } = PosterData());
+  } else {
+    ({ promo: posters, isLoading } = PromoData());
+  }
+  console.log(posters);
   return (
     <>
       {isLoading ? (
@@ -20,8 +28,9 @@ const ImageSlider = () => {
         </div>
       ) : (
         <Swiper
-          effect={"coverflow"}
+          effect={"cube"}
           grabCursor={true}
+          start
           centeredSlides={true}
           slidesPerView={"auto"}
           coverflowEffect={{
@@ -35,14 +44,23 @@ const ImageSlider = () => {
           modules={[EffectCoverflow, Pagination]}
           className="mySwiper"
         >
-          {posters.slice(0, 5).map((poster, index) => (
-            <SwiperSlide key={poster.posterId}>
-              <img
-                src={`data:image/${poster.imageType};base64,${poster.imagebyte}`}
-                alt={`poster-${index}`}
-              />
-            </SwiperSlide>
-          ))}
+          {posters.map((poster, index) => {
+            const type =
+              view === "poster" ? poster.imageType : poster.promoType;
+            const byte =
+              view === "poster" ? poster.imagebyte : poster.promobyte;
+            return (
+              <SwiperSlide
+                style={{ marginRight: "15px" }}
+                key={poster.posterId}
+              >
+                <img
+                  src={`data:image/${type};base64,${byte}`}
+                  alt={`poster-${index}`}
+                />
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       )}
     </>
