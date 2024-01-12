@@ -8,8 +8,9 @@ import {
   isLoggedInConference,
   saveLoggedInUser,
   saveAuthToken,
-  getAuthToken,
 } from "../services/AuthService";
+import { fetchRole } from "../services/DataService";
+import { verifyReCaptcha } from "../services/ValidationService";
 import PasswordInput from "./PasswordInput";
 
 import "../css/authetication.css";
@@ -87,27 +88,7 @@ const Authentication = ({ viewType }) => {
       }
     }
 
-    let passedCaptcha = false;
-
-    try {
-      // Verify reCAPTCHA
-      const response = await axios.post("/api/korisnici/verifyRecaptcha", {
-        recaptchaToken: captchaValue,
-      });
-
-      if (response.status === 200) {
-        passedCaptcha = true;
-      } else if (response.status === 400) {
-        passedCaptcha = false;
-        recaptcha.current.reset();
-        setErrorMessage("ReCAPTCHA nije uspješno potvrđena");
-        return;
-      }
-    } catch (error) {
-      passedCaptcha = false;
-      recaptcha.current.reset();
-      alert("Server error");
-      console.error("Error during reCAPTCHA verification:", error);
+    if (!(await verifyReCaptcha(captchaValue, recaptcha, setErrorMessage))) {
       return;
     }
 
@@ -131,29 +112,15 @@ const Authentication = ({ viewType }) => {
       saveAuthToken(authToken);
       saveLoggedInUser(email, password);
 
-      const getRoleData = {
-        email: getLoggedInUser().userEmail,
-        password: getLoggedInUser().userPass,
-      };
+      const responseRole = await fetchRole();
 
-      const responseRole = await axios.post(
-        "/api/korisnici/getRole",
-        getRoleData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + getAuthToken().token,
-          },
-        },
-      );
+      const userRoleName = responseRole.data.find((role) => true)?.name;
 
-      const userRole = responseRole.data.find((role) => true)?.name;
-
-      if (userRole === "ROLE_ADMIN") {
+      if (userRoleName === "ROLE_ADMIN") {
         navigate("/admin");
-      } else if (userRole === "ROLE_SUPERADMIN") {
+      } else if (userRoleName === "ROLE_SUPERADMIN") {
         navigate("/superAdmin");
-      } else if (userRole === "ROLE_KORISNIK") {
+      } else if (userRoleName === "ROLE_KORISNIK") {
         if (isLoggedInConference()) {
           navigate("/home");
         } else {

@@ -3,7 +3,6 @@ import axios from "axios";
 import {
   getAuthToken,
   getConferenceData,
-  getConferenceId,
   getLoggedInUser,
 } from "./AuthService";
 
@@ -47,33 +46,15 @@ export const PosterData = () => {
   useEffect(() => {
     const fetchPosters = async () => {
       try {
-        const conferenceId = getConferenceId();
-        const response = await axios.post(
-          "/api/konferencija/getKonfId",
-          {
-            password: conferenceId,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
+        const posterResponse = await axios.get(
+          `/api/poster/getAll/${getConferenceData().konfid}`,
         );
 
-        if (response.status === 200) {
-          const conferenceData = response.data;
-          const posterResponse = await axios.get(
-            `/api/poster/getAll/${conferenceData}`,
-          );
-
-          if (posterResponse.status === 200) {
-            const posterData = posterResponse.data;
-            setPosters(posterData);
-          } else {
-            console.error("Error fetching posters:", posterResponse.statusText);
-          }
+        if (posterResponse.status === 200) {
+          const posterData = posterResponse.data;
+          setPosters(posterData);
         } else {
-          console.error("Error fetching conference data:", response.statusText);
+          console.error("Error fetching posters:", posterResponse.statusText);
         }
       } catch (error) {
         console.error("Error:", error);
@@ -95,40 +76,21 @@ export const PromoData = () => {
   useEffect(() => {
     const fetchPromos = async () => {
       try {
-        const conferenceId = getConferenceId();
-        const response = await axios.post(
-          "/api/konferencija/getKonfId",
-          {
-            password: conferenceId,
-          },
+        const promoResponse = await axios.get(
+          `/api/promomaterijal/getAll/${getConferenceData().konfid}`,
           {
             headers: {
               "Content-Type": "application/json",
+              Authorization: "Bearer " + getAuthToken().token,
             },
           },
         );
-        console.log(response.data);
-        if (response.status === 200) {
-          const conferenceData = response.data;
-          const posterResponse = await axios.get(
-            `/api/promomaterijal/getAll/${conferenceData}`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + getAuthToken().token,
-              },
-            },
-          );
 
-          if (posterResponse.status === 200) {
-            const posterData = posterResponse.data;
-            console.log(posterData);
-            setPromo(posterData);
-          } else {
-            console.error("Error fetching posters:", posterResponse.statusText);
-          }
+        if (promoResponse.status === 200) {
+          const posterData = promoResponse.data;
+          setPromo(posterData);
         } else {
-          console.error("Error fetching conference data:", response.statusText);
+          console.error("Error fetching posters:", promoResponse.statusText);
         }
       } catch (error) {
         console.error("Error:", error);
@@ -150,40 +112,22 @@ export const GalleryData = () => {
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
-        const conferenceId = getConferenceId();
-        const response = await axios.post(
-          "/api/konferencija/getKonfId",
-          {
-            password: conferenceId,
-          },
+        const photoResponse = await axios.get(
+          `/api/fotomaterijal/getAll/${getConferenceData().konfid}`,
           {
             headers: {
               "Content-Type": "application/json",
+              Authorization: "Bearer " + getAuthToken().token,
             },
           },
         );
-        console.log(response.data);
-        if (response.status === 200) {
-          const conferenceData = response.data;
-          const photoResponse = await axios.get(
-            `/api/fotomaterijal/getAll/${conferenceData}`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + getAuthToken().token,
-              },
-            },
-          );
 
-          if (photoResponse.status === 200) {
-            const photoData = photoResponse.data;
-            console.log(photoData);
-            setPhotos(photoData);
-          } else {
-            console.error("Error fetching photos:", photoResponse.statusText);
-          }
+        if (photoResponse.status === 200) {
+          const photoData = photoResponse.data;
+          console.log(photoData);
+          setPhotos(photoData);
         } else {
-          console.error("Error fetching conference data:", response.statusText);
+          console.error("Error fetching photos:", photoResponse.statusText);
         }
       } catch (error) {
         console.error("Error:", error);
@@ -205,9 +149,8 @@ export const RankData = () => {
   useEffect(() => {
     const fetchRank = async () => {
       try {
-        const conference = getConferenceData();
         const response = await axios.get(
-          `/api/glasanje/poredak?konferencijaId=${conference.konfid}`,
+          `/api/glasanje/poredak?konferencijaId=${getConferenceData().konfid}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -234,3 +177,59 @@ export const RankData = () => {
 
   return { rank, isLoading };
 };
+
+export const LocationData = () => {
+  const [locationData, setlocationData] = useState("");
+
+  useEffect(() => {
+    const fetchLocation = async () => {
+      try {
+        const locationResponse = await axios.get(
+          `/api/konferencija/getLocation/${getConferenceData().konfid}`,
+        );
+
+        if (locationResponse.status === 200) {
+          const locationResponseData = locationResponse.data;
+          setlocationData(locationResponseData);
+        } else {
+          console.error(
+            "Error fetching location name:",
+            locationResponse.statusText,
+          );
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchLocation();
+  }, []);
+
+  return { locationData };
+};
+
+export async function fetchRole() {
+  const roleData = {
+    email: getLoggedInUser().userEmail,
+    password: getLoggedInUser().userPass,
+  };
+  return await axios.post("/api/korisnici/getRole", roleData, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getAuthToken().token,
+    },
+  });
+}
+
+export async function fetchCoordinates(placeName) {
+  let apiKey = "41dfdc986e957806fd8639e81870f7dd";
+  try {
+    const apiUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${placeName}&limit=5&appid=${apiKey}`;
+    const response = await fetch(apiUrl);
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching coordinates:", error);
+    throw error;
+  }
+}

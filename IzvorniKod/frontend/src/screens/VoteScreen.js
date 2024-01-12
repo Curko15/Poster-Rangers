@@ -3,12 +3,12 @@ import Header from ".././components/Header.js";
 import Footer from "../components/Footer";
 import VotePosterDisplay from "../components/VotePosterDisplay";
 import { getConferenceData } from "../services/AuthService";
-
-import "../css/main.css";
 import RankDisplay from "../components/RankDisplay";
 
+import "../css/main.css";
+
 const VoteScreen = () => {
-  const [hasEnded, setHasEnded] = useState(true);
+  const [hasEnded, setHasEnded] = useState(false);
 
   const conference = getConferenceData();
   const active = conference.aktivna;
@@ -22,7 +22,6 @@ const VoteScreen = () => {
   return (
     <div>
       <Header viewType="vote" />
-      <div></div>
       {hasEnded ? (
         <>
           <h1 className="title">

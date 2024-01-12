@@ -1,25 +1,24 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination } from "swiper/modules";
+import { BounceLoader } from "react-spinners";
+import { PosterData } from "../services/DataService";
+import { PromoData } from "../services/DataService";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "../css/imageSlider.css";
-import { BounceLoader } from "react-spinners";
-import { PosterData } from "../services/DataService";
-import { PromoData } from "../services/DataService";
 
 const ImageSlider = ({ view }) => {
-  let isLoading;
-  let posters;
+  let isLoading, posters;
 
   if (view === "poster") {
     ({ posters, isLoading } = PosterData());
   } else {
     ({ promo: posters, isLoading } = PromoData());
   }
-  console.log(posters);
+
   return (
     <>
       {isLoading ? (

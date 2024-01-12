@@ -8,12 +8,12 @@ import "../css/enterCode.css";
 
 const EnterCode = () => {
   const [userCode, setUserCode] = useState("");
-  const [error, setError] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleCodeChange = (event) => {
     setUserCode(event.target.value);
-    setError(null);
+    setErrorMessage("");
   };
 
   const handleSubmit = async () => {
@@ -30,11 +30,11 @@ const EnterCode = () => {
         navigate("/home");
       } else {
         console.error("Login failed");
-        setError("Invalid credentials");
+        setErrorMessage("Invalid credentials");
       }
     } catch (error) {
       console.error("Error during login:", error.message);
-      setError("Nepravilan pristupni kod");
+      setErrorMessage("Nepravilan pristupni kod");
     }
   };
 
@@ -54,7 +54,7 @@ const EnterCode = () => {
           Kreni
         </button>
       </div>
-      {error && <p className="errorText">{error}</p>}
+      {errorMessage && <h2 className="error-message">{errorMessage}</h2>}
     </div>
   );
 };

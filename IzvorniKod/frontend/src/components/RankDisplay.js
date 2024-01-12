@@ -6,7 +6,6 @@ import "../css/posterDisplay.css";
 
 const RankDisplay = () => {
   const { rank, isLoading } = RankData();
-  console.log(rank);
 
   return (
     <>

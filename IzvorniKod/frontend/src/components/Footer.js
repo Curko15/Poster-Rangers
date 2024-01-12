@@ -6,7 +6,6 @@ import "../css/footer.css";
 import "../css/main.css";
 
 const Footer = () => {
-  //const placeName = useState("Lokacija");
   const date = new Date().toLocaleDateString();
 
   return (

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { getAuthToken, getLoggedInUser } from "../services/AuthService";
+import { validatePassword } from "../services/ValidationService";
 import PasswordInput from "./PasswordInput";
-import validator from "validator";
 
 import "../css/authetication.css";
 
@@ -17,16 +17,6 @@ const ChangePassword = () => {
   const [message, setMessage] = useState("");
 
   const userEmail = getLoggedInUser().userEmail;
-
-  const validatePassword = (value) => {
-    return validator.isStrongPassword(value, {
-      minLength: 8,
-      minLowercase: 1,
-      minUppercase: 1,
-      minNumbers: 1,
-      minSymbols: 1,
-    });
-  };
 
   const handlePasswordBlur = () => {
     const isPasswordValid = validatePassword(newPassword);

@@ -1,14 +1,19 @@
-import "@tomtom-international/web-sdk-maps/dist/maps.css"; // Import the CSS styles for the maps
+import "@tomtom-international/web-sdk-maps/dist/maps.css";
 import { useState, useEffect, useRef } from "react";
-import tt from "@tomtom-international/web-sdk-maps"; // Import the TomTom Maps SDK
-import "../css/map.css";
-import { getConferenceId } from "../services/AuthService";
+import tt from "@tomtom-international/web-sdk-maps";
 import axios from "axios";
+
+import "../css/map.css";
+import { LocationData } from "../services/DataService";
+
 const Map = () => {
   const mapElement = useRef();
+  const { locationData } = LocationData();
+
   const [map, setMap] = useState(null);
-  const [streetName, setStreetName] = useState("");
   const [mapCoordinates, setMapCoordinates] = useState({ lat: 0, lon: 0 });
+  const address = `${locationData.ulica} ${locationData.kucBroj} ${locationData.pbr}`;
+
   useEffect(() => {
     const initializeMap = async () => {
       try {
@@ -40,56 +45,23 @@ const Map = () => {
       }
     };
   }, [mapCoordinates]);
+
   useEffect(() => {
     const fetchMapData = async () => {
       try {
-        const conferenceId = getConferenceId();
-        const conferenceResponse = await axios.post(
-          "/api/konferencija/getKonfId",
-          {
-            password: conferenceId,
-          },
+        const coordinatesResponse = await axios.get(
+          `https://api.tomtom.com/search/2/geocode/${encodeURIComponent(
+            address,
+          )}.json?key=aLgQNoPtQzJe5nGzbNocRvlSyQEjlOF4`,
         );
-        if (conferenceResponse.status === 200) {
-          const conferenceData = conferenceResponse.data;
-          const locationResponse = await axios.get(
-            `/api/konferencija/getLocation/${conferenceData}`,
-          );
 
-          if (locationResponse.status === 200) {
-            const posterData = locationResponse.data;
-
-            setStreetName(
-              `${posterData.ulica} ${posterData.kucBroj} ${posterData.pbr}`,
-            );
-
-            const coordinatesResponse = await axios.get(
-              `https://api.tomtom.com/search/2/geocode/${encodeURIComponent(
-                streetName,
-              )}.json?key=aLgQNoPtQzJe5nGzbNocRvlSyQEjlOF4`,
-            );
-
-            if (coordinatesResponse.status === 200) {
-              const coordinates = coordinatesResponse.data.results[0].position;
-              console.log("ovo je izlazzzzz", coordinatesResponse.data);
-              console.log(streetName);
-              setMapCoordinates({ lat: coordinates.lat, lon: coordinates.lon });
-            } else {
-              console.error(
-                "Error fetching coordinates:",
-                coordinatesResponse.statusText,
-              );
-            }
-          } else {
-            console.error(
-              "Error fetching location data:",
-              locationResponse.statusText,
-            );
-          }
+        if (coordinatesResponse.status === 200) {
+          const coordinates = coordinatesResponse.data.results[0].position;
+          setMapCoordinates({ lat: coordinates.lat, lon: coordinates.lon });
         } else {
           console.error(
-            "Error fetching conference data:",
-            conferenceResponse.statusText,
+            "Error fetching coordinates:",
+            coordinatesResponse.statusText,
           );
         }
       } catch (error) {
@@ -97,10 +69,12 @@ const Map = () => {
       }
     };
     fetchMapData();
-  }, [streetName]);
+  }, [address]);
+
   useEffect(() => {
     addMarkerToLocation(map, mapCoordinates.lat, mapCoordinates.lon);
   }, [map, mapCoordinates]);
+
   function addMarkerToLocation(map, latitude, longitude) {
     if (!map || isNaN(latitude) || isNaN(longitude)) {
       return;
