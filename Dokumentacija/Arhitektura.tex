@@ -232,34 +232,29 @@
 
 		\section{Dijagram stanja}
 
-
-			\textbf{\textit{dio 2. revizije}}\\
-
-			\textit{Potrebno je priložiti dijagram stanja i opisati ga. Dovoljan je jedan dijagram stanja koji prikazuje \textbf{značajan dio funkcionalnosti} sustava. Na primjer, stanja korisničkog sučelja i tijek korištenja neke ključne funkcionalnosti jesu značajan dio sustava, a registracija i prijava nisu. }
+			Naredni dijagrami stanja opisuju prijelaze na druge dijelove (stranice) aplikacije. Izdvojena su dva dijagrama za korisnike~\ref{fig:korisnikStanje} te administratore~\ref{fig:adminStanje}. Važno je napomenuti da administrator ima sve mogućnosti običnog korisnika.
 			
-			TODO opis
+			Na dijagramima je opisan jedan od više mogućih načina prijelaza, jer korisnik ili administrator nakon prijave pomoću "Hamburger" izbornika koji se nalazi u gornjem lijevom uglu stranice može izravno odabrati gdje želi "otići". Naravno izbornik pokazuje samo prijelaze koji su odobreni korisniku/administratoru. 
+			
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/korisnikStanja.PNG} %veličina u odnosu na širinu linije
+				\caption{Dijagram stanja korisnika}
+				\label{fig:korisnikStanje} %label mora biti drugaciji za svaku sliku
+			\end{figure}
 			
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{slike/adminStanja.PNG} %veličina u odnosu na širinu linije
-				\caption{Dijagram stanja: mogućnosti administratora}
+				\caption{Dijagram stanja administratora}
 				\label{fig:adminStanje} %label mora biti drugaciji za svaku sliku
 			\end{figure}
-			\begin{figure}[H]
-				\includegraphics[width=\textwidth]{slike/korisnikStanja.PNG} %veličina u odnosu na širinu linije
-				\caption{Dijagram stanja: mogućnosti korisnika}
-				\label{fig:korisnikStanje} %label mora biti drugaciji za svaku sliku
-			\end{figure}
+		
 
 
 			\eject
 
 		\section{Dijagram aktivnosti}
 
-			\textbf{\textit{dio 2. revizije}}\\
-
-			 \textit{Potrebno je priložiti dijagram aktivnosti s pripadajućim opisom. Dijagram aktivnosti treba prikazivati značajan dio sustava.}
-			
-			TODO opis
+			Dijagram aktivnosti na slici~\ref{fig:dijagramAktivnosti} prikazuje niz akcija potrebnih za stvaranja nove konferencije i konfiguriranje iste. Prvi korak je prijava korisnika koji ima administrativne mogućnosti koje su potrebne za kreiranje konferencije. Prijava se obavlja putem obrasca te se na strani aplikacije provjeravaju polja za unos, ako je provjera uspješna provodi se provjera podataka i ovisno o ishodu ona je uspješna i možemo nastaviti dalje ili vraćamo korisnika na početak prijave. Daljnji koraci za dodavanja postera, fotografija i promotivnih materijala se svi mogu pojednostavniti u tri glavna koraka: 1. Unos podataka u obrazac, 2. Provjera unesenih podataka te slanje podataka i 3. Spremanje podataka. Važno je napomenuti da tijekom drugog koraka kod provjere unesenih podataka u slučaju neispravnog unosa, korisniku će se javiti greška i vratit će ga se na prijašnji korak. Tijek izvođenja akcija dodavanja postera, fotografija i promotivnih materijala je proizvoljan i može se ponavljati koliko god puta administrator želi. Na kraju administrator na početnoj stranici konferencije može vidjeti rezultat svog rada.
 			
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{slike/dijagramAktivnosti.PNG} %veličina u odnosu na širinu linije
@@ -270,11 +265,7 @@
 			\eject
 		\section{Dijagram komponenti}
 
-			\textbf{\textit{dio 2. revizije}}\\
-
-			 \textit{Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.}
-			 
-			 TODO opis
+			 Dijagram komponenti opisuje organizaciju i međuovisnost komponenti programske potpore, odnosno njenu internu strukturu. Definirana su 3 glavna sučelja. Sučelje za dohvat HTML, CSS i JS datoteka je zaduženo za komunikaciju s frontend dijelom aplikacije, gdje uz pomoć definirane logike i kontrolera korisniku šalju odgovarajuće datoteke za prikaz pojedine stranice. Sučelje za dohvat podataka je zaduženo za komunikaciju frontend dijela aplikacije (React) s backend dijelom (Springboot) u cilju razmjene potrebnih podataka (konferencija, postera, fotografija...) te treće sučelje za komunikaciju s bazom podataka, koje povezuje PostgreSQL bazu podataka i Springboot aplikaciju koristeći Java Persistance API kojim se omogućuje trajno spremanje podataka aplikacije.
 			 
 			 \begin{figure}[H]
 			 	\includegraphics[width=\textwidth]{slike/dijagramKomponenti.PNG} %veličina u odnosu na širinu linije
