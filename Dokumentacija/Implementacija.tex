@@ -51,9 +51,15 @@
 		
 		\section{Dijagram razmještaja}
 			
-			\textbf{\textit{dio 2. revizije}}
+			Dijagram razmještaja~\ref{fig:dijagramRazmjestaja} opisuje topologiju sklopovlja i programsku potporu koja se koristi u implementaciji sustava u njegovom radnom okruženju. Sustav je baziran na arhitekturi "klijent-poslužitelj". Poslužiteljsko računalo (Render) sadrži web poslužitelj na kojem se nalazi naša web aplikacija te sadrži poslužitelj baze podataka na kojemu je naša Postgres baza podataka. Komunikacija između klijenta i poslužitelja obavlja se preko sigurnog kanala ostvarenog protokolom HTTPS.
 			
-			 \textit{Potrebno je umetnuti \textbf{specifikacijski} dijagram razmještaja i opisati ga. Moguće je umjesto specifikacijskog dijagrama razmještaja umetnuti dijagram razmještaja instanci, pod uvjetom da taj dijagram bolje opisuje neki važniji dio sustava.}
+			
+			 \begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/dijagramRazmjestaja.PNG} %veličina u odnosu na širinu linije
+				\caption{Dijagram razmještaja}
+				\label{fig:dijagramRazmjestaja} %label mora biti drugaciji za svaku sliku
+			\end{figure}
+			
 			
 			\eject 
 		
