@@ -8,7 +8,7 @@ import RankDisplay from "../components/RankDisplay";
 import "../css/main.css";
 
 const VoteScreen = () => {
-  const [hasEnded, setHasEnded] = useState(false);
+  const [hasEnded, setHasEnded] = useState(true);
 
   const conference = getConferenceData();
   const active = conference.aktivna;
@@ -23,18 +23,18 @@ const VoteScreen = () => {
     <div>
       <Header viewType="vote" />
       {hasEnded ? (
-        <>
+        <div className={"rankDisplay"}>
           <h1 className="title">
             Pogledaj kako su se rangirali prijavljeni posteri!
           </h1>
           <RankDisplay />
-        </>
+        </div>
       ) : (
-        <>
+        <div className={"voteDisplay"}>
           <h1 className="title">Glasaj za omiljeni poster!</h1>
           <h2>Odaberi jedan od ponuđenih postera i glasaj za njega!</h2>
           <VotePosterDisplay />
-        </>
+        </div>
       )}
       <Footer />
     </div>

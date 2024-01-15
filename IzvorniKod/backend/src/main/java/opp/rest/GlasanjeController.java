@@ -36,7 +36,7 @@ public class GlasanjeController {
     }
 
     @GetMapping("/poredak")
-    public Map<Poster, Integer> poredak(@RequestParam Long konferencijaId){
+    public Map<Long, Integer> poredak(@RequestParam Long konferencijaId){
         return glasanjeService.MapPoredak(konferencijaId);
     }
 
@@ -75,7 +75,7 @@ public class GlasanjeController {
 
         glasanjeService.save(glas);
 
-        Map<Poster, Integer> glasovi = glasanjeService.MapPoredak(glasDTO.getKonfId());
+        Map<Long, Integer> glasovi = glasanjeService.MapPoredak(glasDTO.getKonfId());
         System.out.println(glasovi);
         return new ResponseEntity<>("Glas dodan", HttpStatus.OK);
     }

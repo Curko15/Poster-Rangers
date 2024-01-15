@@ -21,6 +21,14 @@
     border-radius: 5px;
 }
 
+.downloadIcon {
+    opacity: 0;
+}
+
+.posterItem:hover .downloadIcon {
+    opacity: 1;
+}
+
 /*Vote Poster display*/
 .posterVote {
     width: 27%;
@@ -78,4 +86,21 @@
     cursor: unset;
     border: var(--btn-border) 1px solid;
     box-shadow: 0 4px 4px var(--btn-shadow);
+}
+
+.rankDisplay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.rankTable {
+    width: 60%;
+    background-color: white;
+    color: black;
+}
+
+.rankTable td {
+    text-align: center;
 }

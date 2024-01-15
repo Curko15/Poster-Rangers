@@ -32,22 +32,21 @@ public class GlasanjeServiceJPA implements GlasanjeService {
 
     @Override
     public List<Glasanje> listAll() {
-        return (List<Glasanje>) glasanjeRepo.findAll();
+        return glasanjeRepo.findAll();
     }
 
     @Override
-    public Map<Poster, Integer> MapPoredak(Long konfid) {
+    public Map<Long, Integer> MapPoredak(Long konfid) {
         List<Glasanje> lista = listAll();
 
-        Map<Poster, Integer> poredak = new HashMap<>();
+        Map<Long, Integer> poredak = new HashMap<>();
 
         for(Glasanje glas : lista){
             if(Objects.equals(glas.getKonferencija().getKonfid(), konfid)){
-                Poster poster = posterRepo.findByPosterId(glas.getPosterId());
-                if(!poredak.containsKey(poster)){
-                    poredak.put(poster, 1);
+                if(!poredak.containsKey(glas.getPosterId())){
+                    poredak.put(glas.getPosterId(), 1);
                 } else {
-                    poredak.put(poster, poredak.get(poster) + 1);
+                    poredak.put(glas.getPosterId(), poredak.get(glas.getPosterId()) + 1);
                 }
             }
         }
@@ -55,15 +54,15 @@ public class GlasanjeServiceJPA implements GlasanjeService {
         List<Poster> ostali = posterRepo.findAll();
         for (Poster poster : ostali){
             if(Objects.equals(poster.getKonferencija().getKonfid(), konfid)){
-                if(!poredak.containsKey(poster)){
-                    poredak.put(poster, 0);
+                if(!poredak.containsKey(poster.getPosterId())){
+                    poredak.put(poster.getPosterId(), 0);
                 }
             }
         }
 
         return poredak.entrySet()
                 .stream()
-                .sorted(Map.Entry.<Poster, Integer>comparingByValue().reversed())
+                .sorted(Map.Entry.<Long, Integer>comparingByValue().reversed())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,

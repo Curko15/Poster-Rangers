@@ -6,9 +6,9 @@ import {
   logOutFromConference,
   userLogOut,
 } from "../services/AuthService";
+import { fetchRole } from "../services/DataService";
 
 import "../css/header.css";
-import { fetchRole } from "../services/DataService";
 
 const Header = ({ viewType }) => {
   const navigate = useNavigate();
