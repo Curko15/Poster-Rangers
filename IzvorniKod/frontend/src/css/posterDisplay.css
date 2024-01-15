@@ -124,6 +124,7 @@ h3.email {
     .poster img, .posterVote img, .posterImage {
         height: max-content;
     }
+}
   
 .rankDisplay {
     display: flex;
