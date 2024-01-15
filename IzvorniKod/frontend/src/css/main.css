@@ -43,7 +43,6 @@
 h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  padding-top: 2rem;
 }
 
 h2 {
@@ -114,9 +113,6 @@ input:focus {
   width: 50%; /* Adjust as needed */
 }
 
-.weatherDisplay {
-  width: 50%; /* Adjust as needed */
-}
 .weatherContainer{
   display: flex;
   justify-content: center;
@@ -135,6 +131,7 @@ input:focus {
 
   .title {
     font-size: 1.7rem;
+    margin: 1rem;
   }
 
   h1 {

@@ -88,3 +88,24 @@ body {
 .author-info, .poster-info {
     width: 90%;
 }
+
+@media screen and (max-width: 800px) {
+
+    .all-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .promo-container {
+        width: 80%;
+        margin: auto;
+    }
+
+    .conference-list-container{
+        width: 100%;
+    }
+
+    .conference-list {
+        padding-top: 10px;
+    }
+}

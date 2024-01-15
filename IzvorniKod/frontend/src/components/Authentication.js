@@ -135,6 +135,11 @@ const Authentication = ({ viewType }) => {
         (error.response.status === 401 || error.response.status === 403)
       ) {
         setErrorMessage("Pogrešan email ili lozinka");
+        if (!(await verifyReCaptcha(captchaValue, recaptcha, setErrorMessage))) {
+          // Reset ReCAPTCHA state on incorrect email or password
+          recaptcha.current.reset();
+          return;
+        }
       } else {
         console.error("Error during authentication:", error);
         setErrorMessage("Korisnik s unesenim emailom već postoji.");

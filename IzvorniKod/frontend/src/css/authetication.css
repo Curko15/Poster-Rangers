@@ -12,6 +12,13 @@ h2 {
     background-color: var(--c-2);
 }
 
+.center-container-conf {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--c-2);
+}
+
 .form-container {
     max-width: 300px;
     padding: 20px;
@@ -71,3 +78,9 @@ h2 {
     color: red;
   }
   
+  @media screen and (max-width: 800px) {
+
+    .center-container-conf {
+        margin-bottom: 1rem;
+    }
+}

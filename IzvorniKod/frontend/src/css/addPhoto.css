@@ -18,7 +18,7 @@ body {
 
 .conference-list {
     list-style: none;
-    padding: 0;
+    padding: 10px;
 }
 
 .conference-item {
@@ -79,4 +79,25 @@ body {
     display: flex;
     width: 100%;
     justify-content: flex-end;
+}
+
+@media screen and (max-width: 800px) {
+
+    .all-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .photo-container {
+        width: 80%;
+        margin: 1rem;
+    }
+
+    .conference-list-container{
+        width: 100%;
+    }
+
+    .conference-list {
+        padding-top: 10px;
+    }
 }

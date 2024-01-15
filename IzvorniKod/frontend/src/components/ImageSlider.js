@@ -1,4 +1,5 @@
 import React from "react";
+import{ useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination } from "swiper/modules";
 import { BounceLoader } from "react-spinners";
@@ -11,6 +12,7 @@ import "swiper/css/pagination";
 import "../css/imageSlider.css";
 
 const ImageSlider = ({ view }) => {
+  const [currentSlide, setCurrentSlide] = useState(0);
   let isLoading, posters;
 
   if (view === "poster") {
@@ -18,6 +20,10 @@ const ImageSlider = ({ view }) => {
   } else {
     ({ promo: posters, isLoading } = PromoData());
   }
+
+  const handleSlideChange = (swiper) => {
+    setCurrentSlide(swiper.realIndex);
+  };
 
   return (
     <>
@@ -27,7 +33,7 @@ const ImageSlider = ({ view }) => {
         </div>
       ) : (
         <Swiper
-          effect={"cube"}
+          effect={"coverflow"}
           grabCursor={true}
           start
           centeredSlides={true}
@@ -42,6 +48,8 @@ const ImageSlider = ({ view }) => {
           pagination={true}
           modules={[EffectCoverflow, Pagination]}
           className="mySwiper"
+          onSlideChange={(swiper) => handleSlideChange(swiper)}
+          initialSlide={Math.floor(posters.length / 2)}
         >
           {posters.map((poster, index) => {
             const type =
@@ -50,7 +58,11 @@ const ImageSlider = ({ view }) => {
               view === "poster" ? poster.imagebyte : poster.promobyte;
             return (
               <SwiperSlide
-                style={{ marginRight: "15px" }}
+                style={{
+                  marginRight: "15px",
+                  zIndex: currentSlide === index ? 1 : 0,
+                  transform: `scale(${currentSlide === index ? 1.2 : 1})`
+                }}
                 key={poster.posterId}
               >
                 <img

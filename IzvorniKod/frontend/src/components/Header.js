@@ -64,6 +64,37 @@ const Header = ({ viewType }) => {
     return (
       <div className={`dropdown-menu ${isDropdownOpen ? "open" : ""}`}>
         {userRoleName === "ROLE_ADMIN" && (
+            (viewType === "dodajKonf" ||
+            viewType === "superAdmin" ||
+            viewType === "admin" ||
+            viewType === "dodajPoster" ||
+            viewType === "dodajPromo" ||
+            viewType === "dodajFoto") && (
+          <button
+            id="konfButton"
+            onClick={handleBackClick}>
+            Početna
+          </button>
+          )
+        )}
+        {(viewType === "login" ||
+          viewType === "register" ||
+          viewType === "ChangePassword") && (
+          <button
+            id="backButton"
+            onClick={handleBackClick}>
+            Početna
+          </button>
+        )}
+        {userRoleName === "ROLE_ADMIN" && (
+          <button
+            id="addConferenceButton"
+            onClick={() => handleNavigation("/admin")}
+          >
+            Dodaj konferenciju
+          </button>
+        )}
+        {userRoleName === "ROLE_ADMIN" && (
           <button
             id="addPosterButton"
             onClick={() => handleNavigation("/dodajPoster")}
@@ -87,28 +118,12 @@ const Header = ({ viewType }) => {
             Dodaj foto
           </button>
         )}
-
-        {userRoleName === "ROLE_ADMIN" && (
-          <button
-            id="addConferenceButton"
-            onClick={() => handleNavigation("/admin")}
-          >
-            Dodaj konferenciju
-          </button>
-        )}
         {userRoleName === "ROLE_SUPERADMIN" && (
           <button
             id="logOutButton"
             onClick={() => handleNavigation("/superAdmin")}
           >
             Dodaj admina
-          </button>
-        )}
-        {(viewType === "login" ||
-          viewType === "register" ||
-          viewType === "ChangePassword") && (
-          <button id="backButton" onClick={handleBackClick}>
-            Natrag
           </button>
         )}
         {(viewType === "entercode" || viewType === "homescreen") &&
@@ -168,6 +183,20 @@ const Header = ({ viewType }) => {
             viewType === "poster" ||
             viewType === "promo" ||
             viewType === "vote") && (
+            <button
+              id="voteButton"
+              onClick={() => handleNavigation("/glasanje")}
+            >
+              Glasanje
+            </button>
+          )}
+        {isUserLoggedIn() &&
+          (viewType === "homescreen" ||
+            viewType === "liveVideo" ||
+            viewType === "photo" ||
+            viewType === "poster" ||
+            viewType === "promo" ||
+            viewType === "vote") && (
             <button id="fotoButton" onClick={() => handleNavigation("/foto")}>
               Fotografije
             </button>
@@ -183,20 +212,7 @@ const Header = ({ viewType }) => {
               Promocije
             </button>
           )}
-        {isUserLoggedIn() &&
-          (viewType === "homescreen" ||
-            viewType === "liveVideo" ||
-            viewType === "photo" ||
-            viewType === "poster" ||
-            viewType === "promo" ||
-            viewType === "vote") && (
-            <button
-              id="voteButton"
-              onClick={() => handleNavigation("/glasanje")}
-            >
-              Glasanje
-            </button>
-          )}
+        
 
         {isUserLoggedIn() && viewType !== "ChangePassword" && (
           <button

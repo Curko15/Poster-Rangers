@@ -1,106 +1,128 @@
-.gallery{
-    -webkit-column-count: 3;
-    -moz-column-count: 3;
-    column-count: 3;
-    -webkit-column-width: 33%;
-    -moz-column-width: 33%;
-    column-width: 33%;
-    padding: 0 15px;
+.gallery {
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3;
+  -webkit-column-width: 33%;
+  -moz-column-width: 33%;
+  column-width: 33%;
+  padding: 0 15px;
 }
 
-.gallery .pics{
-    -webkit-transition: all 350ms ease;
-    transition: all 350ms ease;
-    position: relative;
-    margin-bottom: 12px;
-    cursor: pointer;
-    overflow: hidden;
-}
-.gallery .pics:hover{
-    filter: opacity(.9);
+.gallery .pics {
+  -webkit-transition: all 350ms ease;
+  transition: all 350ms ease;
+  position: relative;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  overflow: hidden;
 }
 
-@media (max-width: 991px){
-    .gallery{
-        -webkit-column-count: 2;
-        -moz-column-count: 2;
-        column-count: 2;
-    }
+.gallery .pics:hover {
+  filter: opacity(0.9);
 }
 
-@media (max-width: 480px){
-    .gallery{
-        -webkit-column-count: 1;
-        -moz-column-count: 1;
-        column-count: 1;
-        -webkit-column-width: 100%;
-        -moz-column-width: 100%;
-        column-width: 100;
-    }
+.photos {
+  width: 100%;
+  margin-bottom: 1cap;
 }
+@media (max-width: 991px) {
+  .gallery {
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+  }
 
-.photos{
+  .gallery .pics:nth-last-child(2) {
+    margin-left: 50%;
+    margin-right: auto;
+    display: block;
     width: 100%;
+  }
 }
+
+@media (max-width: 480px) {
+  .gallery {
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
+    -webkit-column-width: 100%;
+    -moz-column-width: 100%;
+    column-width: 100;
+  }
+
+  .gallery .pics:nth-last-child(2) {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: auto; /* Adjust width as needed */
+  }
+}
+
 .downloadIcon {
-    width: 40px;
-    height: 40px;
-    /* Additional styles for positioning */
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+  width: 40px;
+  height: 40px;
+  /* Additional styles for positioning */
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .pics:hover .downloadIcon {
-    opacity: 1;
-}
-.down{
-    color: white;
-}
-
-.model{
-    width:100%;
-    height: 100vh;
-    position: fixed;
-    top:0;
-    left:0;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.85);
-    transition: opacity .4s ease, visibility .4s ease, transform .5s ease-in-out;
-    visibility: hidden;
-    opacity: 0;
-    transform: scale(0);
-    overflow:hidden;
-    z-index:999;
-}
-.model.open{
-    visibility:  visible;
-    opacity: 1;
-    transform:scale(1);
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 30%;
 }
 
-.model img{
-    width: auto;
-    max-width: 100%;
-    height: auto;
-    max-height: 100%;
-    display: block;
-    line-height: 0;
-    box-sizing: border-box;
-    padding: 20px 0 20px;
-    margin: 0 auto;
+.down {
+  color: white;
 }
-.model.open svg{
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    width:2rem;
-    height: 2rem;
-    padding: 5px;
-    color: #000000;
-    cursor:pointer;
+
+.model {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.85);
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s ease,
+    transform 0.5s ease-in-out;
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(0);
+  overflow: hidden;
+  z-index: 999;
+}
+.model.open {
+  visibility: visible;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.model img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+  display: block;
+  line-height: 0;
+  box-sizing: border-box;
+  padding: 20px 0 20px;
+  margin: 0 auto;
+}
+.model.open svg {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 2rem;
+  height: 2rem;
+  padding: 5px;
+  color: #000000;
+  cursor: pointer;
 }

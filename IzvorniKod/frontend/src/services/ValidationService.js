@@ -23,7 +23,7 @@ export async function verifyReCaptcha(
   } catch (error) {
     passedCaptcha = false;
     recaptcha.current.reset();
-    alert("Server error");
+    // alert("Server error");
     console.error("Error during reCAPTCHA verification:", error);
   }
   return passedCaptcha;
