@@ -63,28 +63,28 @@ const Header = ({ viewType }) => {
   const renderDropdownMenu = () => {
     return (
       <div className={`dropdown-menu ${isDropdownOpen ? "open" : ""}`}>
-        {userRoleName === "ROLE_ADMIN" && (
-            (viewType === "dodajKonf" ||
+        {(viewType === "login" ||
+          viewType === "register" ||
+          viewType === "ChangePassword") && (
+            <button
+              id="backButton"
+              onClick={handleBackClick}>
+              Početna
+            </button>
+          )}
+        {(userRoleName === "ROLE_ADMIN" || userRoleName === "ROLE_SUPERADMIN") && (
+          (viewType === "dodajKonf" ||
             viewType === "superAdmin" ||
             viewType === "admin" ||
             viewType === "dodajPoster" ||
             viewType === "dodajPromo" ||
             viewType === "dodajFoto") && (
-          <button
-            id="konfButton"
-            onClick={handleBackClick}>
-            Početna
-          </button>
+            <button
+              id="konfButton"
+              onClick={handleBackClick}>
+              Početna
+            </button>
           )
-        )}
-        {(viewType === "login" ||
-          viewType === "register" ||
-          viewType === "ChangePassword") && (
-          <button
-            id="backButton"
-            onClick={handleBackClick}>
-            Početna
-          </button>
         )}
         {userRoleName === "ROLE_ADMIN" && (
           <button
@@ -147,10 +147,10 @@ const Header = ({ viewType }) => {
           viewType === "poster" ||
           viewType === "promo" ||
           viewType === "vote") && (
-          <button id="konfButton" onClick={() => handleNavigation("/home")}>
-            Konferencija
-          </button>
-        )}
+            <button id="konfButton" onClick={() => handleNavigation("/home")}>
+              Konferencija
+            </button>
+          )}
         {isUserLoggedIn() &&
           (viewType === "homescreen" ||
             viewType === "liveVideo" ||
@@ -212,7 +212,7 @@ const Header = ({ viewType }) => {
               Promocije
             </button>
           )}
-        
+
 
         {isUserLoggedIn() && viewType !== "ChangePassword" && (
           <button

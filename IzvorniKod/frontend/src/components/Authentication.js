@@ -217,7 +217,7 @@ const Authentication = ({ viewType }) => {
       <div ref={formContainerRef} className="form-container">
         {!newPasswordReq && (
           <>
-            <h2>{viewType === "login" ? "Login" : "Registracija"}</h2>
+            <h2>{viewType === "login" ? "Prijava" : "Registracija"}</h2>
             <form onSubmit={handleSubmit}>
               {viewType === "register" && (
                 <>
@@ -296,9 +296,25 @@ const Authentication = ({ viewType }) => {
                   Zaboravili ste lozinku?
                 </p>
               )}
+              {viewType === "login" && (
+                <p
+                  onClick={() => navigate("/register")}
+                  className="notRegistered"
+                >
+                  Niste još registrirani?
+                </p>
+              )}
+              {viewType === "register" && (
+                <p
+                  onClick={() => navigate("/login")}
+                  className="notRegistered"
+                >
+                  Već ste registrirani?
+                </p>
+              )}
               <div className="button-container">
                 <button type="submit" className="submit-button">
-                  {viewType === "login" ? "Login" : "Registracija"}
+                  {viewType === "login" ? "Prijava" : "Registracija"}
                 </button>
               </div>
               {errorMessage && (
@@ -330,7 +346,7 @@ const Authentication = ({ viewType }) => {
               <br />
               <div className="button-container">
                 <button className="submit-button2" onClick={handleReturn}>
-                  Povratak na Login
+                  Povratak na prijavu
                 </button>
               </div>
             </form>
