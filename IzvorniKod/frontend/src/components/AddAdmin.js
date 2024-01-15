@@ -55,7 +55,7 @@ function AddAdmin() {
   };
 
   return (
-    <div className="center-container">
+    <div className="center-container-sa">
       <div className="form-container">
         <h2>Dodaj novog admina</h2>
         <form onSubmit={handleSubmit}>

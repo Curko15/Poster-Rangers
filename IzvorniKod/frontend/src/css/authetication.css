@@ -1,73 +1,132 @@
 h2 {
-    margin: unset;
-    margin-bottom: 2rem;
-    font-weight: 600;
+  margin: unset;
+  margin-bottom: 2rem;
+  font-weight: 600;
 }
 
 .center-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: var(--c-2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--c-2);
+}
+
+.center-container-conf {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--c-2);
+}
+.center-container-sa {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  background-color: var(--c-2);
 }
 
 .form-container {
-    max-width: 300px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    color: #333;
+  max-width: 300px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  color: #333;
 }
 
 .input-field {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0 15px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    border-radius: 4px;
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0 15px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 4px;
 }
 
 .submit-button {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 .submit-button2 {
-    display: block;
-    margin: auto;
-    font-size: 18px;
+  display: block;
+  margin: auto;
+  font-size: 18px;
 }
 
 .button-container {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .newPassword {
-    font-size: 14px;
-    font-weight: 600;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .newPassword:hover {
-    cursor: pointer; /* Change cursor to pointer on hover */
+  cursor: pointer;
+}
+
+.notRegistered {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.notRegistered:hover {
+  cursor: pointer;
 }
 
 .message {
-    font-size: 16px;
-    margin-top: 10px;
-    font-weight: 600;
-    text-align: center;
+  font-size: 16px;
+  margin-top: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.success {
+  color: green;
+}
+
+.error {
+  color: red;
+}
+
+@media screen and (max-width: 1200px) {
+  .center-container-conf {
+    height: 80vh;
   }
-  
-  .success {
-    color: green;
+  .form-container {
+    max-width: 80%;
   }
-  
-  .error {
-    color: red;
+
+  label {
+    font-size: 1rem;
   }
-  
+
+  .input-field {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .center-container-conf,
+  .center-container-sa,
+  .center-container {
+    margin-bottom: 1rem;
+  }
+
+  .center-container-conf{
+    height: 90vh;
+  }
+
+  .form-container {
+    max-width: 70%;
+  }
+
+  .input-field {
+    font-size: 0.9rem;
+  }
+}

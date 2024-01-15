@@ -8,7 +8,7 @@ const SuperAdminScreen = () => {
   return (
     <div className="root-container">
       <Header viewType="superAdmin" />
-      <h1 className="title">Dobrodošao superadministratore!</h1>
+      <h1 className="title">Dobrodošao<br />superadministratore!</h1>
       <AddAdmin />
     </div>
   );

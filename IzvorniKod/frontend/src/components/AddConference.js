@@ -140,7 +140,7 @@ const AddConference = () => {
   };
 
   return (
-    <div className="center-container">
+    <div className="center-container-conf">
       <div ref={formContainerRef} className="form-container">
         <h2>Dodaj konferenciju</h2>
         <form onSubmit={handleSubmit}>

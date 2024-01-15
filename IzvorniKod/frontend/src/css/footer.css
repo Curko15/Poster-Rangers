@@ -1,12 +1,15 @@
 .footerTrack {
     width: 100%;
-    height:fit-content;
+    height: 100%;
     display: flex;
     background-color: var(--footer-bcg);
     color: white;
     box-sizing: border-box;
     flex-direction: column;
     align-items: center;
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: space-between;
 }
 
 /* CSS for the map and weather container */
@@ -22,36 +25,21 @@
 /* CSS for the date paragraph */
 .date {
     font-size: 1.2rem;
-    margin-bottom: 1rem;
+    padding-top: 1rem;
     font-weight: bold;
     white-space: nowrap;
     text-align: center;
 }
 
-@media only screen and (max-width: 1200) {
+
+
+
+@media only screen and (max-width: 840px) {
     .footerTrack {
         padding: 1rem; /* Adjust padding for smaller screens */
     }
 
     .mapAndWeather {
-        align-items: center;
-    }
-
-    .date {
-        text-align: center;
-        margin-right: 0; /* Remove right margin on smaller screens */
-        margin-bottom: 1rem;
-    }
-}
-
-
-@media only screen and (max-width: 800px) {
-    .footerTrack {
-        padding: 1rem; /* Adjust padding for smaller screens */
-    }
-
-    .mapAndWeather {
-        flex-direction: column; /* Stack items in a column on smaller screens */
         text-align: center; /* Center text content */
     }
 
@@ -70,7 +58,7 @@
     .mapAndWeather {
         flex-direction: column; /* Stack items in a column on smaller screens */
         text-align: center; /* Center text content */
-        align-items: flex-start;
+        align-items: center;
     }
 
     .date {

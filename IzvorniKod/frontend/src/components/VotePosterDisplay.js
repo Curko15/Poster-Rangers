@@ -82,39 +82,41 @@ const VotePosterDisplay = () => {
   };
 
   return (
-    <>
+    <div className="posterDisplay">
       {isLoading ? (
         <div className="loader">
           <BounceLoader color="#d63636" />
         </div>
       ) : posters.length === 0 ? (
-        <h2>Konferencija nema postere za koje možete glasati!</h2>
+        <div className="noPosters">
+          <h2>Konferencija nema postere za koje možete glasati!</h2>
+        </div>
       ) : (
-        <div className="posterDisplay">
+        <div className="postersContainer">
           {posters.map((poster, index) => (
-            <div className="posterVote">
+            <div key={index} className="posterItem">
               <img
-                className="poster"
+                className="posterImage"
                 src={`data:image/${poster.imageType};base64,${poster.imagebyte}`}
                 alt={`poster-${index}`}
               />
               <div className="vote">
-                <button
-                  type="submit"
-                  className={`submit-button-${
-                    isBtnDisabled ? "disabled" : "active"
-                  }`}
-                  disabled={isBtnDisabled}
-                  onClick={() => handleSubmit(poster.posterId)}
-                >
-                  {hasVoted(poster.posterId) ? "Izbriši glas" : "Glasaj"}
-                </button>
-              </div>
+                  <button
+                    type="submit"
+                    className={`submit-button-${
+                      isBtnDisabled ? "disabled" : "active"
+                    }`}
+                    disabled={isBtnDisabled}
+                    onClick={() => handleSubmit(poster.posterId)}
+                  >
+                    {hasVoted(poster.posterId) ? "Izbriši glas" : "Glasaj"}
+                  </button>
+                </div>
             </div>
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 
