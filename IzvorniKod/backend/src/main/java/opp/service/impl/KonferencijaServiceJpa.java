@@ -2,20 +2,16 @@ package opp.service.impl;
 
 import opp.dao.KonferencijaRepo;
 import opp.domain.Konferencija;
-import opp.domain.Korisnik;
 import opp.domain.Poster;
 import opp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.stream.Collectors;
 
 @Service
 public class KonferencijaServiceJpa implements KonferencijaService {
@@ -54,14 +50,10 @@ public class KonferencijaServiceJpa implements KonferencijaService {
     }
 
     public Konferencija findByPassword(String pass){
-        boolean istina = false;
-        Konferencija nova;
         List<Konferencija> idemo = listAll();
 
         for (Konferencija konfic : idemo){
-
             if(passwordEncoder.matches(pass, konfic.getPassword())){
-                nova = konfic;
                 return konfic;
             }
         }
@@ -78,12 +70,12 @@ public class KonferencijaServiceJpa implements KonferencijaService {
        //Implementacija logike za provjeru i označavanje završenih konferencija
        //Ovdje ćete provjeriti datume konferencija i označiti ih kao završene ako su prošle.
         List<Konferencija> konferencijaList = (List<Konferencija>) konfRepository.findAll();
-        if(konferencijaList.size() == 0) return;
+        if(konferencijaList.isEmpty()) return;
         konferencijaList = konferencijaList.stream()
                 .filter(Konferencija::isAktivna) // Filtriraj samo aktivne konferencije
-                .collect(Collectors.toList());
+                .toList();
 
-        if(konferencijaList.size() != 0){
+        if(!konferencijaList.isEmpty()){
             for(Konferencija konferencija :  konferencijaList){
                     if(LocalDateTime.now().isAfter(konferencija.getEndTime())){
                         konferencija.setAktivna(false);
@@ -98,13 +90,13 @@ public class KonferencijaServiceJpa implements KonferencijaService {
     }
 
     private void sendMails(Long konfid) {
-        Map<Poster, Integer> mapa = glasanjeService.MapPoredak(konfid);
-        List<Map.Entry<Poster, Integer>> entryList = new ArrayList<>(mapa.entrySet());
+        Map<Long, Integer> mapa = glasanjeService.MapPoredak(konfid);
+        List<Map.Entry<Long, Integer>> entryList = new ArrayList<>(mapa.entrySet());
         Konferencija konferencija = konfRepository.findByKonfid(konfid);
 
         for (int i = 0; i < entryList.size(); i++) {
-            Map.Entry<Poster, Integer> entry = entryList.get(i);
-            Long idPostera = entry.getKey().getPosterId();
+            Map.Entry<Long, Integer> entry = entryList.get(i);
+            Long idPostera = entry.getKey();
             Integer brojGlasova = entry.getValue();
 
             if(i < 3){

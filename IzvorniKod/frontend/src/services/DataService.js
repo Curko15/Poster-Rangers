@@ -143,7 +143,7 @@ export const GalleryData = () => {
 };
 
 export const RankData = () => {
-  const [rank, setRank] = useState({});
+  const [rank, setRank] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -160,7 +160,10 @@ export const RankData = () => {
         );
 
         if (response.status === 200) {
-          const rankData = JSON.stringify(response.data);
+          const rankData = Object.entries(response.data).map(([id, count]) => ({
+            id: parseInt(id, 10),
+            count,
+          }));
           setRank(rankData);
         } else {
           console.error("Error fetching rank data:", response.statusText);

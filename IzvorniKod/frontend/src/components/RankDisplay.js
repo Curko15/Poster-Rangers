@@ -1,15 +1,20 @@
 import React from "react";
-import { RankData } from "../services/DataService";
+import { PosterData, RankData } from "../services/DataService";
 import { BounceLoader } from "react-spinners";
 
 import "../css/posterDisplay.css";
 
 const RankDisplay = () => {
   const { rank, isLoading } = RankData();
+  const { posters, isLoading: postersLoading } = PosterData();
+
+  const getPosterById = (posterId) => {
+    return posters.find((poster) => poster.posterId === posterId);
+  };
 
   return (
     <>
-      {isLoading ? (
+      {isLoading || postersLoading ? (
         <div className="loader">
           <BounceLoader color="#d63636" />
         </div>
@@ -23,17 +28,23 @@ const RankDisplay = () => {
               <th>Naziv Postera</th>
               <th>Ime Autora</th>
               <th>Prezime Autora</th>
+              <th>Broj glasova</th>
             </tr>
           </thead>
           <tbody>
-            {Array.from(rank).map(([poster, rank]) => (
-              <tr key={poster.posterId}>
-                <td>{rank}</td>
-                <td>{poster.nazivPoster}</td>
-                <td>{poster.imeAutor}</td>
-                <td>{poster.prezimeAutor}</td>
-              </tr>
-            ))}
+            {rank.map(({ id, count }, index) => {
+              const poster = getPosterById(id);
+
+              return poster ? (
+                <tr key={id}>
+                  <td>{index + 1}</td>
+                  <td>{poster.nazivPoster}</td>
+                  <td>{poster.imeAutor}</td>
+                  <td>{poster.prezimeAutor}</td>
+                  <td>{count}</td>
+                </tr>
+              ) : null;
+            })}
           </tbody>
         </table>
       )}
