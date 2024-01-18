@@ -46,6 +46,13 @@ const PosterDisplay = () => {
                     )
                   }
                 />
+                
+                <div className="details">
+                  <h3 className="title">Naziv: {poster.nazivPoster}</h3>
+                  <h3 className="author">
+                    Autor: {`${poster.imeAutor} ${poster.prezimeAutor}`}
+                  </h3>
+                  <h3 className="email">Email autora: {poster.emailAutor}</h3>
                 <span className="download">
                   <a
                     href={`data:image/${poster.imageType};base64,${poster.imagebyte}`}
@@ -54,14 +61,7 @@ const PosterDisplay = () => {
                   >
                     <FiDownload className="downloadIcon" />
                   </a>
-                </span>
-                <div className="details">
-                  <h3 className="title">Naziv: {poster.nazivPoster}</h3>
-                  <h3 className="author">
-                    Autor: {`${poster.imeAutor} ${poster.prezimeAutor}`}
-                  </h3>
-                  <h3 className="email">Email autora: {poster.emailAutor}</h3>
-                </div>
+                </span></div>
               </div>
             ))}
           </div>
