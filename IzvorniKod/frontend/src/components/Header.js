@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import {
-  getAuthToken,
-  getLoggedInUser,
   isLoggedInConference,
   isUserLoggedIn,
   logOutFromConference,
   userLogOut,
 } from "../services/AuthService";
+import { fetchRole } from "../services/DataService";
 
 import "../css/header.css";
 
@@ -16,68 +14,33 @@ const Header = ({ viewType }) => {
   const navigate = useNavigate();
   const [userRoleName, setUserRoleName] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (isUserLoggedIn()) {
-        try {
-          const response = await axios.post(
-            "/api/korisnici/getRole",
-            {
-              email: getLoggedInUser().userEmail,
-              password: getLoggedInUser().userPass,
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + getAuthToken().token,
-              },
-            },
-          );
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-          const userRole = response.data;
-          userRole.map((role) => setUserRoleName(role.name));
-        } catch (error) {
-          console.error("Error fetching data:", error.message);
-        }
+  const handleToggleMenu = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const fetchData = async () => {
+    if (isUserLoggedIn()) {
+      try {
+        const response = await fetchRole();
+        const userRole = response.data;
+        userRole.map((role) => setUserRoleName(role.name));
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
-
-  const handleVideoClick = () => {
-    navigate("/live");
-  };
-
-  const handleKonfClick = () => {
-    navigate("/home");
-  };
-
-  const handleFotoClick = () => {
-    navigate("/foto");
-  };
-
-  const handlePromoClick = () => {
-    navigate("/promo");
-  };
-
-  const handleLoginClick = () => {
-    navigate("/login");
-  };
-
-  const handleRegisterClick = () => {
-    navigate("/register");
-  };
 
   const handleLogOutClick = () => {
     logOutFromConference();
     userLogOut();
     setUserRoleName("");
     navigate("/");
-  };
-
-  const handleVoteClick = () => {
-    navigate("/glasanje");
   };
 
   const handleBackClick = () => {
@@ -93,81 +56,101 @@ const Header = ({ viewType }) => {
     navigate("/");
   };
 
-  const handleAddPosterClick = () => {
-    navigate("/dodajPoster");
+  const handleNavigation = (path) => {
+    navigate(path);
   };
 
-  const handleAddConferenceClick = () => {
-    navigate("/admin");
-  };
-
-  const handleAddAdminClick = () => {
-    navigate("/superAdmin");
-  };
-
-  const renderButtons = () => {
+  const renderDropdownMenu = () => {
     return (
-      <>
+      <div className={`dropdown-menu ${isDropdownOpen ? "open" : ""}`}>
+        {(viewType === "login" ||
+          viewType === "register" ||
+          viewType === "ChangePassword") && (
+            <button
+              id="backButton"
+              onClick={handleBackClick}>
+              Početna
+            </button>
+          )}
+        {(userRoleName === "ROLE_ADMIN" || userRoleName === "ROLE_SUPERADMIN") && (
+          (viewType === "dodajKonf" ||
+            viewType === "superAdmin" ||
+            viewType === "admin" ||
+            viewType === "dodajPoster" ||
+            viewType === "dodajPromo" ||
+            viewType === "dodajFoto") && (
+            <button
+              id="konfButton"
+              onClick={handleBackClick}>
+              Početna
+            </button>
+          )
+        )}
         {userRoleName === "ROLE_ADMIN" && (
-          <button id="addPosterButton" onClick={handleAddPosterClick}>
+          <button
+            id="addConferenceButton"
+            onClick={() => handleNavigation("/admin")}
+          >
+            Dodaj konferenciju
+          </button>
+        )}
+        {userRoleName === "ROLE_ADMIN" && (
+          <button
+            id="addPosterButton"
+            onClick={() => handleNavigation("/dodajPoster")}
+          >
             Dodaj poster
           </button>
         )}
         {userRoleName === "ROLE_ADMIN" && (
-          <button id="addConferenceButton" onClick={handleAddConferenceClick}>
-            Dodaj konferenciju
+          <button
+            id="addPosterButton"
+            onClick={() => handleNavigation("/dodajPromo")}
+          >
+            Dodaj promo
+          </button>
+        )}
+        {userRoleName === "ROLE_ADMIN" && (
+          <button
+            id="addGalleryPhotoButton"
+            onClick={() => handleNavigation("/dodajFoto")}
+          >
+            Dodaj foto
           </button>
         )}
         {userRoleName === "ROLE_SUPERADMIN" && (
-          <button id="logOutButton" onClick={handleAddAdminClick}>
+          <button
+            id="logOutButton"
+            onClick={() => handleNavigation("/superAdmin")}
+          >
             Dodaj admina
-          </button>
-        )}
-        {(viewType === "login" || viewType === "register") && (
-          <button id="backButton" onClick={handleBackClick}>
-            Natrag
           </button>
         )}
         {(viewType === "entercode" || viewType === "homescreen") &&
           !isUserLoggedIn() && (
-            <button id="loginButton" onClick={handleLoginClick}>
+            <button id="loginButton" onClick={() => handleNavigation("/login")}>
               Prijava
             </button>
           )}
         {(viewType === "entercode" || viewType === "homescreen") &&
           !isUserLoggedIn() && (
-            <button id="registerButton" onClick={handleRegisterClick}>
+            <button
+              id="registerButton"
+              onClick={() => handleNavigation("/register")}
+            >
               Registracija
             </button>
           )}
-        {isUserLoggedIn() && (
-          <button id="logOutButton" onClick={handleLogOutClick}>
-            Odjava
-          </button>
-        )}
-        {(viewType === "homescreen" ||
-          viewType === "liveVideo" ||
-          viewType === "photo" ||
-          viewType === "poster" ||
-          viewType === "promo" ||
-          viewType === "vote" ||
-          viewType === "admin" ||
-          viewType === "superAdmin") && (
-          <button id="exitButton" onClick={handleExitClick}>
-            Izlaz
-          </button>
-        )}
-
         {(viewType === "homescreen" ||
           viewType === "liveVideo" ||
           viewType === "photo" ||
           viewType === "poster" ||
           viewType === "promo" ||
           viewType === "vote") && (
-          <button id="konfButton" onClick={handleKonfClick}>
-            Konferencija
-          </button>
-        )}
+            <button id="konfButton" onClick={() => handleNavigation("/home")}>
+              Konferencija
+            </button>
+          )}
         {isUserLoggedIn() &&
           (viewType === "homescreen" ||
             viewType === "liveVideo" ||
@@ -175,7 +158,7 @@ const Header = ({ viewType }) => {
             viewType === "poster" ||
             viewType === "promo" ||
             viewType === "vote") && (
-            <button id="videoButton" onClick={handleVideoClick}>
+            <button id="videoButton" onClick={() => handleNavigation("/live")}>
               Video Prijenos
             </button>
           )}
@@ -186,7 +169,35 @@ const Header = ({ viewType }) => {
             viewType === "poster" ||
             viewType === "promo" ||
             viewType === "vote") && (
-            <button id="fotoButton" onClick={handleFotoClick}>
+            <button
+              id="posterButton"
+              onClick={() => handleNavigation("/posteri")}
+            >
+              Posteri
+            </button>
+          )}
+        {isUserLoggedIn() &&
+          (viewType === "homescreen" ||
+            viewType === "liveVideo" ||
+            viewType === "photo" ||
+            viewType === "poster" ||
+            viewType === "promo" ||
+            viewType === "vote") && (
+            <button
+              id="voteButton"
+              onClick={() => handleNavigation("/glasanje")}
+            >
+              Glasanje
+            </button>
+          )}
+        {isUserLoggedIn() &&
+          (viewType === "homescreen" ||
+            viewType === "liveVideo" ||
+            viewType === "photo" ||
+            viewType === "poster" ||
+            viewType === "promo" ||
+            viewType === "vote") && (
+            <button id="fotoButton" onClick={() => handleNavigation("/foto")}>
               Fotografije
             </button>
           )}
@@ -197,29 +208,45 @@ const Header = ({ viewType }) => {
             viewType === "poster" ||
             viewType === "promo" ||
             viewType === "vote") && (
-            <button id="promoButton" onClick={handlePromoClick}>
+            <button id="promoButton" onClick={() => handleNavigation("/promo")}>
               Promocije
             </button>
           )}
-        {isUserLoggedIn() &&
-          (viewType === "homescreen" ||
-            viewType === "liveVideo" ||
-            viewType === "photo" ||
-            viewType === "poster" ||
-            viewType === "promo" ||
-            viewType === "vote") && (
-            <button id="voteButton" onClick={handleVoteClick}>
-              Glasanje
-            </button>
-          )}
-      </>
+
+
+        {isUserLoggedIn() && viewType !== "ChangePassword" && (
+          <button
+            id="changePassword"
+            onClick={() => handleNavigation("/promijeniLozinku")}
+          >
+            Promijeni Lozinku
+          </button>
+        )}
+        {isLoggedInConference() && (
+          <button id="exitButton" onClick={handleExitClick}>
+            Izlaz
+          </button>
+        )}
+        {isUserLoggedIn() && (
+          <button id="logOutButton" onClick={handleLogOutClick}>
+            Odjava
+          </button>
+        )}
+      </div>
     );
   };
 
   return (
     <header className="headerTrack">
       <nav>
-        <div className="navList">{renderButtons()}</div>
+        <div className="navList">
+          <div className="dropdown">
+            <button className="dropdown-toggle" onClick={handleToggleMenu}>
+              ☰
+            </button>
+            {renderDropdownMenu()}
+          </div>
+        </div>
       </nav>
     </header>
   );

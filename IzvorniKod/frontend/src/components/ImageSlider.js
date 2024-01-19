@@ -1,80 +1,79 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import{ useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination } from "swiper/modules";
-import { getConferenceId } from "../services/AuthService";
-import axios from "axios";
+import { BounceLoader } from "react-spinners";
+import { PosterData } from "../services/DataService";
+import { PromoData } from "../services/DataService";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "../css/imageSlider.css";
 
-const ImageSlider = () => {
-  const [posters, setPosters] = useState([]);
+const ImageSlider = ({ view }) => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  let isLoading, posters;
 
-  useEffect(() => {
-    const conferenceId = getConferenceId();
-    const fetchPosters = async () => {
-      try {
-        const response = await axios.post(
-          "/api/konferencija/getKonfId",
-          {
-            password: conferenceId,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
-        );
+  if (view === "poster") {
+    ({ posters, isLoading } = PosterData());
+  } else {
+    ({ promo: posters, isLoading } = PromoData());
+  }
 
-        if (response.status === 200) {
-          const conferenceData = response.data;
-          const posterResponse = await axios.get(
-            `/api/poster/getAll/${conferenceData}`,
-          );
-
-          if (posterResponse.status === 200) {
-            const posterData = posterResponse.data;
-            setPosters(posterData);
-          } else {
-            console.error("Error fetching posters:", posterResponse.statusText);
-          }
-        } else {
-          console.error("Error fetching conference data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    fetchPosters();
-  }, []);
+  const handleSlideChange = (swiper) => {
+    setCurrentSlide(swiper.realIndex);
+  };
 
   return (
     <>
-      <Swiper
-        effect={"coverflow"}
-        grabCursor={true}
-        centeredSlides={true}
-        slidesPerView={"auto"}
-        coverflowEffect={{
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows: true,
-        }}
-        pagination={true}
-        modules={[EffectCoverflow, Pagination]}
-        className="mySwiper"
-      >
-        {posters.map((poster, index) => (
-          <SwiperSlide key={index}>
-            <img src={poster.posterPath} alt={`poster-${index}`} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {isLoading ? (
+        <div className="loader">
+          <BounceLoader color="#d63636" />
+        </div>
+      ) : (
+        <Swiper
+          effect={"coverflow"}
+          grabCursor={true}
+          start
+          centeredSlides={true}
+          slidesPerView={"auto"}
+          coverflowEffect={{
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          }}
+          pagination={true}
+          modules={[EffectCoverflow, Pagination]}
+          className="mySwiper"
+          onSlideChange={(swiper) => handleSlideChange(swiper)}
+          initialSlide={Math.floor(posters.length / 2)}
+        >
+          {posters.map((poster, index) => {
+            const type =
+              view === "poster" ? poster.imageType : poster.promoType;
+            const byte =
+              view === "poster" ? poster.imagebyte : poster.promobyte;
+            return (
+              <SwiperSlide
+                style={{
+                  marginRight: "15px",
+                  zIndex: currentSlide === index ? 1 : 0,
+                  transform: `scale(${currentSlide === index ? 1.2 : 1})`
+                }}
+                key={poster.posterId}
+              >
+                <img
+                  src={`data:image/${type};base64,${byte}`}
+                  alt={`poster-${index}`}
+                />
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      )}
     </>
   );
 };

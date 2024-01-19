@@ -1,5 +1,6 @@
 package opp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -33,6 +34,7 @@ public class Korisnik implements UserDetails {
     @NotNull
     private String prezime;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "korisnik_roles",
     joinColumns = @JoinColumn(name = "email", referencedColumnName = "email"),
@@ -40,7 +42,7 @@ public class Korisnik implements UserDetails {
     )
     private Set<Role> roles;
 
-
+    private  String resetPasswordToken;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = this.getRoles().stream()

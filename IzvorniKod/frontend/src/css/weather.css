@@ -1,0 +1,27 @@
+/* Add the following styles to your existing CSS file or create a new one */
+
+/* Styles for the weather container */
+.weatherContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* Styles for the ReactWeather component */
+.weather {
+    max-width: 600px; /* Adjust the maximum width as needed */
+    height: 20rem;
+}
+
+
+@media only screen and (max-width: 840px) {
+    .weatherContainer {
+        padding: 10px; /* Add padding for better readability on small screens */
+        width: auto;
+    }
+
+    .weather {
+        max-width: 100%; /* Allow the weather component to take full width on small screens */
+    }
+}

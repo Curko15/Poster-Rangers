@@ -21,13 +21,20 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurtiyConfiguration {
     private static final String[] WHITE_LIST_URL = {
+            "/korisnici/verifyRecaptcha",
             "/korisnici/registerPP",
             "/korisnici/authenticatePP",
+            "/korisnici/reset-password",
+            "/korisnici/reset-password1",
+            "/korisnici/password-reset-request",
             "/konferencija/loginKonf",
             "/korisnici/registerAdmin",
             "/konferencija/getKonfId",
+            "/konferencija/getLocation/{id}",
             "/poster/getAll/**",
             "/poster/**",
+            "/fotomaterijal/getAll/**",
+            "/promomaterijal/getAll/**",
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -40,10 +47,12 @@ public class SecurtiyConfiguration {
                     CorsConfiguration corsConfig = new CorsConfiguration();
                     corsConfig.setAllowCredentials(true);
                     corsConfig.addAllowedOriginPattern("https://poster-rangers-fe.onrender.com");
+                    corsConfig.addAllowedOriginPattern("http://localhost:3000/");
                     corsConfig.addAllowedHeader("Authorization");
                     corsConfig.addAllowedHeader("Content-Type");
                     corsConfig.addAllowedMethod(HttpMethod.GET);
                     corsConfig.addAllowedMethod(HttpMethod.POST);
+                    corsConfig.addAllowedMethod(HttpMethod.DELETE);
 
                     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
                     source.registerCorsConfiguration("/**", corsConfig);
@@ -56,7 +65,5 @@ public class SecurtiyConfiguration {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-
     }
-
 }

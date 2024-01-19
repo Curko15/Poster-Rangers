@@ -1,29 +1,53 @@
-import ReactWeather, { useOpenWeather } from "react-open-weather";
+import React, { useEffect, useState } from "react";
+import ReactWeather, { useWeatherBit } from "react-open-weather";
+import { fetchCoordinates, LocationData } from "../services/DataService";
 
-const WeatherDisplay = (props) => {
-  const { data, isLoading, errorMessage } = useOpenWeather({
-    key: "cd9f7696d0bd3387399e903c5be61456",
-    lat: props.lat.toString(),
-    lon: props.lon.toString(),
+import "../css/main.css";
+import "../css/weather.css";
+
+const Weather = () => {
+  const { locationData } = LocationData();
+  const [coordinates, setCoordinates] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const coords = await fetchCoordinates(locationData.nazivMjesta);
+        setCoordinates(coords[0]);
+      } catch (error) {
+        console.error("Error fetching coordinates:", error);
+      }
+    };
+
+    fetchData();
+  }, [locationData.nazivMjesta]);
+
+  const { data, isLoading, errorMessage } = useWeatherBit({
+    key: "7024cd5ab118458092bb1236a5a216c9",
+    lat: coordinates?.lat || "48.137154",
+    lon: coordinates?.lon || "11.576124",
     lang: "en",
-    unit: "metric",
+    unit: "M",
   });
 
-  if (!data) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <ReactWeather
-      isLoading={isLoading}
-      errorMessage={errorMessage}
-      data={data}
-      lang="en"
-      locationLabel="New York City"
-      unitsLabels={{ temperature: "C", windSpeed: "km/h" }}
-      showForecast
-    />
+    <div className="weatherContainer">
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : errorMessage ? (
+        <div>Error: {errorMessage}</div>
+      ) : (
+        <ReactWeather
+          className="weather"
+          data={data}
+          lang="en"
+          locationLabel={coordinates ? locationData.nazivMjesta : "Zagreb"}
+          unitsLabels={{ temperature: "C", windSpeed: "Km/h" }}
+          showForecast
+        />
+      )}
+    </div>
   );
 };
 
-export default WeatherDisplay;
+export default Weather;

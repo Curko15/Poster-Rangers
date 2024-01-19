@@ -8,4 +8,10 @@
 .centered-video {
     width: 70%;
     padding-top: 2vh;
+    padding-bottom: 2vh;
+}
+
+#live-video {
+    border-radius: 30px;
+    border: 2px solid #ccc;
 }

@@ -1,9 +1,69 @@
 .footerTrack {
     width: 100%;
+    height: 100%;
     display: flex;
-    justify-content: space-between;
-    padding: 1rem;
     background-color: var(--footer-bcg);
     color: white;
     box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: space-between;
+}
+
+/* CSS for the map and weather container */
+.mapAndWeather {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    justify-content: center;
+    margin: auto;
+}
+
+/* CSS for the date paragraph */
+.date {
+    font-size: 1.2rem;
+    padding-top: 1rem;
+    font-weight: bold;
+    white-space: nowrap;
+    text-align: center;
+}
+
+
+
+
+@media only screen and (max-width: 840px) {
+    .footerTrack {
+        padding: 1rem; /* Adjust padding for smaller screens */
+    }
+
+    .mapAndWeather {
+        text-align: center; /* Center text content */
+    }
+
+    .date {
+        text-align: center;
+        margin-right: 0; /* Remove right margin on smaller screens */
+        margin-bottom: 1rem;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .footerTrack {
+        padding: 1rem; /* Adjust padding for smaller screens */
+    }
+
+    .mapAndWeather {
+        flex-direction: column; /* Stack items in a column on smaller screens */
+        text-align: center; /* Center text content */
+        align-items: center;
+    }
+
+    .date {
+        text-align: center;
+        margin-right: 0; /* Remove right margin on smaller screens */
+        margin-bottom: 1rem;
+    }
 }

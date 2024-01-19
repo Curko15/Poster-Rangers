@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
+import validator from "validator";
 import {
   getLoggedInUser,
   isLoggedInConference,
   saveLoggedInUser,
-  storeToken,
   saveAuthToken,
-  getAuthToken,
 } from "../services/AuthService";
+import { fetchRole } from "../services/DataService";
+import { verifyReCaptcha } from "../services/ValidationService";
+import PasswordInput from "./PasswordInput";
 
 import "../css/authetication.css";
 
@@ -17,13 +20,48 @@ const Authentication = ({ viewType }) => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
+
+  const [newPasswordReq, setNewPasswordReq] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+
   const [errorMessage, setErrorMessage] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+  const recaptcha = useRef();
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
+
+  const handleRecaptchaChange = (value) => {
+    setRecaptchaToken(value);
+  };
 
   const formContainerRef = useRef(null);
   const navigate = useNavigate();
 
+  const validatePassword = (value, isRegistration) => {
+    if (isRegistration) {
+      return validator.isStrongPassword(value, {
+        minLength: 8,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      });
+    } else {
+      setPasswordError("");
+      return true;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const captchaValue = recaptcha.current.getValue();
+    if (!captchaValue) {
+      setErrorMessage("Molimo potvrdite reCAPTCHA");
+      return;
+    }
 
     if (viewType === "login") {
       if (!email || !password) {
@@ -32,67 +70,132 @@ const Authentication = ({ viewType }) => {
       }
     } else {
       if (!email || !password || !name || !lastName) {
-        setErrorMessage("Molimo unesite sve podatke");
+        setErrorMessage("Molimo ispunite sva polja");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        setConfirmPasswordError("Lozinke se ne podudaraju");
+        return;
+      }
+
+      const isPasswordValid = validatePassword(password, true);
+      if (!isPasswordValid) {
+        setPasswordError(
+          "Lozinka mora imati barem 8 znakova, najmanje jedno veliko slovo, najmanje jedan broj i najmanje jedan simbol.",
+        );
         return;
       }
     }
 
-    const token = window.btoa(email + ":" + password);
-    storeToken(token);
+    if (!(await verifyReCaptcha(captchaValue, recaptcha, setErrorMessage))) {
+      return;
+    }
 
-    const requestData =
-      viewType === "login"
-        ? { email: email, password: password }
-        : { email: email, password: password, ime: name, prezime: lastName };
-
-    const url = `/api/korisnici/${
-      viewType === "login" ? "authenticatePP" : "registerPP"
-    }`;
-    let response;
     try {
-      response = await axios.post(url, requestData, {
+      const requestData =
+        viewType === "login"
+          ? { email: email, password: password }
+          : { email: email, password: password, ime: name, prezime: lastName };
+
+      const url = `/api/korisnici/${
+        viewType === "login" ? "authenticatePP" : "registerPP"
+      }`;
+
+      const response = await axios.post(url, requestData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Pogrešan email ili lozinka");
-    }
 
-    const authToken = await response.data;
-    saveAuthToken(authToken);
+      const authToken = await response.data;
+      saveAuthToken(authToken);
+      saveLoggedInUser(email, password);
 
-    saveLoggedInUser(email, password);
-    const getRoleData = {
-      email: getLoggedInUser().userEmail,
-      password: getLoggedInUser().userPass,
-    };
+      const responseRole = await fetchRole();
 
-    let responseRole;
-    try {
-      responseRole = await axios.post("/api/korisnici/getRole", getRoleData, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + getAuthToken().token,
-        },
-      });
-    } catch (error) {
-      console.error("Error:", error);
-    }
+      const userRoleName = responseRole.data.find((role) => true)?.name;
 
-    let userRole = responseRole.data.find((role) => true)?.name;
-
-    if (userRole === "ROLE_ADMIN") {
-      navigate("/admin");
-    } else if (userRole === "ROLE_SUPERADMIN") {
-      navigate("/superAdmin");
-    } else if (userRole === "ROLE_KORISNIK") {
-      if (isLoggedInConference()) {
-        navigate("/home");
-      } else {
-        navigate("/");
+      if (userRoleName === "ROLE_ADMIN") {
+        navigate("/admin");
+      } else if (userRoleName === "ROLE_SUPERADMIN") {
+        navigate("/superAdmin");
+      } else if (userRoleName === "ROLE_KORISNIK") {
+        if (isLoggedInConference()) {
+          navigate("/home");
+        } else {
+          navigate("/");
+        }
       }
+    } catch (error) {
+      console.error("Error during authentication:", error);
+
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403)
+      ) {
+        setErrorMessage("Pogrešan email ili lozinka");
+        if (!(await verifyReCaptcha(captchaValue, recaptcha, setErrorMessage))) {
+          // Reset ReCAPTCHA state on incorrect email or password
+          recaptcha.current.reset();
+          return;
+        }
+      } else {
+        console.error("Error during authentication:", error);
+        setErrorMessage("Korisnik s unesenim emailom već postoji.");
+      }
+    }
+  };
+
+  const handlePasswordBlur = () => {
+    const isPasswordValid = validatePassword(password, viewType === "register");
+
+    if (!isPasswordValid) {
+      setPasswordError(
+        "Lozinka mora imati barem 8 znakova, najmanje jedno veliko slovo, najmanje jedan broj i najmanje jedan simbol.",
+      );
+    } else {
+      setPasswordError("");
+    }
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const confirmPasswordValue = e.target.value;
+
+    setConfirmPassword(confirmPasswordValue);
+
+    if (confirmPasswordValue !== password) {
+      setConfirmPasswordError("Lozinke se ne podudaraju.");
+    } else {
+      setConfirmPasswordError("");
+    }
+  };
+
+  const handleReturn = () => {
+    setNewPasswordReq(false);
+    setErrorMessage("");
+  };
+
+  const handleNewPasswordReq = async (e) => {
+    e.preventDefault();
+
+    if (!newEmail) {
+      setErrorMessage("Molimo unesite email");
+      return;
+    }
+
+    const requestData = { email: newEmail };
+
+    try {
+      await axios.post("/api/korisnici/password-reset-request", requestData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setNewEmail("");
+    } catch (error) {
+      console.error("Error:", error);
+      setErrorMessage("Pogrešan email");
     }
   };
 
@@ -112,59 +215,143 @@ const Authentication = ({ viewType }) => {
   return (
     <div className="center-container">
       <div ref={formContainerRef} className="form-container">
-        <h2>{viewType === "login" ? "Login" : "Registracija"}</h2>
-        <form onSubmit={handleSubmit}>
-          {viewType === "register" && (
-            <>
+        {!newPasswordReq && (
+          <>
+            <h2>{viewType === "login" ? "Prijava" : "Registracija"}</h2>
+            <form onSubmit={handleSubmit}>
+              {viewType === "register" && (
+                <>
+                  <label>
+                    Ime:
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="input-field"
+                    />
+                  </label>
+                  <br />
+                  <label>
+                    Prezime:
+                    <input
+                      type="text"
+                      value={lastName}
+                      onChange={(e) => {
+                        setLastName(e.target.value);
+                      }}
+                      className="input-field"
+                    />
+                  </label>
+                  <br />
+                </>
+              )}
               <label>
-                Ime:
+                Email:
                 <input
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="input-field"
                 />
               </label>
               <br />
+              <PasswordInput
+                id={"password"}
+                label={"Lozinka: "}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onBlur={handlePasswordBlur}
+                className="input-field"
+              />
+              {passwordError && viewType === "register" && (
+                <p className="error-message">{passwordError}</p>
+              )}
+              <br />
+              {viewType === "register" && (
+                <>
+                  <PasswordInput
+                    id={"confirmPassword"}
+                    label={"Potvrda lozinke: "}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    onBlur={handleConfirmPasswordChange}
+                  />
+                  {confirmPasswordError && (
+                    <p className="error-message">{confirmPasswordError}</p>
+                  )}
+                  <br />
+                </>
+              )}
+              <ReCAPTCHA
+                ref={recaptcha}
+                sitekey="6LdL5UYpAAAAAAJZnzy2kao9wVvd1WNVbnNAUrUK"
+                onChange={handleRecaptchaChange}
+              />
+              <br />
+              {viewType === "login" && (
+                <p
+                  onClick={() => setNewPasswordReq(true)}
+                  className="newPassword"
+                >
+                  Zaboravili ste lozinku?
+                </p>
+              )}
+              {viewType === "login" && (
+                <p
+                  onClick={() => navigate("/register")}
+                  className="notRegistered"
+                >
+                  Niste još registrirani?
+                </p>
+              )}
+              {viewType === "register" && (
+                <p
+                  onClick={() => navigate("/login")}
+                  className="notRegistered"
+                >
+                  Već ste registrirani?
+                </p>
+              )}
+              <div className="button-container">
+                <button type="submit" className="submit-button">
+                  {viewType === "login" ? "Prijava" : "Registracija"}
+                </button>
+              </div>
+              {errorMessage && (
+                <h2 className="error-message">{errorMessage}</h2>
+              )}
+            </form>
+          </>
+        )}
+        {newPasswordReq && (
+          <>
+            <h2>Zaboravljena lozinka</h2>
+            {errorMessage && <h2 className="error-message">{errorMessage}</h2>}
+            <form onSubmit={handleNewPasswordReq}>
               <label>
-                Prezime:
+                Email:
                 <input
                   type="text"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
                   className="input-field"
                 />
               </label>
               <br />
-            </>
-          )}
-          <label>
-            Email:
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="input-field"
-            />
-          </label>
-          <br />
-          <label>
-            Lozinka:
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="input-field"
-            />
-          </label>
-          <br />
-          <div className="button-container">
-            <button type="submit" className="submit-button">
-              {viewType === "login" ? "Login" : "Registracija"}
-            </button>
-          </div>
-          {errorMessage && <h2 className="error-message">{errorMessage}</h2>}
-        </form>
+              <div className="button-container">
+                <button type="submit" className="submit-button2">
+                  Zatraži novu lozinku
+                </button>
+              </div>
+              <br />
+              <div className="button-container">
+                <button className="submit-button2" onClick={handleReturn}>
+                  Povratak na prijavu
+                </button>
+              </div>
+            </form>
+          </>
+        )}
       </div>
     </div>
   );

@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Blob;
+
 @Entity
 @Table(name = "Poster")
 @Getter
@@ -24,6 +26,20 @@ public class Poster {
     private String imeAutor;
 
     private String prezimeAutor;
+
+/*
+    @Column(columnDefinition = "bytea")
+    private byte[] image;
+*/
+    @Column(columnDefinition = "bytea")
+    private byte[] imagebyte;
+
+    private String imageType;
+
+    /*
+    @Lob
+    private Blob image;
+     */
 
     @ManyToOne
     @JsonIgnore

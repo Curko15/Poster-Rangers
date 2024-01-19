@@ -2,6 +2,12 @@ export const storeToken = (token) => localStorage.setItem("token", token);
 
 export const getToken = () => localStorage.getItem("token");
 
+export const setVote = (posterId) => localStorage.setItem("vote", posterId);
+
+export const getVote = () => localStorage.getItem("vote");
+
+export const removeVote = () => localStorage.removeItem("vote");
+
 export const saveLoggedInUser = (email, password) => {
   sessionStorage.setItem("email", email);
   sessionStorage.setItem("password", password);
@@ -11,16 +17,25 @@ export const isUserLoggedIn = () => {
   return sessionStorage.getItem("email") !== null;
 };
 
-export const setConferenceId = (id) => sessionStorage.setItem("conference", id);
+export const setConferenceId = (id) => sessionStorage.setItem("id", id);
+
+export const setConferenceData = (conf) =>
+  sessionStorage.setItem("conference", JSON.stringify(conf));
 
 export const isLoggedInConference = () => {
-  return sessionStorage.getItem("conference") !== null;
+  return sessionStorage.getItem("id") !== null;
 };
-export const logOutFromConference = () =>
+export const logOutFromConference = () => {
+  sessionStorage.removeItem("id");
   sessionStorage.removeItem("conference");
+};
 
 export const getConferenceId = () => {
-  return sessionStorage.getItem("conference");
+  return sessionStorage.getItem("id");
+};
+
+export const getConferenceData = () => {
+  return JSON.parse(sessionStorage.getItem("conference"));
 };
 
 export const userLogOut = () => {

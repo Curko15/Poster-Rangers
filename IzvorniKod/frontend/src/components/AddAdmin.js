@@ -1,18 +1,26 @@
 import React, { useState } from "react";
 import { getAuthToken } from "../services/AuthService";
+import PasswordInput from "./PasswordInput";
 import axios from "axios";
 
 import "../css/addConference.css";
 
-
 function AddAdmin() {
   const [emailAdmin, setEmailAdmin] = useState("");
-  const [adminPassword, setAdminPassword] = useState(null);
+  const [adminPassword, setAdminPassword] = useState("");
   const [adminName, setAdminName] = useState("");
   const [adminLastName, setAdminLastName] = useState("");
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!adminName || !adminLastName || !adminPassword || !emailAdmin) {
+      setErrorMessage("Molimo unseite sve podatke!");
+      return;
+    }
 
     const admin = {
       ime: adminName,
@@ -35,19 +43,25 @@ function AddAdmin() {
         setAdminLastName("");
         setEmailAdmin("");
         setAdminPassword("");
+        setErrorMessage("");
+        setSuccessMessage("Uspješno dodan novi admin!");
       } else {
         console.error("Failed to submit new admin");
       }
     } catch (error) {
       console.error("Error submitting admin:", error.message);
+      setErrorMessage("Korisnik s unesenim mailom već postoji!");
     }
   };
 
   return (
-    <div className="center-container">
+    <div className="center-container-sa">
       <div className="form-container">
         <h2>Dodaj novog admina</h2>
         <form onSubmit={handleSubmit}>
+          {successMessage && (
+            <h2 className="success-message">{successMessage}</h2>
+          )}
           <label className="label">
             Ime:
             <input
@@ -84,18 +98,12 @@ function AddAdmin() {
             />
           </label>
 
-          <label className="label">
-            Lozinka:
-            <input
-              type="password"
-              name="password"
-              value={adminPassword}
-              onChange={(e) => setAdminPassword(e.target.value)}
-              className="input-field"
-              required
-              hidden={false}
-            />
-          </label>
+          <PasswordInput
+            id={"password"}
+            label={"Lozinka: "}
+            value={adminPassword}
+            onChange={(e) => setAdminPassword(e.target.value)}
+          />
 
           <div className="button-container">
             <button
@@ -107,6 +115,7 @@ function AddAdmin() {
             </button>
           </div>
         </form>
+        {errorMessage && <h2 className="error-message">{errorMessage}</h2>}
       </div>
     </div>
   );
