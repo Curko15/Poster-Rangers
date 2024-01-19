@@ -63,7 +63,7 @@
   height: 40px;
   /* Additional styles for positioning */
   position: absolute;
-  bottom: 10px;
+  bottom: 15px;
   right: 10px;
   opacity: 0;
   transition: opacity 0.3s ease;

@@ -37,7 +37,7 @@ const RankDisplay = () => {
 
               return poster ? (
                 <tr key={id}>
-                  <td>{index + 1}</td>
+                  <td><b>{index + 1}</b></td>
                   <td>{poster.nazivPoster}</td>
                   <td>{poster.imeAutor}</td>
                   <td>{poster.prezimeAutor}</td>

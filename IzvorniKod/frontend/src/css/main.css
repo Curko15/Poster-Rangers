@@ -1,18 +1,18 @@
 :root {
-  --c-1: #004e98;
-  --c-2: #3a6ea5;
+  --c-1: #006DAA;
+  --c-2: #1b1b3a;
   --c-3: #ff6700;
-  --c-4: #333;
+  --c-4: #001427;
   --c-5: rgba(192, 192, 192, 0.7);
   --c-6: #ebebeb;
 
   /* Header */
-  --header-bcg: #333;
+  --header-bcg: #001427;
 
   /* Button */
-  --btn-bcg: #313030;
-  --btn-border: #212020;
-  --btn-shadow: #181717;
+  --btn-bcg: #006DAA;
+  --btn-border: #006DAA;
+  --btn-shadow: #001427;
   --btn-bcg-hover: #ff4500ff;
   --btn-border-hover: #ec2a05ff;
   --btn-shadow-hover: rgb(206, 41, 5);
