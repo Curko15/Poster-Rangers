@@ -9,3 +9,7 @@
 13.11.2023. Popravljanje komunikacije između backenda i frontenda
 15.11.2023. Popravljanje frontenda i pokušaj postavljanja aplikacije na javni poslužitelj
 16.11.2023. Postavljanje aplikacije na poslužitelj za prvu reviziju
+18.12.2023. Rasprava o daljnjim zadacima i potrebnim funkcionalnostima
+27.12.2023. Diskusija o backendu
+27.12.2023. Diskusija o frontendu
+17.1.2024. Pregled aplikacije i dogovor oko daljnjih koraka prije konačne predaje i završetka projekta
