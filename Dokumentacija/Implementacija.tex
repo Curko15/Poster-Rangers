@@ -15,7 +15,7 @@
 			 
 			 Baza podataka projekta bila je PostgreSQL\footnote{\url{https://www.postgresql.org/}}, otvoreni sustav za upravljanje relacijskom bazom podataka. Konačno, aplikacija se nalazi na Renderu\footnote{\url{https://render.com/}}, oblak platformi kao usluzi, koja podržava različite programske jezike i omogućuje laku implementaciju i upravljanje modernim aplikacijama.
 			 
-			 Za ispitivanje sustava korišten je radni okvir Selenium\footnote{\url{https://www.seleniumhq.org/}} koji pruža automatsko testiranje kako bi se osigurala funkcionalnost i stabilnost sustava.
+			 Za ispitivanje sustava korišten je radni okvir Selenium\footnote{\url{https://www.seleniumhq.org/}} koji pruža automatsko testiranje kako bi se osigurala funkcionalnost i stabilnost sustava, a za ispitivanje komponenti JUnit\footnote{\url{https://junit.org/junit5/}}.
 			 
 			 Kombinacija ovih tehnologija i alata omogućila je timu učinkovit rad i uspješan razvoj aplikacije.
 			
@@ -37,10 +37,10 @@
 	
 			
 			\subsection{Ispitivanje komponenti}
-			Ispitivanje komponenti bazira se na ispitivanjima funkcija programa kao što su broj poziva određene funkcije, šta točno vraćaju funkcije nakon što se izvedu, izaziva li se neka iznimka...
+			Ispitivanje komponenti bazira se na ispitivanjima funkcija programa kao što su broj poziva određene funkcije, što točno vraćaju funkcije nakon što se izvedu, izaziva li se neka iznimka itd.
 			
 			\begin{packed_enum}
-				\item Prvo testiranje testira kreiranje korisnika
+				\item\textbf{Prvo testiranje testira kreiranje korisnika}
 				
 				\begin{quote}
 						Provjeravamo funkcionalnost funkcija za kreiranje korisnika te koliko puta se koja funkcija pozvala.
@@ -52,7 +52,7 @@
 				\end{quote}
 				
 				
-				\item Drugo testiranje testira ulazak u konferenciju
+				\item\textbf{Drugo testiranje testira ulazak u konferenciju}
 				
 				\begin{quote}
 					U drugom testiranju provjeravamo ulazak u konferenciju kao i sve funkcionalnosti vezanu uz nju.
@@ -63,7 +63,7 @@
 					\end{figure}
 				\end{quote}
 				
-				\item Treće testiranje testira neuspješan ulazak u konferenciju
+				\item\textbf{Treće testiranje testira neuspješan ulazak u konferenciju}
 				\begin{quote}
 					U trećem testiranju provjeravamo ponašanje naše aplikacije u slučaju neuspjelog ulaska u konferenciju kao i sve funkcionalnosti vezanu uz nju.
 					\begin{figure}[H]
@@ -73,7 +73,7 @@
 					\end{figure}
 				\end{quote}
 				
-				\item Četvrto testiranje testira dohvat svih konferencija 
+				\item\textbf{Četvrto testiranje testira dohvat svih konferencija}
 				\begin{quote}
 					U četvrtom testiranju testiramo funkcionalnost dohvaćanja svih konferencija budući da je to jedna od ključnih funkcija prilikom kreiranja konferencije.
 					\begin{figure}[H]
@@ -83,7 +83,7 @@
 					\end{figure}
 				\end{quote}
 				
-				\item Peto testiranje testira dohvat svih lokacije
+				\item\textbf{Peto testiranje testira dohvat svih lokacije}
 				\begin{quote}
 					U petom testiranju testiramo funkcionalnost dohvaćanja lokacije koja je ključna za prikaz karte i vremenske prognoze.
 					\begin{figure}[H]
@@ -93,7 +93,7 @@
 					\end{figure}
 				\end{quote}
 				
-				\item Šesto testiranje testira kreiranje mjesta uz konferenciju
+				\item\textbf{Šesto testiranje testira kreiranje mjesta uz konferenciju}
 				\begin{quote}
 					U šestom testiranju testiramo funkcionalnost kreiranja i dodavanja mjesta nekoj konferenciji.
 					\begin{figure}[H]
