@@ -56,13 +56,13 @@ const Authentication = ({ viewType }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    /*
     const captchaValue = recaptcha.current.getValue();
     if (!captchaValue) {
       setErrorMessage("Molimo potvrdite reCAPTCHA");
       return;
     }
-
+*/
     if (viewType === "login") {
       if (!email || !password) {
         setErrorMessage("Molimo unesite email i lozinku");
@@ -87,11 +87,11 @@ const Authentication = ({ viewType }) => {
         return;
       }
     }
-
+    /*
     if (!(await verifyReCaptcha(captchaValue, recaptcha, setErrorMessage))) {
       return;
     }
-
+*/
     try {
       const requestData =
         viewType === "login"
@@ -219,6 +219,7 @@ const Authentication = ({ viewType }) => {
                   <label>
                     Ime:
                     <input
+                      id={"ime"}
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -229,6 +230,7 @@ const Authentication = ({ viewType }) => {
                   <label>
                     Prezime:
                     <input
+                      id={"prezime"}
                       type="text"
                       value={lastName}
                       onChange={(e) => {
@@ -243,6 +245,7 @@ const Authentication = ({ viewType }) => {
               <label>
                 Email:
                 <input
+                  id={"Email"}
                   type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -277,11 +280,13 @@ const Authentication = ({ viewType }) => {
                   <br />
                 </>
               )}
-              <ReCAPTCHA
+
+              {/* <ReCAPTCHA
                 ref={recaptcha}
                 sitekey="6LdL5UYpAAAAAAJZnzy2kao9wVvd1WNVbnNAUrUK"
                 onChange={handleRecaptchaChange}
-              />
+              />*/}
+
               <br />
               {viewType === "login" && (
                 <p
@@ -292,7 +297,11 @@ const Authentication = ({ viewType }) => {
                 </p>
               )}
               <div className="button-container">
-                <button type="submit" className="submit-button">
+                <button
+                  id="registration"
+                  type="submit"
+                  className="submit-button"
+                >
                   {viewType === "login" ? "Login" : "Registracija"}
                 </button>
               </div>

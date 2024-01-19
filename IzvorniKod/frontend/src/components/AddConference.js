@@ -254,6 +254,7 @@ const AddConference = () => {
 
           <div className="button-container">
             <button
+              id={"dodajKonf"}
               type="submit"
               className="submit-button"
               onClick={handleSubmit}
