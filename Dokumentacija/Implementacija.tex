@@ -115,11 +115,11 @@
 			
 			
 			\subsection{Ispitivanje sustava}
-			Ispitivanje sustava smo proveli koristeći Selenium WebDriver i zadnju verziju FireFox web preglednika. Selenium smo konfigurirali pomoću programskog jezika Java te je onda Selenium automatizirano testirao našu aplikaciju bazirajući se na naše testove. Za Selenium testiranje smo bili isključili reCAPTCHA.
+			Ispitivanje sustava proveli smo koristeći Selenium WebDriver i zadnju verziju FireFox web-preglednika. Selenium smo konfigurirali pomoću programskog jezika Java te je onda Selenium automatizirano testirao našu aplikaciju bazirajući se na naše testove. Za Selenium testiranje isključili smo reCAPTCHA.
 	
 			
 			\begin{packed_enum}
-				\item Prvo testiranje testira registraciju korisnika
+				\item\textbf{Prvo testiranje testira registraciju korisnika}
 				
 				\begin{quote}
 					Provjeravamo funkcionalnost registracije korisnika. U polja upisujemo podatke te se pritišće gumb nakon upisa. Ukoliko je test prošao, korisnik je uspješno stvoren i prijavljen u aplikaciju.
@@ -131,10 +131,10 @@
 				\end{quote}
 				
 				
-				\item Drugo testiranje testira dodavanje konferencije
+				\item\textbf{Drugo testiranje testira dodavanje konferencije}
 				
 				\begin{quote}
-					U drugom testiranju provjeravamo dodavanje konferencije. Prije samog dodavanja konferencije, administrator se mora prijaviti u sustav te nakon prijave, administrator upisuje podatke za konferenciju te pritišće gumb za dodaju. Ukoliko je test prošao, konferencija će biti dodana te će se prikazati poruka o uspješnosti našeg dodavanja.
+					U drugom testiranju provjeravamo dodavanje konferencije. Prije samog dodavanja konferencije administrator se mora prijaviti u sustav te nakon prijave administrator upisuje podatke za konferenciju te pritišće gumb za dodavanje. Ukoliko je test prošao, konferencija će biti dodana te će se prikazati poruka o uspješnosti našeg dodavanja.
 					\begin{figure}[H]
 						\includegraphics[width=\textwidth]{slike/Selenium2.png} %veličina u odnosu na širinu linije
 						\caption{Drugo testiranje}
@@ -142,7 +142,7 @@
 					\end{figure}
 				\end{quote}
 				
-				\item Treće testiranje testira prijavu korisnika
+				\item\textbf{Treće testiranje testira prijavu korisnika}
 				\begin{quote}
 					U trećem testiranju provjeravamo prijavu korisnika. U prazna polja upisujemo potrebne podatke te na kraju pritišćemo gumb za prijavu. Ukoliko je test uspješan, vratit će nas na početnu stranicu.
 					\begin{figure}[H]
@@ -152,7 +152,7 @@
 					\end{figure}
 				\end{quote}
 				
-				\item Četvrto testiranje testira prijavu u konferenciju 
+				\item\textbf{Četvrto testiranje testira prijavu u konferenciju}
 				\begin{quote}
 					U četvrtom testiranju testiramo prijavu u konferenciju. Unutar polja za unos lozinke, upisujemo lozinku i pritišćemo gumb za prijavu. Ukoliko je test uspješan, aplikacija će nas vratiti na početnu stranicu konferencije.
 					\begin{figure}[H]
@@ -175,7 +175,7 @@
 		
 		\section{Dijagram razmještaja}
 			
-			Dijagram razmještaja~\ref{fig:dijagramRazmjestaja} opisuje topologiju sklopovlja i programsku potporu koja se koristi u implementaciji sustava u njegovom radnom okruženju. Sustav je baziran na arhitekturi "klijent-poslužitelj". Poslužiteljsko računalo (Render) sadrži web poslužitelj na kojem se nalazi naša web aplikacija te sadrži poslužitelj baze podataka na kojemu je naša Postgres baza podataka. Komunikacija između klijenta i poslužitelja obavlja se preko sigurnog kanala ostvarenog protokolom HTTPS.
+			Dijagram razmještaja~\ref{fig:dijagramRazmjestaja} opisuje topologiju sklopovlja i programsku potporu koja se koristi u implementaciji sustava u njegovom radnom okruženju. Sustav je baziran na arhitekturi "klijent-poslužitelj". Poslužiteljsko računalo (Render) sadrži web poslužitelj na kojem se nalazi naša web aplikacija te sadrži poslužitelj baze podataka na kojemu je naša PostgreSQL baza podataka. Komunikacija između klijenta i poslužitelja obavlja se preko sigurnog kanala ostvarenog protokolom HTTPS.
 			
 			
 			 \begin{figure}[H]
@@ -190,8 +190,8 @@
 		\section{Upute za puštanje u pogon}
 		
 			Za puštanje aplikacije u pogon (eng. deployment) koristili smo web stranicu Render.
-			Prema uputama danim na GitHub repozitoriju tvrtke CROZ (https://github.com/progi-devops/) pripremili smo naš sustav za puštanje u pogon.
-			Kako bismo mogli koristiti usluge servisa Render, prvotno smo se morali prijaviti u sustav, a to smo učinili s pomoću istih podataka s kojima smo stvorili GitHub repozitoriji na kojemu držimo i održavamo naš projekt te njegov kod. Prvotno se podiže virtualna baza, a nakon nje potrebno je namjestiti skripte koje se izvode (navedene u package.json dokumentu i Dockerfile dokumentu) prilikom izgradnje rješenja projekta te prilikom samog pokretanja tog izgrađenog rješenja. To vrijedi i za pripremu "backend" i "frontend" dijela. Također, za "frontend" dio, u uputama se mogu pronaći koraci kako osigurati neometano lokalno pokretanje aplikacije bez obzira na novo-dodane datoteke. Pri podizanju baze nije potrebno unositi gotovo nikakve podatke, već samo vrstu bazu kojom se koristimo (u našem slučaju PostgreSQL) te vremensku zonu kojoj pripadamo. Nakon toga Render nam povratno pruža sve potrebne informacije koje nam trebaju za lokalno spajanje na virtualnu bazu te povezivanje "backend"-a na nju. Nakon toga moramo pustiti u pogon "backend" dio aplikacije kako bismo dobili URL na koji će naš "frontend", pušten u pogon, slati zahtjeve i s kojega će primati odgovore. Dockerfile koji nam je potreban za puštanje u pogon kreirali smo po uzoru na dani Dockerfile sa već spomenutog GitHub repozitorija, uz manje preinake kod podataka vezanih za povezivanje na bazu. Isto vrijedi za package.json dokument te app.js. Također, bitno je istaknuti da Render prilikom puštanja u pogon koristi prethodno zadanu granu s odabranog repozitorija s koje potom uzima kod koji konkretno pušta u pogon. Tako prilikom svakog novog postavljanja promjena (eng. commit and push) na odabranu granu, na Render servisu automatski se ponovno pušta u pogon kompletna aplikacija (osim baze podataka) s novim promjenama.
+			Prema uputama danim na GitHub repozitoriju tvrtke CROZ \url{(https://github.com/progi-devops/)} pripremili smo naš sustav za puštanje u pogon.
+			Kako bismo mogli koristiti usluge servisa Render, prvotno smo se morali prijaviti u sustav, a to smo učinili pomoću istih podataka s kojima smo stvorili GitHub repozitorij na kojemu držimo i održavamo naš projekt te njegov kod. Prvotno se podiže virtualna baza, a nakon nje potrebno je namjestiti skripte (navedene u package.json dokumentu i Dockerfile dokumentu) koje se izvode prilikom izgradnje rješenja projekta te prilikom samog pokretanja tog izgrađenog rješenja. To vrijedi i za pripremu "backend" i "frontend" dijela. Također, za "frontend" dio, u uputama se mogu pronaći koraci kako osigurati neometano lokalno pokretanje aplikacije bez obzira na novododane datoteke. Pri podizanju baze nije potrebno unositi gotovo nikakve podatke, već samo vrstu bazu kojom se koristimo (u našem slučaju PostgreSQL) te vremensku zonu kojoj pripadamo. Nakon toga Render nam povratno pruža sve potrebne informacije koje nam trebaju za lokalno spajanje na virtualnu bazu te povezivanje "backenda" na nju. Nakon toga moramo pustiti u pogon "backend" dio aplikacije kako bismo dobili URL na koji će naš "frontend", pušten u pogon, slati zahtjeve i s kojega će primati odgovore. Dockerfile koji nam je potreban za puštanje u pogon kreirali smo po uzoru na dani Dockerfile sa već spomenutog GitHub repozitorija uz manje preinake kod podataka vezanih za povezivanje na bazu. Isto vrijedi za package.json dokument te app.js. Također, bitno je istaknuti da Render prilikom puštanja u pogon koristi prethodno zadanu granu s odabranog repozitorija s koje potom uzima kod koji konkretno pušta u pogon. Tako prilikom svakog novog postavljanja promjena (eng. commit and push) na odabranu granu na Render se servisu automatski ponovno pušta u pogon kompletna aplikacija (osim baze podataka) s novim promjenama.
 			
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{slike/DB_podatci.png} %veličina u odnosu na širinu linije
