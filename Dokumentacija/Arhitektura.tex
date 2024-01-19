@@ -30,16 +30,19 @@
 		Za potrebe sustava koji implementiramo koristit ćemo se relacijskom bazom podataka koja kao svoju glavnu namjenu ima olakšano modeliranje stvarnog svijeta oko nas. Gradivna jedinica baze jest relacija (tablica) koja je definirana svojim imenom te skupom atributa. Baza podataka ove aplikacije sastoji se od sljedećih entiteta:
 		\begin{itemize}
 		\item 	\textit{Konferencija}
-		\item 	\textit{Korisnik}
-		\item 	\textit{Poster}
+		\item 	\textit{Mjesto}
 		\item 	\textit{FotoMaterijal}
+		\item 	\textit{Korisnik}
+		\item 	\textit{Uloge}
+		\item 	\textit{Poster}
 		\item 	\textit{PromoMaterijal}
+		\item 	\textit{Glasanje}
 	\end{itemize}
 
 			\subsection{Opis tablica}
 
 
-				{Konferencija - centralni entitet koji definira događaj kojemu pristupaju sudionici, bilo autori ili ne. Atributi koje posjeduje su \textit{konfID}, \textit{kod} (za pristup posterima koji su u natjecanju), \textit{datPocetak}, \textit{datKraj}, \textit{nazivKonf}, \textit{mjestoKonf}, \textit{opisKonf}}
+				{Konferencija - centralni entitet koji definira događaj kojemu pristupaju sudionici, bilo autori ili ne. Atributi koje posjeduje su \textit{konfID}, \textit{kod} (za pristup posterima koji su u natjecanju), \textit{datPocetak}, \textit{datKraj}, \textit{nazivKonf}, \textit{mjestoKonf}, \textit{opisKonf}, \textit{aktivna}, \textit{livestream}}
 
 
 				\begin{longtblr}[
@@ -57,6 +60,8 @@
 					vrijemeKraj & LOCALDATETIME	& Vrijeme kraja konferencije 		\\ \hline
 					nazivKonf & VARCHAR	& Naziv konferencije 		\\ \hline
 					opisKonf & VARCHAR	& Opis konferencije 		\\ \hline
+					aktivna & BOOLEAN	& Aktivnost konferencije 		\\ \hline
+					livestream & VARCHAR	& WEB stranica prijenosa uživo 		\\ \hline
 					\SetCell{LightBlue} pbr	& INT &   	Poštanski broj mjesta održavanja konferencije\\ \hline
 				\end{longtblr}
 
@@ -81,7 +86,7 @@
 
 
 
-				{FotoMaterijal - entitet FotoMaterijal koristi nam kako bismo mogli pohraniti fotografije nastale tijekom konferencije te ih kasnije prikazati korisnicima. Sadrži atribute: \textit{fotoID}, \textit{nazivFoto}, \textit{fotoPath} te strani ključ \textit{konfID} pomoću kojega možemo upariti kojoj konferenciji pripada koja fotografija (veza jedan-prema-više).}
+				{FotoMaterijal - entitet FotoMaterijal koristi nam kako bismo mogli pohraniti fotografije nastale tijekom konferencije te ih kasnije prikazati korisnicima. Sadrži atribute: \textit{fotoID}, \textit{nazivFoto}, \textit{fotoPath} te strani ključ \textit{konfID} pomoću kojega možemo upariti kojoj konferenciji pripada koja fotografija (veza jedan-prema-više). Također sadrži i \textit{fotobyte} za pohranu fotografije u bazu kao i \textit{fototype} za sami format fotografije.}
 
 
 				\begin{longtblr}[
@@ -96,11 +101,13 @@
 					\SetCell{LightGreen}fotoID & INT	&  Jedinstveni identifikator fotografije	\\ \hline
 					nazivFoto	& VARCHAR &   Naziv fotografije\\ \hline
 					fotoPath & VARCHAR &   Putanja do izvora fotografije\\ \hline
+					fototype & VARCHAR &   Format fotografije\\ \hline
+					fotobyte & BYTEA & Pohrana fotografije u bazu\\ \hline
 					\SetCell{LightBlue} konfID	& INT &   	Jedinstveni identifikator konferencije\\ \hline
 				\end{longtblr}
 
 
-				{Korisnik - entitet kojim se pokriva registrirani korisnik, neregistrirani korisnik te autor. Sadrži atribute \textit{email} te \textit{lozinka} kojima se kasnije može pristupiti posebnom sadržaju specifičnom za registrirane korisnike. Također sadrži \textit{ime} i \textit{prezime} i \textit{ulogaID} koji je strani ključ preko kojeg je entitet Korisnik spojen vezom više-prema-više s entitetom Uloge.}
+				{Korisnik - entitet kojim se pokriva registrirani korisnik, neregistrirani korisnik te autor. Sadrži atribute \textit{email} te \textit{lozinka} kojima se kasnije može pristupiti posebnom sadržaju specifičnom za registrirane korisnike. Također sadrži \textit{ime} i \textit{prezime} i \textit{resetPassTok} za obnovu lozinke.}
 
 
 				\begin{longtblr}[
@@ -116,7 +123,8 @@
 					lozinka	& VARCHAR &  Lozinka za prijavu korisnika	\\ \hline
 					ime	& VARCHAR &  Ime korisnika	\\ \hline
 					prezime	& VARCHAR &  Prezime korisnika	\\ \hline
-					\SetCell{LightBlue} ulogaID	& INT &   	Jedinstveni identifikator uloge\\ \hline
+					resetPassTok & VARCHAR & Token za obnovu lozinke \\ \hline
+					
 				\end{longtblr}
 
 				{Uloge - entitet kojim se pokrivaju koje uloge sve postoje kao i koje uloge imaju korisnici. Atributi koje sadrži entitet Uloge su: \textit{ulogaID} koji je glavni ključ i \textit{uloga} koja opisuje o kojoj je ulozi riječ.}
@@ -135,7 +143,7 @@
 					uloga	& VARCHAR &  Uloga korisnika	\\ \hline
 				\end{longtblr}
 
-				{Poster - ovim entitetom kontrolirat će se radovi koje na konferenciju dostavljaju autori te se na njoj izlažu i za njih se može glasati. Njegovi atributi su: \textit{posterID}, \textit{nazivPoster}, \textit{posterPath}, \textit{email}, \textit{imeAutor}, \textit{prezimeAutor}, \textit{brojGlasova} i \textit{konfID} koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji poster (veza jedan-prema-više).}
+				{Poster - ovim entitetom kontrolirat će se radovi koje na konferenciju dostavljaju autori te se na njoj izlažu i za njih se može glasati. Njegovi atributi su: \textit{posterID}, \textit{nazivPoster}, \textit{posterPath}, \textit{email}, \textit{imeAutor}, \textit{prezimeAutor} i \textit{konfID} koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji poster (veza jedan-prema-više). Također imamo i \textit{imageType} kojim opisujemo format postera kao i \textit{imageByte} kojim spremamo sami poster u bazu.}
 
 
 				\begin{longtblr}[
@@ -153,11 +161,12 @@
 					email	& VARCHAR &   Elektronička pošta korisnika\\ \hline
 					imeAutor & VARCHAR &   Ime autora postera\\ \hline
 					prezimeAutor & VARCHAR &   Prezime autora postera\\ \hline
-					brojGlasova & INT &   Ostvareni broj glasova postera\\ \hline
+					imageByte & BYTEA & Pohrana postera u bazu\\ \hline
+					imageType & VARCHAR & Format postera\\ \hline
 					\SetCell{LightBlue} konfID	& INT &  Jedinstveni identifikator konferencije	\\ \hline
 				\end{longtblr}
 
-				{PromoMaterijal - entitet PromoMaterijal pokriva konkretan ponuđeni materijal kojemu registrirani korisnik može pristupiti. Atributi koje ima su \textit{promoId}, \textit{nazivPromo}, \textit{url}, \textit{promoPath} i \textit{konfID} koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji promotivni materijal (veza jedan-prema-više).}
+				{PromoMaterijal - entitet PromoMaterijal pokriva konkretan ponuđeni materijal kojemu registrirani korisnik može pristupiti. Atributi koje ima su \textit{promoId}, \textit{nazivPromo}, \textit{url}, \textit{promoPath} i \textit{konfID} koji je ujedno i strani ključ pomoću kojega možemo upariti kojoj konferenciji pripada koji promotivni materijal (veza jedan-prema-više). Također imamo i \textit{promoType} kojim opisujemo format postera kao i \textit{promoByte} kojim spremamo sami poster u bazu.}
 
 
 				\begin{longtblr}[
@@ -173,6 +182,8 @@
 					nazivPromo	& VARCHAR &   Naziv promotivnog materijala	\\ \hline
 					promoPath & VARCHAR &  Putanja do izvora sadržaja promotivnog materijala \\ \hline
 					url & VARCHAR &  WEB stranica pokrovitelja \\ \hline
+					promoType & VARCHAR & Format promotivnog materijala \\ \hline
+					promoByte & BYTEA & Pohrana promotivnog materijala u bazu \\ \hline
 					\SetCell{LightBlue} konfID	& INT &   Jedinstveni identifikator konferencije	\\ \hline
 				\end{longtblr}
 
