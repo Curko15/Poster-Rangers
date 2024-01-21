@@ -8,7 +8,7 @@ import RankDisplay from "../components/RankDisplay";
 import "../css/main.css";
 
 const VoteScreen = () => {
-  const [hasEnded, setHasEnded] = useState(true);
+  const [hasEnded, setHasEnded] = useState(false);
 
   const conference = getConferenceData();
   const active = conference.aktivna;
