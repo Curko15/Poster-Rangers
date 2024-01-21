@@ -16,7 +16,7 @@ const VoteScreen = () => {
   useEffect(() => {
     const end = new Date(conference.endTime);
     const today = new Date();
-    if (end && today < end && !active) setHasEnded(true);
+    if (end && today > end && !active) setHasEnded(true);
   }, [active, conference.endTime]);
 
   return (

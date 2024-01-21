@@ -20,12 +20,12 @@ const VotePosterDisplay = () => {
   const { posters, isLoading } = PosterData();
   const email = getLoggedInUser().userEmail;
   const conference = getConferenceData();
-  const end = new Date(conference.endTime);
 
   useEffect(() => {
+    const end = new Date(conference.endTime);
     const today = new Date();
-    if (end && today < end) setIsBtnDisabled(true);
-  }, [end]);
+    if (end && today > end) setIsBtnDisabled(true);
+  }, [conference.endTime]);
 
   const hasVoted = (posterId) => +votedPoster === posterId;
 
@@ -101,17 +101,17 @@ const VotePosterDisplay = () => {
                 alt={`poster-${index}`}
               />
               <div className="vote">
-                  <button
-                    type="submit"
-                    className={`submit-button-${
-                      isBtnDisabled ? "disabled" : "active"
-                    }`}
-                    disabled={isBtnDisabled}
-                    onClick={() => handleSubmit(poster.posterId)}
-                  >
-                    {hasVoted(poster.posterId) ? "Izbriši glas" : "Glasaj"}
-                  </button>
-                </div>
+                <button
+                  type="submit"
+                  className={`submit-button-${
+                    isBtnDisabled ? "disabled" : "active"
+                  }`}
+                  disabled={isBtnDisabled}
+                  onClick={() => handleSubmit(poster.posterId)}
+                >
+                  {hasVoted(poster.posterId) ? "Izbriši glas" : "Glasaj"}
+                </button>
+              </div>
             </div>
           ))}
         </div>
