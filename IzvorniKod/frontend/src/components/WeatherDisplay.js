@@ -23,7 +23,7 @@ const Weather = () => {
   }, [locationData.nazivMjesta]);
 
   const { data, isLoading, errorMessage } = useWeatherBit({
-    key: "7024cd5ab118458092bb1236a5a216c9",
+    key: "8f64f1c230ad442099d1c821f15ac3cd",
     lat: coordinates?.lat || "48.137154",
     lon: coordinates?.lon || "11.576124",
     lang: "en",
